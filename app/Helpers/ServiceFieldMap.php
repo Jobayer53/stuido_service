@@ -76,6 +76,22 @@ class ServiceFieldMap
             'type' => 'Option',
             'description'=> 'Data'
         ],
+        15 => [
+            'type_number' => 'Number',
+            'description'=> 'Data'
+        ],
+        16 => [
+            'type'=> 'Option',
+            'type_number' => 'Number'
+        ],
+        17=>[
+            'type'=> 'Option',
+            'type_number' => 'Number'
+        ],
+        18=>[
+            'type'=> 'Option',
+            'type_number' => 'Number'
+        ]
 
             // Add up to 26 types here
         ];

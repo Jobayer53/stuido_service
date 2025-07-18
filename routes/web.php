@@ -48,6 +48,18 @@ Route::middleware(['auth'])->group(function () {
     // passport
     Route::get('/passport',[ServiceController::class, 'passportIndex'])->name('passport_index');
     Route::post('/order-passport',[ServiceOrderController::class, 'passportOrder'])->name('order_passport');
+    // location
+    Route::get('/location',[ServiceController::class, 'locationIndex'])->name('location_index');
+    Route::post('/order-location',[ServiceOrderController::class, 'locationOrder'])->name('order_location');
+    // call sms list
+    Route::get('/call-sms',[ServiceController::class, 'smsIndex'])->name('sms_index');
+    Route::post('/order-call-sms',[ServiceOrderController::class, 'smsOrder'])->name('order_sms');
+    // imei
+    Route::get('/imei',[ServiceController::class, 'imeiIndex'])->name('imei_index');
+    Route::post('/order-imei',[ServiceOrderController::class, 'imeiOrder'])->name('order_imei');
+    // imei
+    Route::get('/nogod-bikash-info',[ServiceController::class, 'nagadIndex'])->name('nagad_index');
+    Route::post('/order-nagad-bikash',[ServiceOrderController::class, 'nagadOrder'])->name('order_nagad');
     // Route::get('/order-cancel/{id}',[ServiceOrderController::class, 'orderCancel'])->name('order_cancel');
 });
 
@@ -71,6 +83,9 @@ Route::middleware(['admin'])->group(function(){
     // single page
     Route::get('/admin-biometric-order-details',[OrderController::class, 'biometric_show'])->name('biometric_order_details');
     Route::get('/admin-passport-order-details',[OrderController::class, 'passport_show'])->name('passport_order_details');
+    Route::get('/admin-sms-order-details',[OrderController::class, 'sms_show'])->name('sms_order_details');
+    Route::get('/admin-imei-order-details',[OrderController::class, 'imei_show'])->name('imei_order_details');
+    Route::get('/admin-nagadBikash-order-details',[OrderController::class, 'nagad_show'])->name('nagad_order_details');
     //
     Route::post('/admin-status-update',[OrderController::class, 'admin_status_update'])->name('admin_status_update');
     Route::post('/admin-file-upload',[OrderController::class, 'admin_file'])->name('admin_file');

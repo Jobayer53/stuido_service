@@ -26,7 +26,7 @@ class OrderController extends Controller
     }
     public function show($id)
     {
-        if($id == 11){
+        if ($id == 11) {
             return $this->lostNidShow();
         }
         $service = Service::findOrFail($id);
@@ -135,7 +135,7 @@ class OrderController extends Controller
     {
 
         $query = Order::where('user_id', auth()->user()->id)
-            ->whereIn('service_id', [12,13,14]);
+            ->whereIn('service_id', [12, 13, 14]);
 
         $checkQuery = clone $query;
 
@@ -154,15 +154,85 @@ class OrderController extends Controller
             'orders' => $orders
         ]);
     }
-    public function lostNidShow(){
+    public function lostNidShow()
+    {
         $lost_nid = Service::find(11);
         $orders = Order::where('user_id', auth()->user()->id)
-        ->where('service_id', 11)
-        ->select(['id', 'slug', 'status', 'cost', 'description','downloaded_file','created_at'])
-        ->orderByDesc('created_at')
-        ->paginate(20);
-        return view('Backend.pages.lost_nid_details',[
+            ->where('service_id', 11)
+            ->select(['id', 'slug', 'status', 'cost', 'description', 'downloaded_file', 'created_at'])
+            ->orderByDesc('created_at')
+            ->paginate(20);
+        return view('Backend.pages.lost_nid_details', [
             'lost_nid' => $lost_nid,
+            'orders' => $orders
+        ]);
+    }
+    public function sms_show()
+    {
+
+        $query = Order::where('user_id', auth()->user()->id)
+            ->whereIn('service_id', [16, 17, 18]);
+
+        $checkQuery = clone $query;
+
+        if ($checkQuery->where('notified', 0)->count() > 0) {
+            $query->update(['notified' => 1]);
+        }
+
+        $orders = $query
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
+            ->orderByDesc('created_at')
+            ->paginate(20);
+
+        // dd($orders);
+        return view('Backend.pages.sms_details', [
+
+            'orders' => $orders
+        ]);
+    }
+    public function imei_show()
+    {
+
+        $query = Order::where('user_id', auth()->user()->id)
+            ->whereIn('service_id', [19, 20, 21, 22, 23, 24]);
+
+        $checkQuery = clone $query;
+
+        if ($checkQuery->where('notified', 0)->count() > 0) {
+            $query->update(['notified' => 1]);
+        }
+
+        $orders = $query
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at','service_id'])
+            ->orderByDesc('created_at')
+            ->paginate(20);
+
+        // dd($orders);
+        return view('Backend.pages.imei_details', [
+
+            'orders' => $orders
+        ]);
+    }
+    public function nagad_show()
+    {
+
+        $query = Order::where('user_id', auth()->user()->id)
+            ->whereIn('service_id', [25, 26, 27, 28, 29, 30]);
+
+        $checkQuery = clone $query;
+
+        if ($checkQuery->where('notified', 0)->count() > 0) {
+            $query->update(['notified' => 1]);
+        }
+
+        $orders = $query
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
+            ->orderByDesc('created_at')
+            ->paginate(20);
+
+        // dd($orders);
+        return view('Backend.pages.nagadBikash_details', [
+
             'orders' => $orders
         ]);
     }

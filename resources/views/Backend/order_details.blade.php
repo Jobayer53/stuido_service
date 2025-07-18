@@ -100,7 +100,7 @@
                                             @endphp
 
                                             @if (!$isCompleted && !$isCancelled)
-                                                @if ($order->service_id == 5)
+                                                @if (in_array($order->service_id, [5, 15]))
                                                     <button class="btn btn-outline-info btn-sm data editBtn "
                                                         data-bs-toggle="modal" data-bs-target="#editModal"
                                                         data-data="{{ $order }}">
@@ -116,11 +116,11 @@
                                                     </form>
                                                 @endif
                                             @elseif ($isCompleted)
-                                                @if ($order->service_id == 5)
+                                                @if (in_array($order->service_id, [5, 15]))
                                                     <button class="btn btn-outline-info btn-sm data editBtn "
                                                         data-bs-toggle="modal" data-bs-target="#editModal"
                                                         data-data="{{ $order }}">
-                                                        Upload Info
+                                                        See Info
                                                     </button>
                                                 @else
                                                     <a href="{{ route('order_download', $order->id) }}"
@@ -160,7 +160,7 @@
                     <form action="{{ route('admin_file') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="" class="form-label">NID Pass Set</label>
+                            <label for="" class="form-label">{{$service->name}}</label>
                             <textarea name="data" id="data" cols="30" rows="4" class="form-control"></textarea>
                             <input type="hidden" name="order_id" id="order_ID" value="">
                         </div>

@@ -49,18 +49,11 @@
                                         <td>{{ $orders->firstItem() + $key }}</td>
                                         <td>{{ $order->slug }}</td>
                                         <td>
-                                            @php
-
-                                            @endphp
-                                            <div class="d-flex flex-column">
-                                                <span>Type:
-                                                            <strong>{{ $order->type }}</strong>
-                                                        </span>
-                                                <span>Data:
-                                                            <strong> {!!$order->description!!} </strong>
-                                                        </span>
-
-                                            </div>
+                                            <button class="btn btn-outline-info btn-sm data showBtn "
+                                                        data-bs-toggle="modal" data-bs-target="#showModal"
+                                                        data-data="{{ $order }}">
+                                                        See Info
+                                                    </button>
                                         </td>
                                         <td title="{{ $order->created_at->format('F j, g:i a') }}">
                                             {{ $order->created_at->diffForHumans() }}
@@ -134,7 +127,7 @@
         <input type="hidden" name="order_id" id="order_id">
     </form>
     <!-- Modal -->
-    <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade" id="showModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -143,19 +136,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('admin_file') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="" class="form-label">Biometric</label>
-                            <textarea name="data" id="data" cols="30" rows="4" class="form-control"></textarea>
-                            <input type="hidden" name="order_id" id="order_ID" value="">
-                        </div>
-
-                        <div class="modal-footer  ">
-                            <button type="submit" id="submitBtn" class="btn btn-primary">Upload</button>
-                        </div>
+                        <textarea name="" id="showData" cols="30" rows="8" class="form-control" readonly></textarea>
                 </div>
-                </form>
+                <div class="modal-footer  ">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    {{-- <button type="submit" class="btn btn-primary">Update</button> --}}
+                </div>
             </div>
 
         </div>
@@ -189,19 +175,10 @@
                 $(this).closest('form').submit(); // Submit only the related form
             });
 
-            $('.editBtn').on('click', function() {
+            $('.showBtn').on('click', function() {
                 var data = $(this).data('data');
-                if (data.status == 'cancelled' || data.status == 'completed') {
-                    $('#submitBtn').hide();
-                    $('#data').attr('readonly', true);
-                } else {
-                    $('#data').attr('readonly', false);
-                    $('#submitBtn').show();
-                    $('#order_ID').val(data.id);
-                }
-                $('#data').val(data.downloaded_info);
-
-            });
+                $('#showData').val('Type: '+ data.type + '\n'+'Data: '+'\n' + data.description);
+            })
 
 
         });

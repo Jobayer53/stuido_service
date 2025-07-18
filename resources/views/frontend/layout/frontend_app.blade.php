@@ -36,7 +36,7 @@
     <!--**********************************
         Main wrapper start
     ***********************************-->
-    <div id="main-wrapper">
+    <div id="main-wrapper" style="height:100vh; overflow-y: scroll;">
 
 
        @include('frontend.layout.navbar')
@@ -46,7 +46,7 @@
         <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body">
+        <div class="content-body" >
 
            @yield('content')
             <!-- #/ container -->
