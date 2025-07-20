@@ -236,4 +236,50 @@ class OrderController extends Controller
             'orders' => $orders
         ]);
     }
+    public function register_show()
+    {
+
+        $query = Order::where('user_id', auth()->user()->id)
+            ->whereIn('service_id', [35, 36, 37, 38]);
+
+        $checkQuery = clone $query;
+
+        if ($checkQuery->where('notified', 0)->count() > 0) {
+            $query->update(['notified' => 1]);
+        }
+
+        $orders = $query
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
+            ->orderByDesc('created_at')
+            ->paginate(20);
+
+        // dd($orders);
+        return view('Backend.pages.register_details', [
+
+            'orders' => $orders
+        ]);
+    }
+    public function statement_show()
+    {
+
+        $query = Order::where('user_id', auth()->user()->id)
+            ->whereIn('service_id', [39, 40]);
+
+        $checkQuery = clone $query;
+
+        if ($checkQuery->where('notified', 0)->count() > 0) {
+            $query->update(['notified' => 1]);
+        }
+
+        $orders = $query
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
+            ->orderByDesc('created_at')
+            ->paginate(20);
+
+        // dd($orders);
+        return view('Backend.pages.statement_details', [
+
+            'orders' => $orders
+        ]);
+    }
 }

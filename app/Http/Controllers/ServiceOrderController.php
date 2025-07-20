@@ -408,6 +408,173 @@ class ServiceOrderController extends Controller
         notyf()->position('x', 'right')->position('y', 'top')->info('অনুগ্রহ করে ২৪-৪৮ ঘন্টা অপেক্ষা করুন।');
         return back();
     }
+    //tin
+    public function tinOrder(Request $request)
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'type' => 'required',
+            'data' => 'required',
+        ], [
+            'type.required' => 'টাইপ সিলেক্ট করুন!',
+            'data.required' => 'তথ্য লিখুন!',
+        ]);
+        if ($validator->fails()) {
+            notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
+            return back();
+        }
+        $service = $request->type == 'zero_return' ? Service::find(32) : Service::find(33);
+
+        $user = auth()->user();
+        if ($user->amount < $service->cost) {
+            notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
+            return back();
+        }
+        $order = new Order();
+        $order->slug = uniqid();
+        $order->user_id = $user->id;
+        $order->service_id = $service->id;
+        $order->cost = $service->cost;
+        $order->type = $request->type;
+        $order->description = $request->data;
+        $order->save();
+        $user->amount = $user->amount - $order->cost;
+        $user->save();
+        notyf()->position('x', 'right')->position('y', 'top')->success('আপনার অর্ডার সংরক্ষণ করা হয়েছে।');
+        notyf()->position('x', 'right')->position('y', 'top')->info('অনুগ্রহ করে ৫-২০ মিনিট অপেক্ষা করুন।');
+        return back();
+    }
+    //land - bhumi
+    public function landOrder(Request $request)
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'data' => 'required',
+        ], [
+            'data.required' => 'তথ্য লিখুন!',
+        ]);
+        if ($validator->fails()) {
+            notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
+            return back();
+        }
+        $service = Service::find(34);
+
+        $user = auth()->user();
+        if ($user->amount < $service->cost) {
+            notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
+            return back();
+        }
+        $order = new Order();
+        $order->slug = uniqid();
+        $order->user_id = $user->id;
+        $order->service_id = $service->id;
+        $order->cost = $service->cost;
+        $order->description = $request->data;
+        $order->save();
+        $user->amount = $user->amount - $order->cost;
+        $user->save();
+        notyf()->position('x', 'right')->position('y', 'top')->success('আপনার অর্ডার সংরক্ষণ করা হয়েছে।');
+        notyf()->position('x', 'right')->position('y', 'top')->info('অনুগ্রহ করে ৫-২০ মিনিট অপেক্ষা করুন।');
+        return back();
+    }
+
+    // register - nibondhon
+    public function registerOrder(Request $request)
+    {
+        // dd($request->all());
+        $map = ['bc_before_2000' => 35, 'bc_after_2000' => 36, 'bc_death_register' => 37, 'lost_bc' => 38];
+        $service = isset($map[$request->type]) ? Service::find($map[$request->type]) : null;
+
+        $validator = Validator::make($request->all(), [
+            'type' => 'required',
+            'data' => 'required',
+        ], [
+            'type.required' => 'অপশন সিলেক্ট করুন!',
+            'data.required' => 'তথ্য লিখুন!',
+        ]);
+        if ($validator->fails()) {
+            notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
+            return back();
+        }
+        $user = auth()->user();
+        if ($user->amount < $service->cost) {
+            notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
+            return back();
+        }
+        $order = new Order();
+        $order->slug = uniqid();
+        $order->user_id = $user->id;
+        $order->service_id = $service->id;
+        $order->cost = $service->cost;
+        $order->type = $request->type;
+        $order->description = $request->data;
+        $order->save();
+        $user->amount = $user->amount - $order->cost;
+        $user->save();
+        notyf()->position('x', 'right')->position('y', 'top')->success('আপনার অর্ডার সংরক্ষণ করা হয়েছে।');
+        notyf()->position('x', 'right')->position('y', 'top')->info('অনুগ্রহ করে ২৪-৪৮ ঘন্টা অপেক্ষা করুন।');
+        return back();
+    }
+    // number statement
+    public function statementOrder(Request $request)
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'type' => 'required',
+            'type_number' => 'required',
+        ], [
+            'type.required' => 'অপশন সিলেক্ট করুন!',
+            'type_number.required' => 'ফোন নাম্বার লিখুন!',
+        ]);
+        if ($validator->fails()) {
+            notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
+            return back();
+        }
+        $service =$request->type == 'rocket'? Service::find(39) : Service::find(40);
+        $user = auth()->user();
+        if ($user->amount < $service->cost) {
+            notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
+            return back();
+        }
+        $order = new Order();
+        $order->slug = uniqid();
+        $order->user_id = $user->id;
+        $order->service_id = $service->id;
+        $order->cost = $service->cost;
+        $order->type = $request->type;
+        $order->type_number = $request->type_number;
+        $order->save();
+        $user->amount = $user->amount - $order->cost;
+        $user->save();
+        notyf()->position('x', 'right')->position('y', 'top')->success('আপনার অর্ডার সংরক্ষণ করা হয়েছে।');
+        notyf()->position('x', 'right')->position('y', 'top')->info('অনুগ্রহ করে ২৪-৪৮ ঘন্টা অপেক্ষা করুন।');
+        return back();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // public function orderCancel($id)
     // {
     //     $user = auth()->user();

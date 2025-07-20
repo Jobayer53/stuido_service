@@ -1,0 +1,1 @@
+frontend take(10) change to paginate and write pagination on frontend blade

@@ -36,7 +36,7 @@
     <!--**********************************
         Main wrapper start
     ***********************************-->
-    <div id="main-wrapper" style="height:100vh; overflow-y: scroll;">
+    <div id="main-wrapper" style="height:100vh; overflow: hidden;">
 
 
        @include('frontend.layout.navbar')
@@ -46,20 +46,15 @@
         <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body" >
+        <div class="content-body" style="height: 88%; overflow-y: scroll; overflow-x: hidden;" >
 
-           @yield('content')
+                @yield('content')
+
             <!-- #/ container -->
-        </div>
-        <!--**********************************
-            Content body end
-        ***********************************-->
-
-
-        <!--**********************************
+                <!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer">
+        <div class="footer" style="padding-left: 0px !important;">
             <div class="copyright">
                 <p>Copyright &copy; {{ date('Y')}} All Rights Reserved</p>
             </div>
@@ -67,6 +62,13 @@
         <!--**********************************
             Footer end
         ***********************************-->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+
+
     </div>
     <!--**********************************
         Main wrapper end

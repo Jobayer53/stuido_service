@@ -273,4 +273,90 @@ class ServiceController extends Controller
             'orders' => $orders
         ]);
     }
+    public function tinIndex()
+    {
+        $zero_return = Service::find(32);
+        $tin_certificate = Service::find(33);
+        $available = true;
+        if ($zero_return->available == false && $tin_certificate->available == false) {
+            $available = false;
+        }
+        $orders = Order::where('user_id', auth()->user()->id)
+            ->whereIn('service_id', [32, 33])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at' ])
+            ->orderByDesc('created_at')
+            ->take(10) // limit to 10 latest orders
+            ->get();
+        // dd($orders);
+        return view('frontend.pages.tin', [
+            'zero_return' => $zero_return,
+            'tin_certificate' => $tin_certificate,
+            'available' => $available,
+            'orders' => $orders
+        ]);
+    }
+    public function landIndex()
+    {
+        $land = Service::find(34);
+        $orders = Order::where('user_id', auth()->user()->id)
+            ->where('service_id', $land->id)
+            ->select(['id', 'slug', 'status', 'cost','description', 'downloaded_file', 'created_at' ])
+            ->orderByDesc('created_at')
+            ->take(10) // limit to 10 latest orders
+            ->get();
+        // dd($orders);
+        return view('frontend.pages.land', [
+            'land' => $land,
+            'orders' => $orders
+        ]);
+    }
+        public function registerIndex()
+    {
+        $bc_before = Service::find(35);
+        $bc_after = Service::find(36);
+        $bc_death = Service::find(37);
+        $lost_bc = Service::find(38);
+        $available = true;
+        if ($bc_before->available == false && $bc_after->available == false && $bc_death->available == false && $lost_bc->available == false) {
+            $available = false;
+        }
+        $orders = Order::where('user_id', auth()->user()->id)
+            ->whereIn('service_id', [35, 36, 37, 38])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at' ])
+            ->orderByDesc('created_at')
+            ->take(10) // limit to 10 latest orders
+            ->get();
+        // dd($orders);
+        return view('frontend.pages.register', [
+            'bc_before' => $bc_before,
+            'bc_after' => $bc_after,
+            'bc_death' => $bc_death,
+            'lost_bc' => $lost_bc,
+
+            'available' => $available,
+            'orders' => $orders
+        ]);
+    }
+        public function statementIndex()
+    {
+        $rocket = Service::find(39);
+        $nagad = Service::find(40);
+        $available = true;
+        if ($rocket-> available == false && $nagad->available == false) {
+            $available = false;
+        }
+        $orders = Order::where('user_id', auth()->user()->id)
+            ->whereIn('service_id', [39,40])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at' ])
+            ->orderByDesc('created_at')
+            ->take(10) // limit to 10 latest orders
+            ->get();
+        // dd($orders);
+        return view('frontend.pages.statement', [
+            'rocket' => $rocket,
+            'nagad' => $nagad,
+            'available' => $available,
+            'orders' => $orders
+        ]);
+    }
 }

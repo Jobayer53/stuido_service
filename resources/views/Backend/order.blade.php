@@ -51,8 +51,14 @@
             $nagad = Illuminate\Support\Facades\DB::selectOne(
                 " SELECT COUNT(*) as total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) as completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) as new FROM orders WHERE service_id IN (25,26,27,28,29,30) AND DATE(created_at) = CURDATE()",
             );
+            $register = Illuminate\Support\Facades\DB::selectOne(
+                " SELECT COUNT(*) as total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) as completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) as new FROM orders WHERE service_id IN (35,36,37,38) AND DATE(created_at) = CURDATE()",
+            );
+            $statement = Illuminate\Support\Facades\DB::selectOne(
+                " SELECT COUNT(*) as total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) as completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) as new FROM orders WHERE service_id IN (39,40) AND DATE(created_at) = CURDATE()",
+            );
 
-            $otherServices = $services->whereNotIn('id', [7, 8, 9, 10, 12, 13, 14,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]);
+            $otherServices = $services->whereNotIn('id', [7, 8, 9, 10, 12, 13, 14,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,35,36,37,38,39,40]);
         @endphp
         @forelse ($otherServices as $service)
             <div class="col-lg-2 position-relative">
@@ -152,6 +158,34 @@
                     <div class="card-header text-center">
                         <p>Nagad/Bikash</p>
                         <strong>{{ $nagad->completed == null ? 0 : $nagad->completed }}/{{ $nagad->total }}</strong>
+
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-2 position-relative">
+            <a href="{{ route('register_order_details') }}" class="text-dark">
+                <div class="card shadow position-relative">
+                    @if ($register->new > 0)
+                        <span class="blinking-dot"></span>
+                    @endif
+                    <div class="card-header text-center">
+                        <p>Birth Register </p>
+                        <strong>{{ $register->completed == null ? 0 : $register->completed }}/{{ $register->total }}</strong>
+
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-2 position-relative">
+            <a href="{{ route('statement_order_details') }}" class="text-dark">
+                <div class="card shadow position-relative">
+                    @if ($statement->new > 0)
+                        <span class="blinking-dot"></span>
+                    @endif
+                    <div class="card-header text-center">
+                        <p>Number Statement</p>
+                        <strong>{{ $statement->completed == null ? 0 : $statement->completed }}/{{ $statement->total }}</strong>
 
                     </div>
                 </div>

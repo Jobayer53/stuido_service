@@ -71,28 +71,33 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('nagad_index')}}"  aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Tiner sheba </span>
+                        <a href="{{route('tin_index')}}"  aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">টিনের সেবা </span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('nagad_index')}}"  aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">bhumi service </span>
+                        <a href="{{route('land_index')}}"  aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">ভুমি উন্নয়ন সার্ভিস </span>
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="{{route('nagad_index')}}"  aria-expanded="false">
                             <i class="icon-globe-alt menu-icon"></i><span class="nav-text">SSC service </span>
                         </a>
+                    </li> --}}
+                    <li>
+                        <a href="{{route('register_index')}}"  aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">নিবন্ধনের সার্ভিস</span>
+                        </a>
                     </li>
                     <li>
-                        <a href="{{route('nagad_index')}}"  aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">nibondhoner service</span>
+                        <a href="{{route('statement_index')}}"  aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">নাম্বারের স্টেটমেন্ট</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{route('nagad_index')}}"  aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">tin certificate</span>
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">vacin3</span>
                         </a>
                     </li>
                     <li>

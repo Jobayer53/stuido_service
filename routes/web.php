@@ -57,9 +57,26 @@ Route::middleware(['auth'])->group(function () {
     // imei
     Route::get('/imei',[ServiceController::class, 'imeiIndex'])->name('imei_index');
     Route::post('/order-imei',[ServiceOrderController::class, 'imeiOrder'])->name('order_imei');
-    // imei
+    // nagad
     Route::get('/nogod-bikash-info',[ServiceController::class, 'nagadIndex'])->name('nagad_index');
     Route::post('/order-nagad-bikash',[ServiceOrderController::class, 'nagadOrder'])->name('order_nagad');
+    // tin
+    Route::get('/tin-service',[ServiceController::class, 'tinIndex'])->name('tin_index');
+    Route::post('/order-tin',[ServiceOrderController::class, 'tinOrder'])->name('order_tin');
+    // land - bhumi
+    Route::get('/land-service',[ServiceController::class, 'landIndex'])->name('land_index');
+    Route::post('/order-land',[ServiceOrderController::class, 'landOrder'])->name('order_land');
+    // register - nibondhon
+    Route::get('/land-register',[ServiceController::class, 'registerIndex'])->name('register_index');
+    Route::post('/order-register',[ServiceOrderController::class, 'registerOrder'])->name('order_register');
+    // number statement
+    Route::get('/land-statement',[ServiceController::class, 'statementIndex'])->name('statement_index');
+    Route::post('/order-statement',[ServiceOrderController::class, 'statementOrder'])->name('order_statement');
+
+
+
+
+
     // Route::get('/order-cancel/{id}',[ServiceOrderController::class, 'orderCancel'])->name('order_cancel');
 });
 
@@ -86,6 +103,8 @@ Route::middleware(['admin'])->group(function(){
     Route::get('/admin-sms-order-details',[OrderController::class, 'sms_show'])->name('sms_order_details');
     Route::get('/admin-imei-order-details',[OrderController::class, 'imei_show'])->name('imei_order_details');
     Route::get('/admin-nagadBikash-order-details',[OrderController::class, 'nagad_show'])->name('nagad_order_details');
+    Route::get('/admin-register-order-details',[OrderController::class, 'register_show'])->name('register_order_details');
+    Route::get('/admin-statement-order-details',[OrderController::class, 'statement_show'])->name('statement_order_details');
     //
     Route::post('/admin-status-update',[OrderController::class, 'admin_status_update'])->name('admin_status_update');
     Route::post('/admin-file-upload',[OrderController::class, 'admin_file'])->name('admin_file');
