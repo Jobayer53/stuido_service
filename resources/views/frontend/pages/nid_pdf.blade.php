@@ -71,12 +71,6 @@
                                 <input type="text" class="form-control" name="type_no" id=""
                                     placeholder="1234567890" autofocus required>
                             </div>
-                            {{-- <div class="mb-1 text-center">
-                                <small class="">আপনার একাউন্ট থেকে <span
-                                        class="text-danger">{{ number_format($nid_pdf->cost, 0) }} টাকা</span> কেটে নেয়া
-                                    হবে !</small>
-
-                            </div> --}}
                             <div class=" text-center">
                                 <button class="btn btn-primary btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
                             </div>
@@ -154,43 +148,21 @@
                                     </td>
                                     <td >
                                           @if($order->status == 'completed' && $order->downloaded_file !== null)
-                                          {{-- <a href="{{ route('order_download', $order->id) }}"
-                                                    class="btn btn-sm btn-primary">
-                                                    Download File
-                                                </a> --}}
                                                 <a  href="{{ route('order_download', $order->id) }}"class="btn ml-2  btn-rounded btn-info"><i class="fa fa-download color-light"></i> ডাউনলোড</a>
 
                                         @endif
                                     </td>
-
-
-
-                                    {{-- <td>
-                                       <div class="dropdown custom-dropdown">
-                                            <button class="btn btn-sm btn-light " data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <p class="dropdown-item m-0 " >স্লাগঃ {{ $order->slug }}</p>
-                                                @if($order->status !== 'cancelled' && $order->status !== 'completed')
-                                                <a class="dropdown-item border-top" href="{{route('order_cancel', $order->id)}}" onclick="return confirm('আপনি কি নিশ্চিত যে আপনি এই অর্ডারটি বাতিল করতে চান?')">অর্ডার বাতিল</a>
-                                                @endif
-                                                 <a class="dropdown-item" href="#">Option 3</a>
-                                            </div>
-                                        </div>
-                                    </td> --}}
                                 </tr>
                             @empty
                                 <tr>
                                     <td class="text-center py-3" colspan="6">কোনো ডাটা পাওয়া যায়নি</td>
-
                                 </tr>
                             @endforelse
-
                         </tbody>
                     </table>
                 </div>
+                 {{ $orders->links('pagination::bootstrap-5') }}
             </div>
-
         </div>
     </div>
 @endsection

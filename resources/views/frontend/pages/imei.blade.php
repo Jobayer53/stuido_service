@@ -195,22 +195,6 @@
                                             </button>
                                         @endif
                                     </td>
-
-
-
-                                    {{-- <td>
-                                       <div class="dropdown custom-dropdown">
-                                            <button class="btn btn-sm btn-light " data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <p class="dropdown-item m-0 " >স্লাগঃ {{ $order->slug }}</p>
-                                                @if ($order->status !== 'cancelled' && $order->status !== 'completed')
-                                                <a class="dropdown-item border-top" href="{{route('order_cancel', $order->id)}}" onclick="return confirm('আপনি কি নিশ্চিত যে আপনি এই অর্ডারটি বাতিল করতে চান?')">অর্ডার বাতিল</a>
-                                                @endif
-                                                 <a class="dropdown-item" href="#">Option 3</a>
-                                            </div>
-                                        </div>
-                                    </td> --}}
                                 </tr>
                             @empty
                                 <tr>
@@ -222,6 +206,7 @@
                         </tbody>
                     </table>
                 </div>
+                 {{ $orders->links('pagination::bootstrap-5') }}
             </div>
 
         </div>

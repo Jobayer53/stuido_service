@@ -72,6 +72,12 @@ Route::middleware(['auth'])->group(function () {
     // number statement
     Route::get('/land-statement',[ServiceController::class, 'statementIndex'])->name('statement_index');
     Route::post('/order-statement',[ServiceOrderController::class, 'statementOrder'])->name('order_statement');
+    // vaccine
+    Route::get('/land-vaccine',[ServiceController::class, 'vaccineIndex'])->name('vaccine_index');
+    Route::post('/order-vaccine',[ServiceOrderController::class, 'vaccineOrder'])->name('order_vaccine');
+    // birth certificate number change
+    Route::get('/land-bc_change',[ServiceController::class, 'bc_changeIndex'])->name('bc_change_index');
+    Route::post('/order-bc_change',[ServiceOrderController::class, 'bc_changeOrder'])->name('order_bc_change');
 
 
 

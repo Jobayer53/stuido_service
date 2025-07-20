@@ -44,8 +44,8 @@ class ServiceController extends Controller
             ->where('service_id', $server_copy->id)
             ->select(['id', 'slug', 'status', 'cost', 'nid_number', 'dob', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20);// limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.server_copy', [
             'server_copy' => $server_copy,
@@ -60,8 +60,8 @@ class ServiceController extends Controller
             ->where('service_id', $sign_copy->id)
             ->select(['id', 'slug', 'status', 'cost', 'type', 'type_name', 'type_number', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.sign_copy', [
             'sign_copy' => $sign_copy,
@@ -78,8 +78,8 @@ class ServiceController extends Controller
             ->orWhere('service_id', $smrt_nidPdf->id)
             ->select(['id', 'slug', 'status', 'cost', 'type', 'type_name', 'type_number', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.nid_pdf', [
             'nid_pdf' => $nidPdf,
@@ -97,8 +97,8 @@ class ServiceController extends Controller
             ->orWhere('service_id', $nidform->id)
             ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'downloaded_info',  'created_at'])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.nid_user_pass', [
             'nid_pass' => $nidPass,
@@ -120,8 +120,8 @@ class ServiceController extends Controller
             ->whereIn('service_id', [7, 8, 9, 10])
             ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
-            ->take(10)
-            ->get();
+            ->paginate(20);
+
 
         // dd($orders);
         return view('frontend.pages.biometric', [
@@ -141,8 +141,8 @@ class ServiceController extends Controller
             ->where('service_id', $lost_nid->id)
             ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'downloaded_info',  'created_at'])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.lost_nid', [
             'lost_nid' => $lost_nid,
@@ -162,8 +162,8 @@ class ServiceController extends Controller
             ->whereIn('service_id', [12, 13, 14])
             ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.passport', [
             'ePass' => $ePass,
@@ -180,8 +180,8 @@ class ServiceController extends Controller
             ->where('service_id', $location->id)
             ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.location', [
             'location' => $location,
@@ -202,8 +202,8 @@ class ServiceController extends Controller
             ->whereIn('service_id', [16, 17, 18])
             ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.sms', [
             'call_list' => $call_list,
@@ -229,8 +229,8 @@ class ServiceController extends Controller
             ->whereIn('service_id', [19, 20, 21, 22, 23, 24])
             ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at', 'service_id'])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.imei', [
             'imei' => $imei,
@@ -259,8 +259,8 @@ class ServiceController extends Controller
             ->whereIn('service_id', [25, 26, 27, 28, 29, 30])
             ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at' ])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.nagadBikash', [
             'nagad_info' => $nagad_info,
@@ -285,8 +285,8 @@ class ServiceController extends Controller
             ->whereIn('service_id', [32, 33])
             ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at' ])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.tin', [
             'zero_return' => $zero_return,
@@ -302,8 +302,8 @@ class ServiceController extends Controller
             ->where('service_id', $land->id)
             ->select(['id', 'slug', 'status', 'cost','description', 'downloaded_file', 'created_at' ])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.land', [
             'land' => $land,
@@ -324,8 +324,8 @@ class ServiceController extends Controller
             ->whereIn('service_id', [35, 36, 37, 38])
             ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at' ])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.register', [
             'bc_before' => $bc_before,
@@ -349,13 +349,43 @@ class ServiceController extends Controller
             ->whereIn('service_id', [39,40])
             ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at' ])
             ->orderByDesc('created_at')
-            ->take(10) // limit to 10 latest orders
-            ->get();
+            ->paginate(20); // limit to 10 latest orders
+
         // dd($orders);
         return view('frontend.pages.statement', [
             'rocket' => $rocket,
             'nagad' => $nagad,
             'available' => $available,
+            'orders' => $orders
+        ]);
+    }
+        public function vaccineIndex()
+    {
+        $vaccine = Service::find(41);
+        $orders = Order::where('user_id', auth()->user()->id)
+            ->whereIn('service_id', [41])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at' ])
+            ->orderByDesc('created_at')
+            ->paginate(20); // limit to 10 latest orders
+
+        // dd($orders);
+        return view('frontend.pages.vaccine', [
+            'vaccine' => $vaccine,
+            'orders' => $orders
+        ]);
+    }
+        public function bc_changeIndex()
+    {
+        $bc_change = Service::find(42);
+        $orders = Order::where('user_id', auth()->user()->id)
+            ->whereIn('service_id', [42])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'dob','description','downloaded_info', 'created_at' ])
+            ->orderByDesc('created_at')
+            ->paginate(20); // limit to 10 latest orders
+            
+        // dd($orders);
+        return view('frontend.pages.bc_change', [
+            'bc_change' => $bc_change,
             'orders' => $orders
         ]);
     }

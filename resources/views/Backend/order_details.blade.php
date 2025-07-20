@@ -100,7 +100,7 @@
                                             @endphp
 
                                             @if (!$isCompleted && !$isCancelled)
-                                                @if (in_array($order->service_id, [5, 15]))
+                                                @if (in_array($order->service_id, [5, 15,42 ]))
                                                     <button class="btn btn-outline-info btn-sm data editBtn "
                                                         data-bs-toggle="modal" data-bs-target="#editModal"
                                                         data-data="{{ $order }}">
@@ -116,7 +116,7 @@
                                                     </form>
                                                 @endif
                                             @elseif ($isCompleted)
-                                                @if (in_array($order->service_id, [5, 15]))
+                                                @if (in_array($order->service_id, [5, 15,42]))
                                                     <button class="btn btn-outline-info btn-sm data editBtn "
                                                         data-bs-toggle="modal" data-bs-target="#editModal"
                                                         data-data="{{ $order }}">

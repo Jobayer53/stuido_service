@@ -139,10 +139,6 @@
                                     </td>
                                     <td>
                                         @if ($order->status == 'completed' && $order->downloaded_file !== null)
-                                            {{-- <a href="{{ route('order_download', $order->id) }}"
-                                                    class="btn btn-sm btn-primary">
-                                                    Download File
-                                                </a> --}}
                                             <a
                                                 href="{{ route('order_download', $order->id) }}"class="btn ml-2  btn-rounded btn-info"><i
                                                     class="fa fa-download color-light"></i> ডাউনলোড</a>
@@ -163,6 +159,7 @@
                         </tbody>
                     </table>
                 </div>
+                 {{ $orders->links('pagination::bootstrap-5') }}
             </div>
 
         </div>

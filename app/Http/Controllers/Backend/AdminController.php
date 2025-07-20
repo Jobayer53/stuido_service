@@ -45,10 +45,15 @@ class AdminController extends Controller
     }
     public function admin_register()
     {
+         $admin = Admin::find(1);
+        if($admin){
+          return  redirect()->route('admin_login');
+        }
         return view('Backend.auth.register');
     }
     public function admin_register_store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email',

@@ -550,6 +550,77 @@ class ServiceOrderController extends Controller
         notyf()->position('x', 'right')->position('y', 'top')->info('অনুগ্রহ করে ২৪-৪৮ ঘন্টা অপেক্ষা করুন।');
         return back();
     }
+    // vaccine
+    public function vaccineOrder(Request $request)
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'data' => 'required',
+
+        ], [
+            'data.required' => 'তথ্য লিখুন!',
+        ]);
+        if ($validator->fails()) {
+            notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
+            return back();
+        }
+        $service = Service::find(41);
+        $user = auth()->user();
+        if ($user->amount < $service->cost) {
+            notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
+            return back();
+        }
+        $order = new Order();
+        $order->slug = uniqid();
+        $order->user_id = $user->id;
+        $order->service_id = $service->id;
+        $order->cost = $service->cost;
+        $order->description = $request->data;
+        $order->save();
+        $user->amount = $user->amount - $order->cost;
+        $user->save();
+        notyf()->position('x', 'right')->position('y', 'top')->success('আপনার অর্ডার সংরক্ষণ করা হয়েছে।');
+        notyf()->position('x', 'right')->position('y', 'top')->info('অনুগ্রহ করে ৫-২০ মিনিট অপেক্ষা করুন।');
+        return back();
+    }
+    // birth certificate number change
+    public function bc_changeOrder(Request $request)
+    {
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'bc' => 'required',
+            'dob' => 'required',
+            'number' => 'required',
+        ], [
+            'bc.required' => 'জন্ম নিবন্ধন নম্বর লিখুন!',
+            'dob.required' => 'জন্ম তারিখ লিখুন!',
+            'number.required' => 'আপনার মোবাইল নম্বর লিখুন!',
+        ]);
+        if ($validator->fails()) {
+            notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
+            return back();
+        }
+        $service = Service::find(42);
+        $user = auth()->user();
+        if ($user->amount < $service->cost) {
+            notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
+            return back();
+        }
+        $order = new Order();
+        $order->slug = uniqid();
+        $order->user_id = $user->id;
+        $order->service_id = $service->id;
+        $order->cost = $service->cost;
+        $order->type_number = $request->bc;
+        $order->dob = $request->dob;
+        $order->description = $request->number;
+        $order->save();
+        $user->amount = $user->amount - $order->cost;
+        $user->save();
+        notyf()->position('x', 'right')->position('y', 'top')->success('আপনার অর্ডার সংরক্ষণ করা হয়েছে।');
+        notyf()->position('x', 'right')->position('y', 'top')->info('অনুগ্রহ করে ৫-২০ মিনিট অপেক্ষা করুন।');
+        return back();
+    }
 
 
 

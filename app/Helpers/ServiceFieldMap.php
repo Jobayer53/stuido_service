@@ -103,6 +103,14 @@ class ServiceFieldMap
         34=>[
             'description' => 'Data',
         ],
+        41=>[
+            'description' => 'Data',
+        ],
+        42=>[
+            'type_number' => 'BC',
+            'dob' => 'DOB',
+            'description' => 'Phone',
+        ]
 
             // Add up to 26 types here
         ];

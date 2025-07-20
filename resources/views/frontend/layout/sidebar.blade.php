@@ -96,13 +96,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('nagad_index')}}"  aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">vacin3</span>
+                        <a href="{{route('vaccine_index')}}"  aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">সুরক্ষা সার্ভিস</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('nagad_index')}}"  aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">birth certificate number chnage</span>
+                        <a href="{{route('bc_change_index')}}"  aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">জন্ম নিবন্ধন নাম্বার চেঞ্জ</span>
                         </a>
                     </li>
                     {{-- <li>
