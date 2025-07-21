@@ -61,7 +61,7 @@
                             </div>
                             <div class=" text-center">
                                 <button class="btn btn-primary btn-sm " type="submit" id="orderBtn"
-                                    onclick="return confirm('আপনি কি ওর্ডার করতে চান?')">ওর্ডার করুন</button>
+                                  >ওর্ডার করুন</button>
                             </div>
 
                         </form>

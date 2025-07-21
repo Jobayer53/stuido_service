@@ -103,7 +103,7 @@
 
 
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn" onclick=" return confirm('আপনি কি ওর্ডার করতে চান?')">ওর্ডার করুন</button>
+                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn" >ওর্ডার করুন</button>
                             </div>
 
                         </form>

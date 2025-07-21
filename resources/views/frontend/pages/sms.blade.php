@@ -77,7 +77,7 @@
 
                             <div class=" text-center">
                                 <button class="btn btn-primary btn-sm " type="submit" id="orderBtn"
-                                    onclick="return confirm('২৪/৪৮ ঘন্টা পর্যন্ত সময় লাগতে পারে! আপনি কি ওর্ডার করতে চান?')">ওর্ডার করুন</button>
+                                  >ওর্ডার করুন</button>
                             </div>
 
                         </form>
