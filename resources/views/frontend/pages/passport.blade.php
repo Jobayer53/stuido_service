@@ -53,7 +53,7 @@
                                         <div class="col-5 border mb-3">
                                             <label class="radio-inline mb-0 cursor-pointer mrp" style="padding: 10px 0px;">
                                                 <input type="radio" name="type" value="nid_to_mrp"
-                                                    class="cursor-pointer mrp"> বাংলালিংক বায়োমেট্রিক (<span
+                                                    class="cursor-pointer mrp"> এন আইডি টু এমআরপি পাসপোর্ট ইনফরমেশন (<span
                                                     class="text-danger">{{ number_format($mrp->cost, 0) }}</span>TK)
                                             </label>
                                         </div>
@@ -62,8 +62,7 @@
                                         <div class="col-5 border mb-3">
                                             <label class="radio-inline mb-0 cursor-pointer server_copy"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
-                                                    value="mrp_to_serverCopy" class="cursor-pointer server_copy"> টেলিটক
-                                                বায়োমেট্রিক (<span
+                                                    value="mrp_to_serverCopy" class="cursor-pointer server_copy"> MRP পাসপোর্ট নম্বর টু সার্ভার কপি (<span
                                                     class="text-danger">{{ number_format($server_copy->cost, 0) }}</span>TK)</label>
                                         </div>
                                     @endif
