@@ -32,7 +32,7 @@
         <div class="col-lg-8 m-auto ">
             @if ($available)
                 <div class="card">
-                    <h5 class="card-header text-center">জন্ম নিবন্ধনের সার্ভিস</h5>
+                    <h5 class="card-header text-center">জন্ম নিবন্ধন সার্ভিস</h5>
                     <div class="card-body">
                         <form action="{{ route('order_register') }}" method="POST" id="register_form">
                             @csrf
@@ -93,7 +93,7 @@
                 </div>
             @else
                 <div class="card">
-                    <h5 class="card-header text-center mb-4" >জন্ম নিবন্ধনের সার্ভিস </h5>
+                    <h5 class="card-header text-center mb-4" >জন্ম নিবন্ধন সার্ভিস </h5>
                     <div class="card-body ">
                         <i class=" text-danger d-flex  justify-content-center mb-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"
