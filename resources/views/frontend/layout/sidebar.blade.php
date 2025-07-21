@@ -87,7 +87,7 @@
                     </li> --}}
                     <li>
                         <a href="{{route('register_index')}}"  aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">নিবন্ধনের সার্ভিস</span>
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text"> জন্ম নিবন্ধনের সার্ভিস</span>
                         </a>
                     </li>
                     <li>
