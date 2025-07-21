@@ -183,7 +183,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td class="text-center py-3" colspan="6">কোনো ডাটা পাওয়া যায়নি</td>
+                                    <td class="text-center py-3" colspan="7">কোনো ডাটা পাওয়া যায়নি</td>
 
                                 </tr>
                             @endforelse

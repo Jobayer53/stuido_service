@@ -28,43 +28,24 @@
     </style>
 @endsection
 @section('content')
+<div class="row mb-3">
+    <div class="col-lg-12">
+        <form action="{{route('order.slug')}}" class="float-end" method="POST">
+            @csrf
+            <div class="d-flex">
+
+                <input type="text" class="form-control" name="slug" placeholder="Search by Slug" required>
+                <button class="btn btn-primary ms-2 ">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
     <div class="row">
-        @php
-            $today = today();
-            // $biometricGroupIds = [7, 8, 9, 10];
-            // $passportGroupIds = [12,13,14];
-
-
-            $biometric = Illuminate\Support\Facades\DB::selectOne(
-                " SELECT COUNT(*) as total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) as completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) as new FROM orders WHERE service_id IN (7,8,9,10) AND DATE(created_at) = CURDATE()",
-            );
-
-            $passport = Illuminate\Support\Facades\DB::selectOne(
-                " SELECT COUNT(*) as total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) as completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) as new FROM orders WHERE service_id IN (12,13,14) AND DATE(created_at) = CURDATE()",
-            );
-            $sms = Illuminate\Support\Facades\DB::selectOne(
-                " SELECT COUNT(*) as total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) as completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) as new FROM orders WHERE service_id IN (16,17,18) AND DATE(created_at) = CURDATE()",
-            );
-            $imei = Illuminate\Support\Facades\DB::selectOne(
-                " SELECT COUNT(*) as total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) as completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) as new FROM orders WHERE service_id IN (19,20,21,22,23,24) AND DATE(created_at) = CURDATE()",
-            );
-            $nagad = Illuminate\Support\Facades\DB::selectOne(
-                " SELECT COUNT(*) as total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) as completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) as new FROM orders WHERE service_id IN (25,26,27,28,29,30) AND DATE(created_at) = CURDATE()",
-            );
-            $register = Illuminate\Support\Facades\DB::selectOne(
-                " SELECT COUNT(*) as total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) as completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) as new FROM orders WHERE service_id IN (35,36,37,38) AND DATE(created_at) = CURDATE()",
-            );
-            $statement = Illuminate\Support\Facades\DB::selectOne(
-                " SELECT COUNT(*) as total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) as completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) as new FROM orders WHERE service_id IN (39,40) AND DATE(created_at) = CURDATE()",
-            );
-
-            $otherServices = $services->whereNotIn('id', [7, 8, 9, 10, 12, 13, 14,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,35,36,37,38,39,40]);
-        @endphp
         @forelse ($otherServices as $service)
             <div class="col-lg-2 position-relative">
                 <a href="{{ route('admin_order_details', $service->id) }}" class="text-dark">
                     <div class="card shadow position-relative">
-                        @if ($service->orders()->where('notified', 0)->count() > 0)
+                        @if ($service->new > 0)
                             {{-- Blinking dot --}}
                             <span class="blinking-dot"></span>
                         @endif

@@ -7,14 +7,19 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Ui\Presets\React;
 
 class ServiceController extends Controller
 {
     public function admin_service_index()
     {
+        $activeCount = Service::where('available', 1)->count();
+        $totalServices = Service::count();
+        $nextAction = ($activeCount >= ($totalServices / 2)) ? 'Deactivate' : 'Activate';
         $services = Service::all();
         return view('Backend.service', [
-            'services' => $services
+            'services' => $services,
+            'status' => $nextAction
         ]);
     }
     public function admin_service_update(Request $request)
@@ -35,6 +40,21 @@ class ServiceController extends Controller
         notyf()->position('x', 'right')->position('y', 'top')->success($service->name . ' Updated Successfully');
         return back();
     }
+    public function toggleStatus(Request $request)
+    {
+        if($request->status == 'Deactivate'){
+             Service::query()->update(['available' => 0]);
+             notyf()->position('x', 'right')->position('y', 'top')->success('All services deactivated');
+        }
+        else{
+            Service::query()->update(['available' => 1]);
+            notyf()->position('x', 'right')->position('y', 'top')->success('All services activated');
+        }
+
+
+
+        return back();
+    }
 
     //frontend service code
     public function serverCopyIndex()
@@ -44,7 +64,7 @@ class ServiceController extends Controller
             ->where('service_id', $server_copy->id)
             ->select(['id', 'slug', 'status', 'cost', 'nid_number', 'dob', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
-            ->paginate(20);// limit to 10 latest orders
+            ->paginate(20); // limit to 10 latest orders
 
         // dd($orders);
         return view('frontend.pages.server_copy', [
@@ -155,7 +175,7 @@ class ServiceController extends Controller
         $mrp = Service::find(13);
         $server_copy = Service::find(14);
         $available = true;
-        if ($ePass->available == false && $MRP->available == false && $server_copy->available == false) {
+        if ($ePass->available == false && $mrp->available == false && $server_copy->available == false) {
             $available = false;
         }
         $orders = Order::where('user_id', auth()->user()->id)
@@ -249,7 +269,7 @@ class ServiceController extends Controller
         $b_personal = Service::find(26);
         $rocket_info = Service::find(27);
         $nagadP_3mnth = Service::find(28);
-        $b_merchant= Service::find(29);
+        $b_merchant = Service::find(29);
         $b_agent = Service::find(30);
         $available = true;
         if ($nagad_info->available == false && $b_personal->available == false && $rocket_info->available == false && $nagadP_3mnth->available == false && $b_merchant->available == false && $b_agent->available == false) {
@@ -257,7 +277,7 @@ class ServiceController extends Controller
         }
         $orders = Order::where('user_id', auth()->user()->id)
             ->whereIn('service_id', [25, 26, 27, 28, 29, 30])
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at' ])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20); // limit to 10 latest orders
 
@@ -283,7 +303,7 @@ class ServiceController extends Controller
         }
         $orders = Order::where('user_id', auth()->user()->id)
             ->whereIn('service_id', [32, 33])
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at' ])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20); // limit to 10 latest orders
 
@@ -300,7 +320,7 @@ class ServiceController extends Controller
         $land = Service::find(34);
         $orders = Order::where('user_id', auth()->user()->id)
             ->where('service_id', $land->id)
-            ->select(['id', 'slug', 'status', 'cost','description', 'downloaded_file', 'created_at' ])
+            ->select(['id', 'slug', 'status', 'cost', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20); // limit to 10 latest orders
 
@@ -310,7 +330,7 @@ class ServiceController extends Controller
             'orders' => $orders
         ]);
     }
-        public function registerIndex()
+    public function registerIndex()
     {
         $bc_before = Service::find(35);
         $bc_after = Service::find(36);
@@ -322,7 +342,7 @@ class ServiceController extends Controller
         }
         $orders = Order::where('user_id', auth()->user()->id)
             ->whereIn('service_id', [35, 36, 37, 38])
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at' ])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20); // limit to 10 latest orders
 
@@ -337,17 +357,17 @@ class ServiceController extends Controller
             'orders' => $orders
         ]);
     }
-        public function statementIndex()
+    public function statementIndex()
     {
         $rocket = Service::find(39);
         $nagad = Service::find(40);
         $available = true;
-        if ($rocket-> available == false && $nagad->available == false) {
+        if ($rocket->available == false && $nagad->available == false) {
             $available = false;
         }
         $orders = Order::where('user_id', auth()->user()->id)
-            ->whereIn('service_id', [39,40])
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at' ])
+            ->whereIn('service_id', [39, 40])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20); // limit to 10 latest orders
 
@@ -359,12 +379,12 @@ class ServiceController extends Controller
             'orders' => $orders
         ]);
     }
-        public function vaccineIndex()
+    public function vaccineIndex()
     {
         $vaccine = Service::find(41);
         $orders = Order::where('user_id', auth()->user()->id)
             ->whereIn('service_id', [41])
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at' ])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20); // limit to 10 latest orders
 
@@ -374,15 +394,15 @@ class ServiceController extends Controller
             'orders' => $orders
         ]);
     }
-        public function bc_changeIndex()
+    public function bc_changeIndex()
     {
         $bc_change = Service::find(42);
         $orders = Order::where('user_id', auth()->user()->id)
             ->whereIn('service_id', [42])
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'dob','description','downloaded_info', 'created_at' ])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'dob', 'description', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20); // limit to 10 latest orders
-            
+
         // dd($orders);
         return view('frontend.pages.bc_change', [
             'bc_change' => $bc_change,

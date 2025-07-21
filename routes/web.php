@@ -100,6 +100,7 @@ Route::middleware(['admin'])->group(function(){
     Route::get('/admin-profile', [AdminController::class, 'admin_profile'])->name('admin_profile');
     Route::post('/admin-profile-update', [AdminController::class, 'admin_profile_update'])->name('admin_update');
     Route::get('/admin-services',[ServiceController::class, 'admin_service_index'])->name('admin_service_index');
+    Route::post('/services/toggle-status', [ServiceController::class, 'toggleStatus'])->name('services.toggle-status');
     Route::post('/admin-service-update',[ServiceController::class, 'admin_service_update'])->name('admin_service_update');
     Route::get('/admin-orders',[OrderController::class, 'index'])->name('admin_order');
     Route::get('/admin-order-details/{id}',[OrderController::class, 'show'])->name('admin_order_details');
@@ -114,4 +115,7 @@ Route::middleware(['admin'])->group(function(){
     //
     Route::post('/admin-status-update',[OrderController::class, 'admin_status_update'])->name('admin_status_update');
     Route::post('/admin-file-upload',[OrderController::class, 'admin_file'])->name('admin_file');
+
+    //search by slug
+    Route::post('/seach-by-slug', [OrderController::class, 'showOrderBySlug'])->name('order.slug');
 });

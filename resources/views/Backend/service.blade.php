@@ -4,7 +4,16 @@
         <div class="col-lg-12  ">
             <div class="card mb-4">
                 <div class="card-body">
-                    <h5 class="card-title fw-semibold mb-4">Services</h5>
+                    <div class="d-flex justify-content-between ">
+                        <h5 class="card-title fw-semibold mb-4">Services</h5>
+                    <form method="POST" action="{{ route('services.toggle-status') }}" class="float-end">
+                        @csrf
+                        <input type="hidden" name="status" value="{{ $status }}">
+                        <button type="submit" class="btn btn-outline-{{ $status == 'Activate' ? 'success' : 'danger'}}">
+                            {{ ucfirst($status) }} All Services
+                        </button>
+                    </form>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table  text-nowrap mb-0 align-middle">

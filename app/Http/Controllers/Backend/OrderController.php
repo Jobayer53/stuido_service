@@ -2,26 +2,55 @@
 
 namespace App\Http\Controllers\Backend;
 
+use PDO;
 use App\Models\Order;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use App\Helpers\ServiceFieldMap;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use PDO;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $today = today();
-        $services = Service::withCount([
-            'orders as total' => fn($q) => $q->whereDate('created_at', $today),
-            // 'orders as uncompleted' => fn($q) => $q->whereDate('created_at', $today)->whereIn('status', ['pending', 'received']),
-            'orders as completed' => fn($q) => $q->whereDate('created_at', $today)->whereIn('status', ['completed', 'cancelled']),
-        ])->get();
-        // dd($services);
+
+        $serviceGroups = [
+            'biometric' => [7, 8, 9, 10],
+            'passport' => [12, 13, 14],
+            'sms' => [16, 17, 18],
+            'imei' => [19, 20, 21, 22, 23, 24],
+            'nagad' => [25, 26, 27, 28, 29, 30],
+            'register' => [35, 36, 37, 38],
+            'statement' => [39, 40],
+        ];
+
+        $stats = [];
+
+        foreach ($serviceGroups as $key => $ids) {
+            $idsString = implode(',', $ids);
+            $stats[$key] = DB::selectOne("SELECT COUNT(*) AS total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) AS completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) AS new FROM orders WHERE service_id IN ($idsString)AND DATE(created_at) = CURDATE() ");
+        }
+
+        // Optional: For unused service IDs
+        $usedIds = collect($serviceGroups)->flatten()->toArray();
+        $otherServices = Service::whereNotIn('id', $usedIds)
+            ->withCount([
+                'orders as total' => fn($q) => $q->whereDate('created_at', today()),
+                'orders as completed' => fn($q) => $q->whereIn('status', ['completed', 'cancelled'])->whereDate('created_at', today()),
+                'orders as new' => fn($q) => $q->where('notified', 0)->whereDate('created_at', today()),
+            ])
+            ->get();
+
         return view('Backend.order', [
-            'services' => $services
+            'biometric' => $stats['biometric'],
+            'passport' => $stats['passport'],
+            'sms' => $stats['sms'],
+            'imei' => $stats['imei'],
+            'nagad' => $stats['nagad'],
+            'register' => $stats['register'],
+            'statement' => $stats['statement'],
+            'otherServices' => $otherServices,
         ]);
     }
     public function show($id)
@@ -203,7 +232,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at','service_id'])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at', 'service_id'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -281,5 +310,43 @@ class OrderController extends Controller
 
             'orders' => $orders
         ]);
+    }
+    public function showOrderBySlug(Request $request)
+    {
+
+        $order = Order::where('slug', $request->slug)->get()->first();
+        if(!$order){
+            notyf()->position('x', 'right')->position('y', 'top')->error('Order Not Found');
+            return back();
+        }
+        // Define grouped service IDs
+
+        $biometric = [7, 8, 9, 10];
+        $passport = [12, 13, 14];
+        $sms = [16, 17, 18];
+        $imei = [19, 20, 21, 22, 23, 24];
+        $nagad = [25, 26, 27, 28, 29, 30];
+        $register = [35, 36, 37, 38];
+        $statement = [39, 40];
+
+
+        // Redirect logic based on group
+        if (in_array($order->service_id, $biometric)) {
+            return $this->biometric_show();
+        } elseif (in_array($order->service_id, $passport)) {
+            return $this->passport_show();
+        } elseif (in_array($order->service_id, $sms)) {
+            return $this->sms_show();
+        } elseif (in_array($order->service_id, $imei)) {
+            return $this->imei_show();
+        } elseif (in_array($order->service_id, $nagad)) {
+            return $this->nagad_show();
+        } elseif (in_array($order->service_id, $register)) {
+            return $this->register_show();
+        } elseif (in_array($order->service_id, $statement)) {
+            return $this->statement_show();
+        } else {
+            return redirect()->route('admin_order_details', $order->id);
+        }
     }
 }

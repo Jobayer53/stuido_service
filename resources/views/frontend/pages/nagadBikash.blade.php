@@ -111,7 +111,7 @@
                 </div>
             @else
                 <div class="card">
-                    <h5 class="card-header text-center mb-4">>নগদ/বিকাশ ইনফো </h5>
+                    <h5 class="card-header text-center mb-4">নগদ/বিকাশ ইনফো </h5>
                     <div class="card-body ">
                         <i class=" text-danger d-flex  justify-content-center mb-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"
@@ -189,7 +189,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td class="text-center py-3" colspan="6">কোনো ডাটা পাওয়া যায়নি</td>
+                                    <td class="text-center py-3" colspan="7">কোনো ডাটা পাওয়া যায়নি</td>
                                 </tr>
                             @endforelse
 

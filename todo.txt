@@ -1,3 +1,4 @@
 frontend take(10) change to paginate and write pagination on frontend blade DONE
-admin service active deactive
+admin service active deactive DONE
+search by slug DONE.
 
