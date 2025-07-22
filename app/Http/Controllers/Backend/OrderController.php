@@ -139,9 +139,9 @@ class OrderController extends Controller
         $query = Order::where('user_id', auth()->user()->id)
             ->whereIn('service_id', [7, 8, 9, 10]);
 
+            dd('ok');
         $checkQuery = clone $query;
 
-        dd('ok');
         if ($checkQuery->where('notified', 0)->count() > 0) {
             $query->update(['notified' => 1]);
         }
