@@ -131,7 +131,7 @@ class OrderController extends Controller
     }
 
     public function biometric_show()
-    {dd('ok');
+    {
         $robi_airtel = Service::find(7);
         $banglalink = Service::find(8);
         $teletalk = Service::find(9);
@@ -150,7 +150,7 @@ class OrderController extends Controller
             ->orderByDesc('created_at')
             ->paginate(20);
 
-        // dd($orders);
+        dd($orders);
         return view('Backend.pages.biometric_details', [
             'robi_airtel' => $robi_airtel,
             'banglalink' => $banglalink,
