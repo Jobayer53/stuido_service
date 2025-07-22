@@ -145,12 +145,12 @@ class OrderController extends Controller
             $query->update(['notified' => 1]);
         }
 
+        dd('ok');
         $orders = $query
             ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
-        dd($orders);
         return view('Backend.pages.biometric_details', [
             'robi_airtel' => $robi_airtel,
             'banglalink' => $banglalink,
