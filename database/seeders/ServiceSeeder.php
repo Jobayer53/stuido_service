@@ -31,7 +31,7 @@ class ServiceSeeder extends Seeder
             ['id' => 12, 'name' => 'E-Passport', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-16 18:43:04', 'updated_at' => '2025-07-16 18:43:04'],
             ['id' => 13, 'name' => 'MRP-Passport', 'cost' => 80.00, 'available' => 1, 'created_at' => '2025-07-16 18:43:04', 'updated_at' => '2025-07-16 18:43:04'],
             ['id' => 14, 'name' => 'MRP to Server Copy', 'cost' => 180.00, 'available' => 1, 'created_at' => '2025-07-16 18:44:53', 'updated_at' => '2025-07-16 18:44:53'],
-            ['id' => 15, 'name' => 'Number To Location', 'cost' => 400.00, 'available' => 0, 'created_at' => '2025-07-17 10:48:46', 'updated_at' => '2025-07-18 05:11:51'],
+            ['id' => 15, 'name' => 'Number To Location', 'cost' => 400.00, 'available' => 1, 'created_at' => '2025-07-17 10:48:46', 'updated_at' => '2025-07-18 05:11:51'],
             ['id' => 16, 'name' => 'Call-list 3-Month', 'cost' => 900.00, 'available' => 1, 'created_at' => '2025-07-18 05:15:51', 'updated_at' => '2025-07-18 05:15:51'],
             ['id' => 17, 'name' => 'Sms-GP 1-Month', 'cost' => 500.00, 'available' => 1, 'created_at' => '2025-07-18 05:15:51', 'updated_at' => '2025-07-18 05:15:51'],
             ['id' => 18, 'name' => 'Sms-Banglalink 1-Month', 'cost' => 400.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
@@ -59,6 +59,8 @@ class ServiceSeeder extends Seeder
             ['id' => 41, 'name' => 'Vaccine ', 'cost' => 75.00, 'available' => 1, 'created_at' => null, 'updated_at' => null],
             ['id' => 42, 'name' => 'Birth Certificate Number Change', 'cost' => 75.00, 'available' => 1, 'created_at' => null, 'updated_at' => null],
              ['id' => 43, 'name' => 'Call-list 6-Month', 'cost' => 400.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
+             ['id' => 44, 'name' => 'BMET 78%', 'cost' =>75.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
+             ['id' => 45, 'name' => 'BMET Country Change', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
         ]);
     }
 }
