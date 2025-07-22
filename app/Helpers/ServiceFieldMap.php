@@ -110,7 +110,12 @@ class ServiceFieldMap
             'type_number' => 'BC',
             'dob' => 'DOB',
             'description' => 'Phone',
+        ],
+        46=>[
+              'nid_number' => 'NID',
+            'dob' => 'Date of Birth'
         ]
+
 
             // Add up to 26 types here
         ];

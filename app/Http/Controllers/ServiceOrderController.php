@@ -13,7 +13,9 @@ class ServiceOrderController extends Controller
     //server copy
     public function serverCopyOrder(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
+            'type' => 'required',
             'nid' => 'required',
             'dob' => 'required',
         ]);
@@ -21,7 +23,8 @@ class ServiceOrderController extends Controller
             notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
             return back();
         }
-        $service = Service::find(1);
+        $service = $request->type == 'server_copy' ? Service::find(1) : Service::find(46);
+        // dd($service->id);
         $user = auth()->user();
         if ($user->amount < $service->cost) {
             notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
@@ -32,6 +35,7 @@ class ServiceOrderController extends Controller
         $order->user_id = $user->id;
         $order->service_id = $service->id;
         $order->cost = $service->cost;
+        $order->type = $request->type;
         $order->nid_number = $request->nid;
         $order->dob = $request->dob;
         $order->save();

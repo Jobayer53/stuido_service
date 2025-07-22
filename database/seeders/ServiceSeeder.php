@@ -61,6 +61,7 @@ class ServiceSeeder extends Seeder
              ['id' => 43, 'name' => 'Call-list 6-Month', 'cost' => 400.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
              ['id' => 44, 'name' => 'BMET 78%', 'cost' =>75.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
              ['id' => 45, 'name' => 'BMET Country Change', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
+             ['id' => 46, 'name' => 'Official Server Copy', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
         ]);
     }
 }

@@ -67,21 +67,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/land-service',[ServiceController::class, 'landIndex'])->name('land_index');
     Route::post('/order-land',[ServiceOrderController::class, 'landOrder'])->name('order_land');
     // register - nibondhon
-    Route::get('/land-register',[ServiceController::class, 'registerIndex'])->name('register_index');
+    Route::get('/register',[ServiceController::class, 'registerIndex'])->name('register_index');
     Route::post('/order-register',[ServiceOrderController::class, 'registerOrder'])->name('order_register');
     // number statement
-    Route::get('/land-statement',[ServiceController::class, 'statementIndex'])->name('statement_index');
+    Route::get('/statement',[ServiceController::class, 'statementIndex'])->name('statement_index');
     Route::post('/order-statement',[ServiceOrderController::class, 'statementOrder'])->name('order_statement');
     // vaccine
-    Route::get('/land-vaccine',[ServiceController::class, 'vaccineIndex'])->name('vaccine_index');
+    Route::get('/vaccine',[ServiceController::class, 'vaccineIndex'])->name('vaccine_index');
     Route::post('/order-vaccine',[ServiceOrderController::class, 'vaccineOrder'])->name('order_vaccine');
     // birth certificate number change
-    Route::get('/land-bc_change',[ServiceController::class, 'bc_changeIndex'])->name('bc_change_index');
+    Route::get('/bc_change',[ServiceController::class, 'bc_changeIndex'])->name('bc_change_index');
     Route::post('/order-bc_change',[ServiceOrderController::class, 'bc_changeOrder'])->name('order_bc_change');
     //bmet
-    Route::get('/land-bmet',[ServiceController::class, 'bmetIndex'])->name('bmet_index');
+    Route::get('/bmet',[ServiceController::class, 'bmetIndex'])->name('bmet_index');
     Route::post('/order-bmet',[ServiceOrderController::class, 'bmetOrder'])->name('order_bmet');
-
+    //traning
+    Route::get('/traning-cetificate',[ServiceController::class, 'traningIndex'])->name('traning_index');
 
 
 

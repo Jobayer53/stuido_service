@@ -47,7 +47,7 @@
                     </li>
                     <li>
                         <a href="{{route('passport_index')}}"  aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">পাসপোর্ট </span>
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">পাসপোর্ট সেবা</span>
                         </a>
                     </li>
                     <li>
@@ -108,6 +108,11 @@
                     <li>
                         <a href="{{route('bmet_index')}}"  aria-expanded="false">
                             <i class="icon-globe-alt menu-icon"></i><span class="nav-text">BMET এর সেবা</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('traning_index')}}"  aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">ট্রেনিং সার্টিফিকেট</span>
                         </a>
                     </li>
                     {{-- <li>

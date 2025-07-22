@@ -60,15 +60,17 @@ class ServiceController extends Controller
     public function serverCopyIndex()
     {
         $server_copy = Service::find(1);
+        $official = Service::find(46);
         $orders = Order::where('user_id', auth()->user()->id)
-            ->where('service_id', $server_copy->id)
-            ->select(['id', 'slug', 'status', 'cost', 'nid_number', 'dob', 'downloaded_file', 'created_at'])
+            ->whereIn('service_id',[1,46])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'nid_number', 'dob', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20); // limit to 10 latest orders
 
         // dd($orders);
         return view('frontend.pages.server_copy', [
             'server_copy' => $server_copy,
+            'official' => $official,
             'orders' => $orders
         ]);
     }
@@ -432,5 +434,9 @@ class ServiceController extends Controller
             'available' => $available,
             'orders' => $orders
         ]);
+    }
+    public function traningIndex()
+    {
+       return view('frontend.pages.traning');
     }
 }

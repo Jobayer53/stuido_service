@@ -93,7 +93,7 @@
                 <h5 class="card-header">ওর্ডার সমূহ</h5>
                 <div class="table-responsive ">
                     <table class="table table-hover">
-                        <thead>
+                      <thead class=" bg-info text-white">
                             <th>#</th>
                             <th>স্লাগ আইডি</th>
                             <th>তথ্য</th>
@@ -104,7 +104,7 @@
 
                             </tr>
                         </thead>
-                        <tbody class="">
+                       <tbody class="text-dark">
                             @forelse ($orders as $order)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -130,7 +130,7 @@
                                         {{ $order->created_at->diffForHumans() }}
                                     </td>
                                     <td title="Pending->Received->Completed">
-                                        <span class="label rounded gradient-1 me-1">
+                                         <span class="text-white btn btn-{{ $order->status == 'completed' ? 'success' : ($order->status == 'cancelled' ? 'danger' : 'info')}} btn-sm  me-1">
                                             {{ $order->status }}
                                         </span>
 

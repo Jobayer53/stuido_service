@@ -29,12 +29,35 @@
     @include('frontend.layout.floating_text')
     <div class="row mt-3 ">
         <div class="col-lg-6 m-auto ">
-            @if ($server_copy->available == 1)
+            @if ($server_copy->available == 1 && $official->available == 1)
                 <div class="card">
                     <h5 class="card-header text-center">সার্ভার কপি</h5>
                     <div class="card-body">
                         <form action="{{ route('order_server_copy') }}" method="POST" id="server_copy_form">
                             @csrf
+                            <div class="mb-3">
+                                <label for="" class="form-label">Select Option:</label>
+                                <div class="row mb-3 d-flex justify-content-around">
+                                    @if ($server_copy->available == 1)
+                                    <div class="col-5 border mb-3 ">
+                                        <label class="radio-inline mb-0 cursor-pointer "
+                                        style="padding: 10px 0px;"> <input type="radio" name="type"
+                                        value="server_copy" class="cursor-pointer "> সার্ভার কপি (<span
+                                        class="text-danger">{{ number_format($server_copy->cost, 0) }}</span>TK)
+                                    </label>
+                                </div>
+                                @endif
+                                @if ($official->available == 1)
+                                <div class="col-5 border mb-3 ">
+                                    <label class="radio-inline mb-0 cursor-pointer "
+                                    style="padding: 10px 0px;"> <input type="radio" name="type"
+                                    value="official_server_copy" class="cursor-pointer ">  অফিসিয়াল সার্ভার কপি (<span
+                                    class="text-danger">{{ number_format($official->cost, 0) }}</span>TK)
+                                </label>
+                            </div>
+                            @endif
+                        </div>
+                            </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">NID NO (10/13/17 Digit)</label>
                                 <input type="number" class="form-control" name="nid" id="nid"
@@ -45,12 +68,7 @@
                                 <input type="text" class="form-control" name="dob" id="" placeholder="2000-12-21"
                                      autofocus required>
                             </div>
-                            <div class="mb-1 text-center">
-                                <small class="">আপনার একাউন্ট থেকে <span
-                                        class="text-danger">{{ number_format($server_copy->cost, 0) }} টাকা</span> কেটে নেয়া
-                                    হবে !</small>
-                                {{-- <small class="">চার্জ <span class="text-danger">০ টাকা</span> !</small> --}}
-                            </div>
+
                             <div class=" text-center">
                                 <button class="btn btn-primary btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
                             </div>
@@ -86,7 +104,7 @@
                 <h5 class="card-header">ওর্ডার সমূহ</h5>
                 <div class="table-responsive ">
                     <table class="table table-hover">
-                        <thead>
+                        <thead class=" bg-info text-white">
                             <th>#</th>
                             <th>স্লাগ আইডি</th>
                             <th>এন আইডি</th>
@@ -97,15 +115,14 @@
                             {{-- <th>একশন</th> --}}
                             </tr>
                         </thead>
-                        <tbody class="">
+                        <tbody class="text-dark">
                             @forelse ($orders as $order)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $order->slug }}</td>
-                                    <td>
-                                        <strong>
-                                            {{ $order->nid_number }}
-                                        </strong>
+                                    <td class="d-flex flex-column">
+                                        <span>OPTION: <strong>{{ $order->type}} </strong></span>
+                                        <span>NID: <strong>{{ $order->nid_number}} </strong></span>
                                     </td>
                                         <td>
                                        @if($order->status == 'cancelled')
@@ -121,7 +138,7 @@
                                         {{ $order->created_at->diffForHumans() }}
                                     </td>
                                     <td title="Pending->Received->Completed">
-                                        <span class="label rounded gradient-1 me-1">
+                                        <span class="text-white btn btn-{{ $order->status == 'completed' ? 'success' : ($order->status == 'cancelled' ? 'danger' : 'info')}} btn-sm  me-1">
                                         {{ $order->status }}
                                         </span>
 
