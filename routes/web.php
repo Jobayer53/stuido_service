@@ -67,7 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/land-service',[ServiceController::class, 'landIndex'])->name('land_index');
     Route::post('/order-land',[ServiceOrderController::class, 'landOrder'])->name('order_land');
     // register - nibondhon
-    Route::get('/register',[ServiceController::class, 'registerIndex'])->name('register_index');
+    Route::get('/register-service',[ServiceController::class, 'registerIndex'])->name('register_index');
     Route::post('/order-register',[ServiceOrderController::class, 'registerOrder'])->name('order_register');
     // number statement
     Route::get('/statement',[ServiceController::class, 'statementIndex'])->name('statement_index');
