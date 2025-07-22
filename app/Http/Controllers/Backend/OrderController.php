@@ -141,11 +141,11 @@ class OrderController extends Controller
 
         $checkQuery = clone $query;
 
+        dd('ok');
         if ($checkQuery->where('notified', 0)->count() > 0) {
             $query->update(['notified' => 1]);
         }
 
-        dd('ok');
         $orders = $query
             ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
