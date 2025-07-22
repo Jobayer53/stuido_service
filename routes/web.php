@@ -78,6 +78,9 @@ Route::middleware(['auth'])->group(function () {
     // birth certificate number change
     Route::get('/land-bc_change',[ServiceController::class, 'bc_changeIndex'])->name('bc_change_index');
     Route::post('/order-bc_change',[ServiceOrderController::class, 'bc_changeOrder'])->name('order_bc_change');
+    //bmet
+    Route::get('/land-bmet',[ServiceController::class, 'bmetIndex'])->name('bmet_index');
+    Route::post('/order-bmet',[ServiceOrderController::class, 'bmetOrder'])->name('order_bmet');
 
 
 
@@ -105,7 +108,7 @@ Route::middleware(['admin'])->group(function(){
     Route::get('/admin-orders',[OrderController::class, 'index'])->name('admin_order');
     Route::get('/admin-order-details/{id}',[OrderController::class, 'show'])->name('admin_order_details');
     // single page
-    Route::get('/admin-biometric-order-details',[OrderController::class, 'biometric_show'])->name('biometric_order_details');
+    Route::get('/admin_biometric_orderd_etails',[OrderController::class, 'biometric_show'])->name('biometric_order_details');
     Route::get('/admin-passport-order-details',[OrderController::class, 'passport_show'])->name('passport_order_details');
     Route::get('/admin-sms-order-details',[OrderController::class, 'sms_show'])->name('sms_order_details');
     Route::get('/admin-imei-order-details',[OrderController::class, 'imei_show'])->name('imei_order_details');

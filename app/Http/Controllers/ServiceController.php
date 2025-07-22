@@ -214,12 +214,13 @@ class ServiceController extends Controller
         $call_list = Service::find(16);
         $sms_gp = Service::find(17);
         $sms_banglalink = Service::find(18);
+        $call_list6 = Service::find(43);
         $available = true;
-        if ($call_list->available == false && $sms_gp->available == false && $sms_banglalink->available == false) {
+        if ($call_list->available == false && $sms_gp->available == false && $sms_banglalink->available == false && $call_list6->available == false) {
             $available = false;
         }
         $orders = Order::where('user_id', auth()->user()->id)
-            ->whereIn('service_id', [16, 17, 18])
+            ->whereIn('service_id', [16, 17, 18,43])
             ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20); // limit to 10 latest orders
@@ -229,6 +230,7 @@ class ServiceController extends Controller
             'call_list' => $call_list,
             'sms_gp' => $sms_gp,
             'sms_banglalink' => $sms_banglalink,
+            'call_list6' => $call_list6,
             'available' => $available,
             'orders' => $orders
         ]);
@@ -406,6 +408,28 @@ class ServiceController extends Controller
         // dd($orders);
         return view('frontend.pages.bc_change', [
             'bc_change' => $bc_change,
+            'orders' => $orders
+        ]);
+    }
+    public function bmetIndex()
+    {
+        $bmet = Service::find(44);
+        $country = Service::find(45);
+        $available = true;
+        if($bmet->available == false && $country->available == false){
+            $available = false;
+        }
+        $orders = Order::where('user_id', auth()->user()->id)
+            ->whereIn('service_id', [44, 45])
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at'])
+            ->orderByDesc('created_at')
+            ->paginate(20); // limit to 10 latest orders
+
+        // dd($orders);
+        return view('frontend.pages.bmet', [
+            'bmet' => $bmet,
+            'country' => $country,
+            'available' => $available,
             'orders' => $orders
         ]);
     }

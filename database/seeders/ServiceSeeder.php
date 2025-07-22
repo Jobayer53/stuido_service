@@ -58,6 +58,7 @@ class ServiceSeeder extends Seeder
             ['id' => 40, 'name' => 'Nagad Agent Statement', 'cost' => 3700.00, 'available' => 1, 'created_at' => null, 'updated_at' => null],
             ['id' => 41, 'name' => 'Vaccine ', 'cost' => 75.00, 'available' => 1, 'created_at' => null, 'updated_at' => null],
             ['id' => 42, 'name' => 'Birth Certificate Number Change', 'cost' => 75.00, 'available' => 1, 'created_at' => null, 'updated_at' => null],
+             ['id' => 43, 'name' => 'Call-list 6-Month', 'cost' => 400.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
         ]);
     }
 }

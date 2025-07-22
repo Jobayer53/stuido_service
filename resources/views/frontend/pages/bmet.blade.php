@@ -32,61 +32,43 @@
         <div class="col-lg-8 m-auto ">
             @if ($available)
                 <div class="card">
-                    <h5 class="card-header text-center">কল/SMS লিষ্ট</h5>
+                    <h5 class="card-header text-center">BMET এর সেবা</h5>
                     <div class="card-body">
-                        <form action="{{ route('order_sms') }}" method="POST" id="sms_form">
+                        <form action="{{ route('order_bmet') }}" method="POST" id="bmet_form">
                             @csrf
                             <div class="mb-3">
                                 <label for="" class="form-label">Select Option:</label>
                                 <div class="mb-3 row d-flex justify-content-around">
-                                    @if ($call_list->available == 1)
+                                    @if ($bmet->available == 1)
                                         <div class="col-5 border mb-3 ">
-                                            <label class="radio-inline mb-0 cursor-pointer call_list"
+                                            <label class="radio-inline mb-0 cursor-pointer bmet"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
-                                                    value="call_list" class="cursor-pointer call_list"> ৩ মাসের কল লিষ্ট (<span
-                                                    class="text-danger">{{ number_format($call_list->cost, 0) }}</span>TK)
+                                                    value="bmet_78" class="cursor-pointer bmet"> BMET 78 %(<span
+                                                    class="text-danger">{{ number_format($bmet->cost, 0) }}</span>TK)
                                             </label>
                                         </div>
                                     @endif
-                                    @if ($call_list6->available == 1)
-                                        <div class="col-5 border mb-3">
-                                            <label class="radio-inline mb-0 cursor-pointer call_list6" style="padding: 10px 0px;">
-                                                <input type="radio" name="type" value="call_list_6M"
-                                                    class="cursor-pointer call_list6"> ৬ মাসের কল লিস্ট(<span
-                                                    class="text-danger">{{ number_format($call_list6->cost, 0) }}</span>TK)
-                                            </label>
-                                        </div>
-                                    @endif
-                                    @if ($sms_gp->available == 1)
-                                        <div class="col-5 border mb-3">
-                                            <label class="radio-inline mb-0 cursor-pointer sms_gp" style="padding: 10px 0px;">
-                                                <input type="radio" name="type" value="sms_gp"
-                                                    class="cursor-pointer sms_gp"> ১ মাসের জিপি SMS লিষ্ট  (<span
-                                                    class="text-danger">{{ number_format($sms_gp->cost, 0) }}</span>TK)
-                                            </label>
-                                        </div>
-                                    @endif
-                                    @if ($sms_banglalink->available == 1)
-                                        <div class="col-5 border mb-3">
-                                            <label class="radio-inline mb-0 cursor-pointer sms_banglalink"
+                                    @if ($country->available == 1)
+                                        <div class="col-5 border mb-3 ">
+                                            <label class="radio-inline mb-0 cursor-pointer country"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
-                                                    value="sms_banglalink" class="cursor-pointer sms_banglalink"> ১ মাসের বাংলালিংক SMS লিষ্ট (<span
-                                                    class="text-danger">{{ number_format($sms_banglalink->cost, 0) }}</span>TK)</label>
+                                                    value="bmet_change_country" class="cursor-pointer country"> BMET দেশের নাম পরিবর্তন (<span
+                                                    class="text-danger">{{ number_format($country->cost, 0) }}</span>TK)
+                                            </label>
                                         </div>
                                     @endif
 
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="" class="form-label">ফোন নাম্বারঃ</label>
-                                <input type="number" class="form-control" name="number" id="number" placeholder="অপশন সিলেক্ট করুন!"
-                                    autofocus required>
+                                  <label for="" class="form-label">নিম্মক্ত তথ্য প্রদান করুন</label>
+                                <textarea name="data" id="data" cols="30" rows="2" class="form-control "
+                                    placeholder="অপশন সিলেক্ট করুন"></textarea>
                             </div>
 
 
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn"
-                                  >ওর্ডার করুন</button>
+                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn" >ওর্ডার করুন</button>
                             </div>
 
                         </form>
@@ -94,7 +76,7 @@
                 </div>
             @else
                 <div class="card">
-                    <h5 class="card-header text-center mb-4">কল/SMS লিষ্ট </h5>
+                    <h5 class="card-header text-center mb-4">IMEI  & NID TO ALL NUMBER </h5>
                     <div class="card-body ">
                         <i class=" text-danger d-flex  justify-content-center mb-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"
@@ -128,7 +110,6 @@
                             <th>সময়</th>
                             <th>স্ট্যাটাস</th>
                             <th>ডাউনলোড</th>
-                            {{-- <th>একশন</th> --}}
                             </tr>
                         </thead>
                         <tbody class="">
@@ -136,12 +117,20 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $order->slug }}</td>
-                                    <td class="d-flex flex-column">
-                                        <span>Option: <strong>{{ $order->type }}</strong></span>
-                                        <span>Number: <strong> {{ $order->type_number }}</strong></span>
+                                    <td>
+                                        @if ($order->service_id == 19 || $order->service_id == 24)
+                                            <button class="btn ml-2  btn-rounded btn-info data showBtn " data-toggle="modal"
+                                            data-target="#showModal" data-data="{{ $order->description }}">
+                                            <i class="fa fa-eye color-light"></i>
+                                            দেখুন
+                                        </button>
+                                        @else
+                                       <div class="d-flex flex-column">
+                                         <span>Type: <strong>{{ $order->type }}</strong></span>
+                                        <span>Data: <strong>{{ $order->description }}</strong></span>
+                                       </div>
 
-
-
+                                        @endif
                                     </td>
                                     <td>
                                         @if ($order->status == 'cancelled')
@@ -163,9 +152,12 @@
 
                                     </td>
                                     <td>
-                                        @if($order->status == 'completed' && $order->downloaded_file !== null)
-                                                <a  href="{{ route('order_download', $order->id) }}"class="btn ml-2  btn-rounded btn-info"><i class="fa fa-download color-light"></i> ডাউনলোড</a>
-
+                                        @if ($order->status == 'completed' )
+                                             <button class="btn ml-2  btn-rounded btn-info data showBtn " data-toggle="modal"
+                                                data-target="#showModal" data-data="{{ $order->downloaded_info }}">
+                                                <i class="fa fa-download color-light"></i>
+                                                তথ্য দেখুন
+                                            </button>
                                         @endif
                                     </td>
                                 </tr>
@@ -184,34 +176,48 @@
 
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="showModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
+                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-close"></i></button>
+                </div>
+                <div class="modal-body">
+                    <textarea name="" id="showData" cols="30" rows="8" class="form-control" readonly></textarea>
+                </div>
+                <div class="modal-footer  ">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    {{-- <button type="submit" class="btn btn-primary">Update</button> --}}
+                </div>
+            </div>
 
+        </div>
+    </div>
 @endsection
 
 @section('script')
     <script>
         $(document).ready(function() {
-            $('#sms_form').on('submit', function(e) {
+            $('#imei_form').on('submit', function(e) {
                 const $btn = $('#orderBtn');
 
                 $btn.text('অপেক্ষা করুন...');
                 $btn.prop('disabled', true);
             });
+            $('.bmet').on('click', function() {
+                $('#data').attr('placeholder','PASSPORT NO')
+            });
+            $('.country').on('click', function() {
+                $('#data').attr('placeholder','BMET No:'+'\n'+'New Country Name:')
+            });
+
             $('.showBtn').on('click', function() {
                 var data = $(this).data('data');
-                $('#showData').val('Type: '+ data.type + '\n'+'Data: '+'\n' + data.description);
-            })
-            $('.call_list').on('click', function() {
-                $('#number').attr('placeholder', '01XXXXXXXXX');
-            })
-            $('.call_list6').on('click', function() {
-                $('#number').attr('placeholder', '01XXXXXXXXX');
-            })
-            $('.sms_gp').on('click', function() {
-                $('#number').attr('placeholder', '017XXXXXXXX');
-            })
-            $('.sms_banglalink').on('click', function() {
-                $('#number').attr('placeholder', '019XXXXXXXX');
-            })
+                $('#showData').val(data);
+            });
 
         });
     </script>

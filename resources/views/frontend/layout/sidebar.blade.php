@@ -105,6 +105,11 @@
                             <i class="icon-globe-alt menu-icon"></i><span class="nav-text">জন্ম নিবন্ধন নাম্বার চেঞ্জ</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{route('bmet_index')}}"  aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">BMET এর সেবা</span>
+                        </a>
+                    </li>
                     {{-- <li>
                       <a href="./accessability.html"  aria-expanded="false">
                           <i class="icon-grid menu-icon"></i><span class="nav-text">Accessability</span>
