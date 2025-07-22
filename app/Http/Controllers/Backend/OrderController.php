@@ -131,7 +131,7 @@ class OrderController extends Controller
     }
 
     public function biometric_show()
-    {
+    {dd('ok');
         $robi_airtel = Service::find(7);
         $banglalink = Service::find(8);
         $teletalk = Service::find(9);
