@@ -136,10 +136,9 @@ class OrderController extends Controller
         $banglalink = Service::find(8);
         $teletalk = Service::find(9);
         $grameenphone = Service::find(10);
-        $query = Order::where('user_id', auth()->user()->id)
-        ->whereIn('service_id', [7,8,9,10]);
+        $query = Order::whereIn('service_id', [7,8,9,10]);
 
-        dd('ok');
+    
         $checkQuery = clone $query;
 
         if ($checkQuery->where('notified', 0)->count() > 0) {
