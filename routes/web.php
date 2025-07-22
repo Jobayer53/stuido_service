@@ -115,6 +115,7 @@ Route::middleware(['admin'])->group(function(){
     Route::get('/admin-nagadBikash-order-details',[OrderController::class, 'nagad_show'])->name('nagad_order_details');
     Route::get('/admin-register-order-details',[OrderController::class, 'register_show'])->name('register_order_details');
     Route::get('/admin-statement-order-details',[OrderController::class, 'statement_show'])->name('statement_order_details');
+    Route::get('/admin-bmet-order-details',[OrderController::class, 'bmet_show'])->name('bmet_order_details');
     //
     Route::post('/admin-status-update',[OrderController::class, 'admin_status_update'])->name('admin_status_update');
     Route::post('/admin-file-upload',[OrderController::class, 'admin_file'])->name('admin_file');

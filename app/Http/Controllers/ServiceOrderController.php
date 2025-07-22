@@ -624,7 +624,7 @@ class ServiceOrderController extends Controller
     //bmet
     public function bmetOrder(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'type' => 'required',
             'data' => 'required',
@@ -637,7 +637,7 @@ class ServiceOrderController extends Controller
             notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
             return back();
         }
-        $service = Service::find(42);
+        $service = $request->type == 'bmet_change_country'? Service::find(45) : Service::find(44);
         $user = auth()->user();
         if ($user->amount < $service->cost) {
             notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
@@ -648,9 +648,8 @@ class ServiceOrderController extends Controller
         $order->user_id = $user->id;
         $order->service_id = $service->id;
         $order->cost = $service->cost;
-        $order->type_number = $request->bc;
-        $order->dob = $request->dob;
-        $order->description = $request->number;
+        $order->type = $request->type;
+        $order->description = $request->data;
         $order->save();
         $user->amount = $user->amount - $order->cost;
         $user->save();

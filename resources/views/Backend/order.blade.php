@@ -172,6 +172,20 @@
                 </div>
             </a>
         </div>
+        <div class="col-lg-2 position-relative">
+            <a href="{{ route('bmet_order_details') }}" class="text-dark">
+                <div class="card shadow position-relative">
+                    @if ($bmet->new > 0)
+                        <span class="blinking-dot"></span>
+                    @endif
+                    <div class="card-header text-center">
+                        <p>BMET </p>
+                        <strong>{{ $bmet->completed == null ? 0 : $bmet->completed }}/{{ $bmet->total }}</strong>
+
+                    </div>
+                </div>
+            </a>
+        </div>
 
     </div>
 @endsection

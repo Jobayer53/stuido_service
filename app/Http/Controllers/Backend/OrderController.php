@@ -18,11 +18,12 @@ class OrderController extends Controller
         $serviceGroups = [
             'biometric' => [7, 8, 9, 10],
             'passport' => [12, 13, 14],
-            'sms' => [16, 17, 18],
+            'sms' => [16, 17, 18,43],
             'imei' => [19, 20, 21, 22, 23, 24],
             'nagad' => [25, 26, 27, 28, 29, 30],
             'register' => [35, 36, 37, 38],
             'statement' => [39, 40],
+            'bmet' => [44,45]
         ];
 
         $stats = [];
@@ -50,6 +51,7 @@ class OrderController extends Controller
             'nagad' => $stats['nagad'],
             'register' => $stats['register'],
             'statement' => $stats['statement'],
+            'bmet' => $stats['bmet'],
             'otherServices' => $otherServices,
         ]);
     }
@@ -190,6 +192,12 @@ class OrderController extends Controller
             ->select(['id', 'slug', 'status', 'cost', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
+            $checkQuery = Order::where('service_id', 11) ->where('notified', 0)->count();
+
+        if($checkQuery > 0){
+            Order::where('service_id', 11)->update(['notified' => 1]);
+        }
+
         return view('Backend.pages.lost_nid_details', [
             'lost_nid' => $lost_nid,
             'orders' => $orders
@@ -198,7 +206,7 @@ class OrderController extends Controller
     public function sms_show()
     {
 
-        $query = Order::  whereIn('service_id', [16, 17, 18]);
+        $query = Order::  whereIn('service_id', [16, 17, 18,43]);
 
 
         $checkQuery = clone $query;
@@ -310,6 +318,24 @@ class OrderController extends Controller
             'orders' => $orders
         ]);
     }
+    public function bmet_show()
+    {
+
+        $query = Order:: whereIn('service_id', [44,45]);
+        $checkQuery = clone $query;
+        if ($checkQuery->where('notified', 0)->count() > 0) {
+            $query->update(['notified' => 1]);
+        }
+        $orders = $query
+            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at'])
+            ->orderByDesc('created_at')
+            ->paginate(20);
+
+        // dd($orders);
+        return view('Backend.pages.bmet_details', [
+            'orders' => $orders
+        ]);
+    }
     public function showOrderBySlug(Request $request)
     {
 
@@ -322,29 +348,32 @@ class OrderController extends Controller
 
         $biometric = [7, 8, 9, 10];
         $passport = [12, 13, 14];
-        $sms = [16, 17, 18];
+        $sms = [16, 17, 18,43];
         $imei = [19, 20, 21, 22, 23, 24];
         $nagad = [25, 26, 27, 28, 29, 30];
         $register = [35, 36, 37, 38];
         $statement = [39, 40];
-
+        $bmet = [44, 45];
 
         // Redirect logic based on group
         if (in_array($order->service_id, $biometric)) {
-            return $this->biometric_show();
+            return redirect(route('biometric_order_details'));
         } elseif (in_array($order->service_id, $passport)) {
-            return $this->passport_show();
+            return redirect(route('passport_order_details'));
         } elseif (in_array($order->service_id, $sms)) {
-            return $this->sms_show();
+            return redirect(route('sms_order_details'));
         } elseif (in_array($order->service_id, $imei)) {
-            return $this->imei_show();
+            return redirect(route('imei_order_details'));
         } elseif (in_array($order->service_id, $nagad)) {
-            return $this->nagad_show();
+            return redirect(route('nagad_order_details'));
         } elseif (in_array($order->service_id, $register)) {
-            return $this->register_show();
+            return redirect(route('register_order_details'));
         } elseif (in_array($order->service_id, $statement)) {
-            return $this->statement_show();
-        } else {
+            return redirect(route('statement_order_details'));
+        }elseif (in_array($order->service_id, $bmet)) {
+            return redirect(route('bmet_order_details'));
+        }
+        else {
             return redirect()->route('admin_order_details', $order->id);
         }
     }
