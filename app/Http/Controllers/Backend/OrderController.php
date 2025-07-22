@@ -37,7 +37,7 @@ class OrderController extends Controller
         $otherServices = Service::whereNotIn('id', $usedIds)
             ->withCount([
                 'orders as total' => fn($q) => $q->whereDate('created_at', today()),
-                'orders as completed' => fn($q) => $q->whereIn('status', ['completed', 'cancelled'])->whereDate('created_at', today()),
+                'orders as completed' => fn($q) => $q ->whereIn('status', ['completed', 'cancelled'])->whereDate('created_at', today()),
                 'orders as new' => fn($q) => $q->where('notified', 0)->whereDate('created_at', today()),
             ])
             ->get();
@@ -138,7 +138,7 @@ class OrderController extends Controller
         $grameenphone = Service::find(10);
         $query = Order::whereIn('service_id', [7,8,9,10]);
 
-    
+
         $checkQuery = clone $query;
 
         if ($checkQuery->where('notified', 0)->count() > 0) {
@@ -162,8 +162,8 @@ class OrderController extends Controller
     public function passport_show()
     {
 
-        $query = Order::where('user_id', auth()->user()->id)
-            ->whereIn('service_id', [12, 13, 14]);
+        $query = Order:: whereIn('service_id', [12, 13, 14]);
+
 
         $checkQuery = clone $query;
 
@@ -185,8 +185,8 @@ class OrderController extends Controller
     public function lostNidShow()
     {
         $lost_nid = Service::find(11);
-        $orders = Order::where('user_id', auth()->user()->id)
-            ->where('service_id', 11)
+        $orders = Order::
+            where('service_id', 11)
             ->select(['id', 'slug', 'status', 'cost', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
@@ -198,8 +198,8 @@ class OrderController extends Controller
     public function sms_show()
     {
 
-        $query = Order::where('user_id', auth()->user()->id)
-            ->whereIn('service_id', [16, 17, 18]);
+        $query = Order::  whereIn('service_id', [16, 17, 18]);
+
 
         $checkQuery = clone $query;
 
@@ -221,8 +221,8 @@ class OrderController extends Controller
     public function imei_show()
     {
 
-        $query = Order::where('user_id', auth()->user()->id)
-            ->whereIn('service_id', [19, 20, 21, 22, 23, 24]);
+        $query = Order:: whereIn('service_id', [19, 20, 21, 22, 23, 24]);
+
 
         $checkQuery = clone $query;
 
@@ -244,8 +244,8 @@ class OrderController extends Controller
     public function nagad_show()
     {
 
-        $query = Order::where('user_id', auth()->user()->id)
-            ->whereIn('service_id', [25, 26, 27, 28, 29, 30]);
+        $query = Order::
+            whereIn('service_id', [25, 26, 27, 28, 29, 30]);
 
         $checkQuery = clone $query;
 
@@ -267,8 +267,8 @@ class OrderController extends Controller
     public function register_show()
     {
 
-        $query = Order::where('user_id', auth()->user()->id)
-            ->whereIn('service_id', [35, 36, 37, 38]);
+        $query = Order::whereIn('service_id', [35, 36, 37, 38]);
+
 
         $checkQuery = clone $query;
 
@@ -290,8 +290,8 @@ class OrderController extends Controller
     public function statement_show()
     {
 
-        $query = Order::where('user_id', auth()->user()->id)
-            ->whereIn('service_id', [39, 40]);
+        $query = Order:: whereIn('service_id', [39, 40]);
+
 
         $checkQuery = clone $query;
 
