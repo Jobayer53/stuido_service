@@ -374,7 +374,8 @@ class OrderController extends Controller
             return redirect(route('bmet_order_details'));
         }
         else {
-            return redirect()->route('admin_order_details', $order->id);
+            
+            return redirect()->route('admin_order_details', $order->service_id);
         }
     }
 }
