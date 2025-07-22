@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Backend;
 
+use PDO;
+use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -104,5 +106,13 @@ class AdminController extends Controller
         $user->save();
         notyf()->position('x', 'right')->position('y', 'top')->success('Profile Updated Successfully');
         return redirect()->back();
+    }
+    public function admin_user_index(){
+        $users = User::paginate(40);
+        $total = User::count();
+        return view('Backend.user',[
+            'users' => $users,
+            'total' => $total
+        ]);
     }
 }

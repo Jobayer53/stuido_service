@@ -103,6 +103,7 @@ Route::middleware(['admin'])->group(function(){
     Route::get('/admin', [AdminController::class, 'index'])->name('admin_index');
     Route::get('/admin-profile', [AdminController::class, 'admin_profile'])->name('admin_profile');
     Route::post('/admin-profile-update', [AdminController::class, 'admin_profile_update'])->name('admin_update');
+    Route::get('/admin-users',[AdminController::class, 'admin_user_index'])->name('admin_user_index');
     Route::get('/admin-services',[ServiceController::class, 'admin_service_index'])->name('admin_service_index');
     Route::post('/services/toggle-status', [ServiceController::class, 'toggleStatus'])->name('services.toggle-status');
     Route::post('/admin-service-update',[ServiceController::class, 'admin_service_update'])->name('admin_service_update');
