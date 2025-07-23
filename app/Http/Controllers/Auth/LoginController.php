@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -23,12 +25,19 @@ class LoginController extends Controller
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8',
         ]);
-        if(!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $user = Auth::user();
+            if ($user->terminate == 0) {
+                notyf()->position('x', 'right')->position('y', 'top')->error('অ্যাকাউন্ট ডিএক্টিভেট, এডমিনের সাথে যোগাযোগ করুন।');
+                Auth::logout();
+                return back();
+            }
+            notyf()->position('x', 'right')->position('y', 'top')->success('সফলভাবে লগইন করা হয়েছে');
+            return redirect()->route('user_home');
+        } else {
             notyf()->position('x', 'right')->position('y', 'top')->error('ভুল ইমেইল/পাসওয়ার্ড!');
             return back();
         }
-             notyf()->position('x', 'right')->position('y', 'top')->success('সফলভাবে লগইন করা হয়েছে');
-        return redirect()->route('user_home');
 
 
     }

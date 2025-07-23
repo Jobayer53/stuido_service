@@ -62,7 +62,7 @@ class OrderController extends Controller
         }
         $service = Service::findOrFail($id);
 
-        $defaultFields = ['id', 'slug', 'status', 'cost', 'created_at',  'service_id', 'downloaded_info'];
+        $defaultFields = ['id','user_id', 'slug', 'status', 'cost', 'created_at',  'service_id', 'downloaded_info'];
         $extraFields = array_keys(ServiceFieldMap::fields()[$service->id] ?? []);
 
         $selectFields = array_merge($defaultFields, $extraFields);
@@ -148,7 +148,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
+            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -174,7 +174,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
+            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -189,7 +189,7 @@ class OrderController extends Controller
         $lost_nid = Service::find(11);
         $orders = Order::
             where('service_id', 11)
-            ->select(['id', 'slug', 'status', 'cost', 'description', 'downloaded_file', 'created_at'])
+            ->select(['id','user_id', 'slug', 'status', 'cost', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
             $checkQuery = Order::where('service_id', 11) ->where('notified', 0)->count();
@@ -216,7 +216,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
+            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -239,7 +239,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at', 'service_id'])
+            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at', 'service_id'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -262,7 +262,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
+            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -285,7 +285,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
+            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -308,7 +308,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
+            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -327,7 +327,7 @@ class OrderController extends Controller
             $query->update(['notified' => 1]);
         }
         $orders = $query
-            ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at'])
+            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -374,7 +374,7 @@ class OrderController extends Controller
             return redirect(route('bmet_order_details'));
         }
         else {
-            
+
             return redirect()->route('admin_order_details', $order->service_id);
         }
     }

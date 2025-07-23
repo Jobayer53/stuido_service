@@ -108,11 +108,43 @@ class AdminController extends Controller
         return redirect()->back();
     }
     public function admin_user_index(){
+           $activeCount = User::where('terminate', 1)->count();
+        $totalUser = User::count();
+        $nextAction = ($activeCount >= ($totalUser / 2)) ? 'Terminate' : 'Activate';
         $users = User::paginate(40);
         $total = User::count();
         return view('Backend.user',[
             'users' => $users,
-            'total' => $total
+            'total' => $total,
+            'status' => $nextAction
         ]);
     }
+    public function user_details($uuid){
+        $user = User::where('uuid', $uuid)->first();
+        return view('Backend.user_details',[
+            'user' => $user
+        ]);
+
+    }
+    public function user_terminate($uuid){
+        $user = User::where('uuid', $uuid)->first();
+        $user->terminate == 0 ? $user->terminate = 1 : $user->terminate = 0;
+        $user->save();
+        notyf()->position('x', 'right')->position('y', 'top')->success('User Terminate Successfully');
+        return redirect()->back();
+    }
+      public function toggleStatus(Request $request)
+    {
+
+        if($request->status == 'Terminate'){
+             User::query()->update(['terminate' => 0]);
+             notyf()->position('x', 'right')->position('y', 'top')->success('All Users Deactivated');
+        }
+        else{
+            User::query()->update(['terminate' => 1]);
+            notyf()->position('x', 'right')->position('y', 'top')->success('All Users activated');
+        }
+        return back();
+    }
+
 }

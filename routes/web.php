@@ -23,7 +23,8 @@ Route::get('/order/download/{order}', [ServiceOrderController::class, 'download'
 
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'check.termination'])->group(function () {
+
     Route::get('/user-home', [FrontendController::class, 'index'])->name('user_home');
     Route::get('/user-setting', [FrontendController::class, 'user_setting'])->name('user_setting');
     Route::post('/user-update', [FrontendController::class, 'user_update'])->name('user_update');
@@ -88,6 +89,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Route::get('/order-cancel/{id}',[ServiceOrderController::class, 'orderCancel'])->name('order_cancel');
+
 });
 
 
@@ -118,10 +120,15 @@ Route::middleware(['admin'])->group(function(){
     Route::get('/admin-register-order-details',[OrderController::class, 'register_show'])->name('register_order_details');
     Route::get('/admin-statement-order-details',[OrderController::class, 'statement_show'])->name('statement_order_details');
     Route::get('/admin-bmet-order-details',[OrderController::class, 'bmet_show'])->name('bmet_order_details');
-    //
+    //stautus and file
     Route::post('/admin-status-update',[OrderController::class, 'admin_status_update'])->name('admin_status_update');
     Route::post('/admin-file-upload',[OrderController::class, 'admin_file'])->name('admin_file');
 
     //search by slug
     Route::post('/seach-by-slug', [OrderController::class, 'showOrderBySlug'])->name('order.slug');
+    //user details
+    Route::get('/user-details/{uuid}',[AdminController::class, 'user_details'])->name('user_details');
+    //user terminate
+    Route::get('/user-terminate/{uuid}',[AdminController::class, 'user_terminate'])->name('user_terminate');
+    Route::post('/user/toggle-status', [AdminController::class, 'toggleStatus'])->name('users.toggle-status');
 });

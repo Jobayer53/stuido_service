@@ -47,7 +47,11 @@
                                 @foreach ($orders as $key => $order)
                                     <tr>
                                         <td>{{ $orders->firstItem() + $key }}</td>
-                                        <td>{{ $order->slug }}</td>
+                                        <td>
+                                             <a  href="{{route('user_details',$order->user->uuid)}}">
+                                                {{ $order->slug }}
+                                            </a>
+                                        </td>
                                         <td>
                                             @if($order->service_id == 19 || $order->service_id == 24)
                                             <button class="btn btn-outline-info btn-sm data showBtn "
@@ -223,7 +227,7 @@
                     $('#data').attr('readonly', false);
                     $('#submitBtn').show();
                     $('#order_ID').val(data.id);
-                
+
                 }
                 $('#data').val(data.downloaded_info);
 

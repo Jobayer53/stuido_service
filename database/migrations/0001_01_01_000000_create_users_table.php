@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('uuid')->unique();
             $table->string('name');
             $table->string('email')->unique();
-            $table->boolean('terminate')->default(false)->nullable();
+            $table->boolean('terminate')->default(true)->nullable();
             $table->string('password');
             $table->string('number');
             $table->decimal('amount')->default(0);

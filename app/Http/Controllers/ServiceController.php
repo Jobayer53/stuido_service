@@ -50,9 +50,6 @@ class ServiceController extends Controller
             Service::query()->update(['available' => 1]);
             notyf()->position('x', 'right')->position('y', 'top')->success('All services activated');
         }
-
-
-
         return back();
     }
 

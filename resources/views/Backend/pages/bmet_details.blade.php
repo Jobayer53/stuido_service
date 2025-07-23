@@ -47,7 +47,11 @@
                                 @foreach ($orders as $key => $order)
                                     <tr>
                                         <td>{{ $orders->firstItem() + $key }}</td>
-                                        <td>{{ $order->slug }}</td>
+                                        <td>
+                                             <a  href="{{route('user_details',$order->user->uuid)}}">
+                                                {{ $order->slug }}
+                                            </a>
+                                        </td>
                                         <td>
                                              <button class="btn btn-outline-info btn-sm data showBtn "
                                                 data-bs-toggle="modal" data-bs-target="#showModal"

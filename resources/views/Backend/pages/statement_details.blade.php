@@ -47,7 +47,11 @@
                                 @foreach ($orders as $key => $order)
                                     <tr>
                                         <td>{{ $orders->firstItem() + $key }}</td>
-                                        <td>{{ $order->slug }}</td>
+                                         <td>
+                                             <a  href="{{route('user_details',$order->user->uuid)}}">
+                                                {{ $order->slug }}
+                                            </a>
+                                        </td>
                                         <td>
                                           <div class="d-flex flex-column">
                                                 <span>Option: <strong>{{ $order->type }}</strong></span>
@@ -152,7 +156,7 @@
                 $(this).closest('form').submit(); // Submit only the related form
             });
 
-           
+
 
 
         });
