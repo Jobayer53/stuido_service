@@ -8,8 +8,10 @@ use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\ServerCopyController;
+use App\Models\Payment;
 
 Auth::routes();
 Route::get('/', function () {return redirect()->route('user_home');});
@@ -28,6 +30,11 @@ Route::middleware(['auth', 'check.termination'])->group(function () {
     Route::get('/user-home', [FrontendController::class, 'index'])->name('user_home');
     Route::get('/user-setting', [FrontendController::class, 'user_setting'])->name('user_setting');
     Route::post('/user-update', [FrontendController::class, 'user_update'])->name('user_update');
+    Route::get('/user-payment', [FrontendController::class, 'payment'])->name('user_payment');
+    //bkash
+    Route::post('/user-payment-store', [PaymentController::class, 'initiatePayment'])->name('payment_store');
+    Route::get('/bkash/callback', [PaymentController::class, 'bkashCallback'])->name('bkash.callback');
+
     // server copy
     Route::get('/server-copy',[ServiceController::class, 'serverCopyIndex'])->name('server_copy_index');
     Route::post('/order-server-copy',[ServiceOrderController::class, 'serverCopyOrder'])->name('order_server_copy');

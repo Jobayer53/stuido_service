@@ -50,9 +50,9 @@ class FrontendController extends Controller
         $user->save();
         notyf()->position('x', 'right')->position('y', 'top')->success('আপনার প্রোফাইল সফলভাবে আপডেট করা হয়েছে।');
         return redirect()->back();
-
-
-
-
     }
+    public function payment(){
+        return view('frontend.payment');
+    }
+ 
 }

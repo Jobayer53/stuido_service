@@ -2,8 +2,8 @@
 @section('content')
     {{-- <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span> অ্যাকাউন্ট সেটিংস </h4> --}}
 
-    <div class="row p-2">
-        <div class="col-lg-12  ">
+    <div class="row p-2 mb-5">
+        <div class="col-lg-12 mb-5 ">
             {{-- <ul class="nav nav-pills flex-column flex-md-row mb-3">
                     <li class="nav-item">
                       <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i> অ্যাকাউন্ট </a>
