@@ -17,6 +17,7 @@ class BkashPaymentService
     {
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
             'username' => env('BKASH_USERNAME'),
             'password' => env('BKASH_PASSWORD'),
         ])->post(env('BKASH_BASE_URL') . '/token/grant', [
