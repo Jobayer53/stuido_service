@@ -112,7 +112,7 @@ class BkashPaymentService
             $responseData = $response->json();
 
             if ($response->successful()) {
-                dd($responseData);
+                return $responseData;
             }
 
             Log::error('bKash Create Payment Error: ', $responseData);
@@ -147,7 +147,8 @@ class BkashPaymentService
             $responseData = $response->json();
 
             if ($response->successful()) {
-                return $responseData;
+                // return $responseData;
+                dd($responseData);
             }
 
             Log::error('bKash Execute Payment Error: ', $responseData);
