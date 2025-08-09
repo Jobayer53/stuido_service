@@ -34,6 +34,7 @@ Route::middleware(['auth', 'check.termination'])->group(function () {
     //bkash
     Route::post('/user-payment-store', [PaymentController::class, 'initiatePayment'])->name('payment_store');
     Route::get('/bkash/callback', [PaymentController::class, 'bkashCallback'])->name('bkash.callback');
+    Route::get('/payment/failed', [PaymentController::class, 'paymentFailed'])->name('payment.failed');
 
     // server copy
     Route::get('/server-copy',[ServiceController::class, 'serverCopyIndex'])->name('server_copy_index');

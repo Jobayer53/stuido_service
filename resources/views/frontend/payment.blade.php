@@ -14,7 +14,7 @@
                         @csrf
                         <div class="mb-3 text-center">
                             <label for="" class="form-label ">টাকার পরিমান লিখুন।</label>
-                            <input type="number" min="50" class="form-control form-control-sm" name="amount" id="amount" required="50">
+                            <input type="number" min="50" class="form-control form-control-sm" name="amount" id="amount" required="50" placeholder="50">
                         </div>
                         <div class="mb-3 text-center">
                            <button type="submit" class="btn btn-primary btn-sm ">পে করুন</button>

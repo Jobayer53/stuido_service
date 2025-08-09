@@ -5,10 +5,10 @@
 <div class="nav-header">
     <div class="brand-logo">
         <a href="index.html">
-            <b class="logo-abbr"><img src="images/logo.png" alt=""> </b>
-            <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span>
+            <b class="logo-abbr"><img src="{{asset('frontend/images/logo-white.png')}}" alt="" class="img-fluid" style="margin: 0px 0px;"> </b>
+            <span class="logo-compact"><img src="{{asset('frontend/images/text-white.png')}}" alt=""></span>
             <span class="brand-title">
-                <img src="images/logo-text.png" alt="">
+                <img src="{{asset('frontend/images/text-white.png')}}" alt="" class="img-fluid" style="margin: -11px -8px;">
             </span>
         </a>
     </div>
@@ -41,7 +41,7 @@
                 <li class="icons dropdown">
                     <div class="user-img c-pointer position-relative" data-toggle="dropdown">
                         <span class="activity active"></span>
-                        <img src="{{asset('frontend/images/user/1.png')}}" height="40" width="40" alt="">
+                        <img src="{{asset('frontend/images/user/form-user.png')}}" height="40" width="40" alt="">
                     </div>
                     <div class="drop-down dropdown-profile   dropdown-menu">
                         <div class="dropdown-content-body">
