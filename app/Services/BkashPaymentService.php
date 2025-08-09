@@ -95,7 +95,7 @@ class BkashPaymentService
             }
             $payload = [
                 'mode' => '0011',
-                'payerReference' => '01619777282', // or customer’s phone number
+                'payerReference' => 'N/A', // or customer’s phone number
                 'callbackURL' => env('BKASH_CALLBACK_URL'),
                 'amount' => number_format($amount, 2, '.', ''), // convert to string with 2 decimals
                 'currency' => 'BDT',
@@ -112,7 +112,8 @@ class BkashPaymentService
             $responseData = $response->json();
 
             if ($response->successful()) {
-                return $responseData;
+                // return $responseData;
+                dd($responseData);
             }
 
             Log::error('bKash Create Payment Error: ', $responseData);
@@ -140,15 +141,15 @@ class BkashPaymentService
                 'Accept' => 'application/json',
                 'Authorization' => $token,
                 'X-APP-Key' => $this->appKey,
-            ])->post($executeUrl, [
+            ])->post(env('BKASH_BASE_URL') . '/checkout/execute', [
                 'paymentID' => $paymentID
             ]);
 
             $responseData = $response->json();
 
+            dd($responseData);
             if ($response->successful()) {
                 // return $responseData;
-                dd($responseData);
             }
 
             Log::error('bKash Execute Payment Error: ', $responseData);
