@@ -12,17 +12,17 @@ class PaymentController extends Controller
 {
     public function initiatePayment(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric|min:50',
-        ], [
-            'amount.required' => 'আপনার পরিমাণ লিখুন',
-            'amount.min' => ' কমপক্ষে ৫০৳ রিচার্জ করতে হবে',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'amount' => 'required|numeric|min:50',
+        // ], [
+        //     'amount.required' => 'আপনার পরিমাণ লিখুন',
+        //     'amount.min' => ' কমপক্ষে ৫০৳ রিচার্জ করতে হবে',
+        // ]);
 
-        if ($validator->fails()) {
-            notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
-            return redirect()->back();
-        }
+        // if ($validator->fails()) {
+        //     notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
+        //     return redirect()->back();
+        // }
 
         try {
             $amount = $request->amount;
