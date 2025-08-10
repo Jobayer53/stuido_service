@@ -18,7 +18,7 @@ class AdminController extends Controller
     public function index()
     {
         $todays_amount = Order::where('created_at',now())->sum('cost');
-        dd($todays_amount);
+        // dd($todays_amount);
         return view('Backend.index');
     }
     public function admin_login()
