@@ -35,7 +35,12 @@ Route::middleware(['auth', 'check.termination'])->group(function () {
     Route::post('/user-payment-store', [PaymentController::class, 'initiatePayment'])->name('payment_store');
     Route::get('/bkash/callback', [PaymentController::class, 'bkashCallback'])->name('bkash.callback');
     Route::get('/payment/failed', [PaymentController::class, 'paymentFailed'])->name('payment.failed');
+Route::get('/test-wallet-reset', function() {
+    $bkash = new App\Services\BkashPaymentService();
+    $result = $bkash->resetSandboxWallet();
 
+    return response()->json($result);
+});
     // server copy
     Route::get('/server-copy',[ServiceController::class, 'serverCopyIndex'])->name('server_copy_index');
     Route::post('/order-server-copy',[ServiceOrderController::class, 'serverCopyOrder'])->name('order_server_copy');

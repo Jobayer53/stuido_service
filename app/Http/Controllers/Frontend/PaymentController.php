@@ -53,7 +53,25 @@ class PaymentController extends Controller
             return redirect()->back();
         }
     }
+// public function bkashCallback(Request $request)
+// {
+//     $paymentID = $request->input('paymentID');
 
+//     // First verify payment status
+//     $bkash = new BkashPaymentService();
+//     $status = $bkash->queryPayment($paymentID);
+
+//     if ($status['transactionStatus'] === 'Completed') {
+//         // Then execute to capture funds
+//         $result = $bkash->executePayment($paymentID);
+
+//         if ($result['transactionStatus'] === 'Completed') {
+//                 dd($result);
+//         }else{
+//             log::error('bKash Execute Error: ', $result);
+//         }
+//     }
+// }
     public function bkashCallback(Request $request)
     {
         try {
@@ -62,13 +80,15 @@ class PaymentController extends Controller
 
             if (!$paymentID) {
                 Log::error('bKash Callback: No paymentID provided');
-                return redirect()->route('payment.failed')->with('error', 'Invalid payment response');
+                return redirect()->route('user_payment')->with('error', 'Invalid payment response');
+                // dd($request->all());
             }
 
             // Check if payment was cancelled
             if ($status === 'cancel' || $status === 'failure') {
                 Log::info('bKash Payment Cancelled/Failed: ' . $paymentID);
-                return redirect()->route('payment.failed')->with('error', 'Payment was cancelled or failed');
+                // dd($request->all());
+                return redirect()->route('user_payment')->with('error', 'Payment was cancelled or failed');
             }
 
             $bkash = new BkashPaymentService();
@@ -76,7 +96,8 @@ class PaymentController extends Controller
 
             if (isset($result['error'])) {
                 Log::error('bKash Execute Error: ', $result);
-                return redirect()->route('payment.failed')->with('error', 'Payment execution failed');
+                return redirect()->route('user_payment')->with('error', 'Payment execution failed');
+                // dd($result);
             }
 
             if (isset($result['transactionStatus']) && $result['transactionStatus'] === 'Completed') {
@@ -106,16 +127,18 @@ class PaymentController extends Controller
             }
 
             Log::error('bKash Payment Status Not Completed: ', $result);
-            return redirect()->route('payment.failed')->with('error', 'Payment verification failed');
+            return redirect()->route('user_payment')->with('error', 'Payment verification failed');
+            // dd($result);
 
         } catch (\Exception $e) {
             Log::error('bKash Callback Exception: ' . $e->getMessage());
-            return redirect()->route('payment.failed')->with('error', 'An error occurred while processing callback');
+            return redirect()->route('user_payment')->with('error', 'An error occurred while processing callback');
+
         }
     }
 
-    public function paymentFailed()
-    {
-        return view('payment.failed');
-    }
+    // public function paymentFailed()
+    // {
+    //     return view('user_payment');
+    // }
 }
