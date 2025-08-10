@@ -32,7 +32,7 @@
         <div class="header-right">
             <ul class="clearfix">
                 <li class="icons dropdown">
-                    <a href="javascript:void(0)" class="mb-1">
+                    <a href="{{ route('user_payment') }}" class="mb-1">
                         <span class="btn btn-outline-primary">{{ number_format(auth()->user()->amount, 0) }}৳</span>
                         {{-- <span class="badge badge-pill gradient-2">3</span> --}}
                     </a>

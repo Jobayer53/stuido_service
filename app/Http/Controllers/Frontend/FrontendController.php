@@ -5,18 +5,28 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Service;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class FrontendController extends Controller
 {
-        public function index(){
-        return view('frontend.index');
+    public function index()
+    {
+        $services_status = Service::where('available', 1)->exists() ? false : true;
+        $recent_orders = Order::where('user_id', auth()->user()->id)->latest()->take(10)->get();
+        return view('frontend.index', [
+            'services_status' => $services_status,
+            'recent_orders' => $recent_orders
+        ]);
     }
-    public function user_setting(){
+    public function user_setting()
+    {
         return view('frontend.setting');
     }
-    public function user_update(Request $request){
+    public function user_update(Request $request)
+    {
         $user = auth()->user();
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
@@ -24,7 +34,7 @@ class FrontendController extends Controller
             'old_password' => 'nullable|required_with:new_password',
             'new_password' => 'nullable|required_with:old_password|string|min:8',
 
-        ],[
+        ], [
             'name.required' => 'আপনার নাম লিখুন',
             'password.required' => 'আপনার পাসওয়ার্ড লিখুন',
             'old_password.required_with' => 'পুরাতন পাসওয়ার্ড লিখুন',
@@ -38,8 +48,8 @@ class FrontendController extends Controller
             notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
             return redirect()->back();
         }
-        if($request->old_password){
-            if(!Hash::check($request->old_password, $user->password)){
+        if ($request->old_password) {
+            if (!Hash::check($request->old_password, $user->password)) {
                 notyf()->position('x', 'right')->position('y', 'top')->error('পুরাতন পাসওয়ার্ড ভুল');
                 return redirect()->back();
             }
@@ -52,13 +62,13 @@ class FrontendController extends Controller
         notyf()->position('x', 'right')->position('y', 'top')->success('আপনার প্রোফাইল সফলভাবে আপডেট করা হয়েছে।');
         return redirect()->back();
     }
-    public function payment(){
+    public function payment()
+    {
         $payments = Payment::where('user_id', auth()->user()->id)->paginate(30);
         $total = Payment::where('user_id', auth()->user()->id)->sum('amount');
-        return view('frontend.payment',[
+        return view('frontend.payment', [
             'payments' => $payments,
             'total' => $total
         ]);
     }
-
 }

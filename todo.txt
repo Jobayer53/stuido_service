@@ -2,3 +2,8 @@ frontend take(10) change to paginate and write pagination on frontend blade DONE
 admin service active deactive DONE
 search by slug DONE.
 
+frontend dashboard page:
+sow recent 10 order data
+
+recharge button
+

@@ -27,7 +27,7 @@
 
         </div>
     </div>
-    <div class="row mb-5">
+    <div class="row mb-5 p-2">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
