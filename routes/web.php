@@ -34,13 +34,8 @@ Route::middleware(['auth', 'check.termination'])->group(function () {
     //bkash
     Route::post('/user-payment-store', [PaymentController::class, 'initiatePayment'])->name('payment_store');
     Route::get('/bkash/callback', [PaymentController::class, 'bkashCallback'])->name('bkash.callback');
-    Route::get('/payment/failed', [PaymentController::class, 'paymentFailed'])->name('payment.failed');
-Route::get('/test-wallet-reset', function() {
-    $bkash = new App\Services\BkashPaymentService();
-    $result = $bkash->resetSandboxWallet();
 
-    return response()->json($result);
-});
+
     // server copy
     Route::get('/server-copy',[ServiceController::class, 'serverCopyIndex'])->name('server_copy_index');
     Route::post('/order-server-copy',[ServiceOrderController::class, 'serverCopyOrder'])->name('order_server_copy');
@@ -124,6 +119,8 @@ Route::middleware(['admin'])->group(function(){
     Route::post('/admin-service-update',[ServiceController::class, 'admin_service_update'])->name('admin_service_update');
     Route::get('/admin-orders',[OrderController::class, 'index'])->name('admin_order');
     Route::get('/admin-order-details/{id}',[OrderController::class, 'show'])->name('admin_order_details');
+    Route::get('/admin-user-payments',[AdminController::class, 'payment'])->name('admin_user_payment');
+
     // single page
     Route::get('/admin-biometric-order-details',[OrderController::class, 'biometric_show'])->name('biometric_order_details');
     Route::get('/admin-passport-order-details',[OrderController::class, 'passport_show'])->name('passport_order_details');

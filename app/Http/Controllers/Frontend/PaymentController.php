@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use App\Services\BkashPaymentService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
@@ -12,17 +13,17 @@ class PaymentController extends Controller
 {
     public function initiatePayment(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'amount' => 'required|numeric|min:50',
-        // ], [
-        //     'amount.required' => 'আপনার পরিমাণ লিখুন',
-        //     'amount.min' => ' কমপক্ষে ৫০৳ রিচার্জ করতে হবে',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'amount' => 'required|numeric|min:50',
+        ], [
+            'amount.required' => 'আপনার পরিমাণ লিখুন',
+            'amount.min' => ' কমপক্ষে ৫০৳ রিচার্জ করতে হবে',
+        ]);
 
-        // if ($validator->fails()) {
-        //     notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
-        //     return redirect()->back();
-        // }
+        if ($validator->fails()) {
+            notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
+            return redirect()->back();
+        }
 
         try {
             $amount = $request->amount;
@@ -53,25 +54,7 @@ class PaymentController extends Controller
             return redirect()->back();
         }
     }
-// public function bkashCallback(Request $request)
-// {
-//     $paymentID = $request->input('paymentID');
 
-//     // First verify payment status
-//     $bkash = new BkashPaymentService();
-//     $status = $bkash->queryPayment($paymentID);
-
-//     if ($status['transactionStatus'] === 'Completed') {
-//         // Then execute to capture funds
-//         $result = $bkash->executePayment($paymentID);
-
-//         if ($result['transactionStatus'] === 'Completed') {
-//                 dd($result);
-//         }else{
-//             log::error('bKash Execute Error: ', $result);
-//         }
-//     }
-// }
     public function bkashCallback(Request $request)
     {
         try {
@@ -80,15 +63,16 @@ class PaymentController extends Controller
 
             if (!$paymentID) {
                 Log::error('bKash Callback: No paymentID provided');
-                return redirect()->route('user_payment')->with('error', 'Invalid payment response');
+                notyf()->position('x', 'right')->position('y', 'top')->error('Invalid payment response');
+                return redirect()->route('user_payment');
                 // dd($request->all());
             }
 
             // Check if payment was cancelled
             if ($status === 'cancel' || $status === 'failure') {
                 Log::info('bKash Payment Cancelled/Failed: ' . $paymentID);
-                // dd($request->all());
-                return redirect()->route('user_payment')->with('error', 'Payment was cancelled or failed');
+               notyf()->position('x', 'right')->position('y', 'top')->error('Payment was cancelled or failed');
+                return redirect()->route('user_payment');
             }
 
             $bkash = new BkashPaymentService();
@@ -96,39 +80,37 @@ class PaymentController extends Controller
 
             if (isset($result['error'])) {
                 Log::error('bKash Execute Error: ', $result);
-                return redirect()->route('user_payment')->with('error', 'Payment execution failed');
+                notyf()->position('x', 'right')->position('y', '')->error('Payment execution failed');
+                return redirect()->route('user_payment');
                 // dd($result);
             }
 
             if (isset($result['transactionStatus']) && $result['transactionStatus'] === 'Completed') {
-                // Clear session data
                 session()->forget('bkash_payment_id');
-
-                // Log successful payment
                 Log::info('bKash Payment Successful: ', $result);
-
-                // Here you should update your database with payment information
-                // Example:
-                // $user = auth()->user();
-                // $user->balance += $result['amount'];
-                // $user->save();
-
-                // Create payment record
-                // Payment::create([
-                //     'user_id' => auth()->id(),
-                //     'transaction_id' => $result['trxID'],
-                //     'payment_id' => $paymentID,
-                //     'amount' => $result['amount'],
-                //     'status' => 'completed'
-                // ]);
-
-                notyf()->position('x', 'right')->position('y', 'top')->success('Payment completed successfully!');
-                return redirect()->route('dashboard')->with('success', 'Payment completed successfully!');
+                //user
+                $user = auth()->user();
+                $user->amount += $result['amount'];
+                $user->save();
+                //payment
+                $payment = new Payment();
+                $payment->user_id = $user->id;
+                $payment->amount = $result['amount'];
+                $payment->payment_id = $paymentID;
+                $payment->transaction_id = $result['trxID'];
+                $payment->invoice = $result['merchantInvoiceNumber'];
+                $payment->status = $result['transactionStatus'];
+                $payment->statusMessage = $result['statusMessage'];
+                $payment->status_code = $result['statusCode'];
+                $payment->msisdn = $result['customerMsisdn'];
+                $payment->save();
+                notyf()->position('x', 'right')->position('y', 'bottom')->success('আপনার পেমেন্ট সম্পুর্ণ হয়েছে।');
+                return redirect()->route('user_home');
             }
 
             Log::error('bKash Payment Status Not Completed: ', $result);
             return redirect()->route('user_payment')->with('error', 'Payment verification failed');
-            // dd($result);
+
 
         } catch (\Exception $e) {
             Log::error('bKash Callback Exception: ' . $e->getMessage());
@@ -137,8 +119,5 @@ class PaymentController extends Controller
         }
     }
 
-    // public function paymentFailed()
-    // {
-    //     return view('user_payment');
-    // }
+
 }

@@ -5,7 +5,7 @@
         <div class="brand-logo d-flex align-items-center justify-content-between">
           <a href="./index.html" class="text-nowrap logo-img">
 
-            {{-- <img src="../assets/images/logos/dark-logo.svg" width="180" alt="" /> --}}
+            <img src="{{asset('frontend/images/text.png')}}" class="img-fluid" alt="" />
           </a>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
             <i class="ti ti-x fs-8"></i>
@@ -52,6 +52,14 @@
                   <i class="ti ti-cards"></i>
                 </span>
                 <span class="hide-menu">Users</span>
+              </a>
+            </li>
+             <li class="sidebar-item">
+              <a class="sidebar-link" href="{{route('admin_user_payment')}}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-cards"></i>
+                </span>
+                <span class="hide-menu">Payments</span>
               </a>
             </li>
             {{-- <li class="nav-small-cap">

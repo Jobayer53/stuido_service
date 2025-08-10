@@ -16,11 +16,18 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->decimal('amount');
             $table->string('payment_id')->nullable();
-            $table->string('payment_method')->nullable();
+            // $table->string('payment_method')->nullable();
+            $table->string('transaction_id')->nullable();
+            $table->string('invoice')->nullable();
             $table->string('status')->nullable();
+            $table->string('statusMessage')->nullable();
+            $table->string('status_code')->nullable();
+            $table->string('msisdn')->nullable();
             $table->timestamps();
         });
     }
+
+
 
     /**
      * Reverse the migrations.

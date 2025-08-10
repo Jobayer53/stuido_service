@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -52,7 +53,12 @@ class FrontendController extends Controller
         return redirect()->back();
     }
     public function payment(){
-        return view('frontend.payment');
+        $payments = Payment::where('user_id', auth()->user()->id)->paginate(30);
+        $total = Payment::where('user_id', auth()->user()->id)->sum('amount');
+        return view('frontend.payment',[
+            'payments' => $payments,
+            'total' => $total
+        ]);
     }
- 
+
 }

@@ -4,7 +4,7 @@
         ***********************************-->
 <div class="nav-header">
     <div class="brand-logo">
-        <a href="index.html">
+        <a href="{{ route('user_home') }}">
             <b class="logo-abbr"><img src="{{asset('frontend/images/logo-white.png')}}" alt="" class="img-fluid" style="margin: 0px 0px;"> </b>
             <span class="logo-compact"><img src="{{asset('frontend/images/text-white.png')}}" alt=""></span>
             <span class="brand-title">

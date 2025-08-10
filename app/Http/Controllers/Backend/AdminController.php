@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -145,6 +146,14 @@ class AdminController extends Controller
             notyf()->position('x', 'right')->position('y', 'top')->success('All Users activated');
         }
         return back();
+    }
+    public function payment(){
+        $payments = Payment::paginate(50);
+        $total = Payment::sum('amount');
+        return view('Backend.payment',[
+            'payments' => $payments,
+            'total' => $total
+        ]);
     }
 
 }
