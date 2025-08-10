@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Backend;
 use PDO;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Order;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +17,8 @@ class AdminController extends Controller
 {
     public function index()
     {
+        $todays_amount = Order::where('created_at',now())->sum('cost');
+        dd($todays_amount);
         return view('Backend.index');
     }
     public function admin_login()

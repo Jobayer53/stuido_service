@@ -29,7 +29,7 @@
              <li class="sidebar-item">
               <a class="sidebar-link" href="{{route('admin_order')}}" aria-expanded="false">
                 <span>
-                  <i class="ti ti-cards"></i>
+                  <i class="ti ti-article"></i>
                 </span>
                 <span class="hide-menu">Orders</span>
               </a>
@@ -49,7 +49,7 @@
              <li class="sidebar-item">
               <a class="sidebar-link" href="{{route('admin_user_index')}}" aria-expanded="false">
                 <span>
-                  <i class="ti ti-cards"></i>
+                  <i class="ti ti-user-plus"></i>
                 </span>
                 <span class="hide-menu">Users</span>
               </a>
@@ -57,7 +57,7 @@
              <li class="sidebar-item">
               <a class="sidebar-link" href="{{route('admin_user_payment')}}" aria-expanded="false">
                 <span>
-                  <i class="ti ti-cards"></i>
+                  <i class="ti ti-file-description"></i>
                 </span>
                 <span class="hide-menu">Payments</span>
               </a>
