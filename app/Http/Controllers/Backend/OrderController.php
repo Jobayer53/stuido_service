@@ -42,7 +42,9 @@ class OrderController extends Controller
                 'orders as new' => fn($q) => $q->where('notified', 0)->whereDate('created_at', today()),
             ])
             ->get();
-
+        $completed = Order::where('status', 'completed')->count();
+        $pending = Order::where('status', 'pending')->count();
+        $canceled = Order::where('status', 'cancelled')->count();
         return view('Backend.order', [
             'biometric' => $stats['biometric'],
             'passport' => $stats['passport'],
@@ -53,6 +55,9 @@ class OrderController extends Controller
             'statement' => $stats['statement'],
             'bmet' => $stats['bmet'],
             'otherServices' => $otherServices,
+            'completed' => $completed,
+            'pending' => $pending,
+            'canceled' => $canceled
         ]);
     }
     public function show($id)

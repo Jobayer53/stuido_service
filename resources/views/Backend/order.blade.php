@@ -28,18 +28,47 @@
     </style>
 @endsection
 @section('content')
-<div class="row mb-3">
-    <div class="col-lg-12">
-        <form action="{{route('order.slug')}}" class="float-end" method="POST">
-            @csrf
-            <div class="d-flex">
+    <div class="row mb-3">
 
-                <input type="text" class="form-control" name="slug" placeholder="Search by Slug" required>
-                <button class="btn btn-primary ms-2 ">Search</button>
+         <div class="col-lg-2">
+            <div class="card p-3">
+               <div class="d-flex justify-content-around">
+                    <h5 class=" mb-0 text-muted  ">Pending:</h5>
+                    <span class=" fw-semibold text-dark">{{ $pending }}</span>
+                </div>
             </div>
-        </form>
+        </div>
+         <div class="col-lg-2">
+            <div class="card p-3">
+               <div class="d-flex justify-content-around">
+                    <h5 class=" mb-0 text-muted  ">Compelted:</h5>
+                    <span class=" fw-semibold text-dark"> {{ $completed }} </span>
+                </div>
+            </div>
+        </div>
+         <div class="col-lg-2">
+            <div class="card p-3">
+               <div class="d-flex justify-content-around">
+                    <h5 class=" mb-0 text-muted  ">Canceled:</h5>
+                    <span class=" fw-semibold text-dark">{{ $canceled }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card p-2">
+                <form action="{{ route('order.slug') }}" class="float-end" method="POST">
+                    @csrf
+                    <div class="d-flex">
+
+                        <input type="text" class="form-control" name="slug" placeholder="Search by Slug" required>
+                        <button class="btn btn-primary ms-2 ">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
-</div>
     <div class="row">
         @forelse ($otherServices as $service)
             <div class="col-lg-2 position-relative">

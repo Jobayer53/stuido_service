@@ -3,17 +3,15 @@ admin service active deactive DONE
 search by slug DONE.
 
 frontend dashboard page:
-sow recent 10 order data
+sow recent 10 order  DONE
 
-recharge button
+recharge button DONE
 
 backend dashboard
 
 todays total orders DONE
-todays recharge
+todays recharge DONE
 
-monthly total orders
-monthly recharge
 
 most recharged person
 most orderd person
