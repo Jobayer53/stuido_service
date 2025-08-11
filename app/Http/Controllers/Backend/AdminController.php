@@ -20,7 +20,6 @@ class AdminController extends Controller
 {
     public function index()
     {
-        // dd(date('Y-m-d'));
         $todays_amount = Order::whereDate('created_at', date('Y-m-d')) ->sum('cost');
         $todays_totalOrder = Order::whereDate('created_at', date('Y-m-d'))->count();
         $todays_totalRecharge = Payment::whereDate('created_at', date('Y-m-d'))->sum('amount');
