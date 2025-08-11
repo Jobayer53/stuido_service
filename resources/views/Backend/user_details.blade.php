@@ -28,7 +28,7 @@
                         <span class="mb-3">Created: {{$user->created_at->format('j F y').' ('.$user->created_at->diffForHumans().')' }}</span>
                         <span class="mb-3">Total Oders: {{ $user->total_orders->count() }}</span>
                         <span class="mb-3">Total Recharge: ৳{{$total_recharge}} </span>
-                        <span class="mb-3">Last Recharge: ৳{{$last_recharge ?? 0}}</span>
+                        <span class="mb-3">Last Recharge: ৳{{$last_recharge->amount ?? 0}}</span>
 
                     </div>
                 </div>
