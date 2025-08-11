@@ -7,3 +7,14 @@ sow recent 10 order data
 
 recharge button
 
+backend dashboard
+
+todays total orders DONE
+todays recharge
+
+monthly total orders
+monthly recharge
+
+most recharged person
+most orderd person
+
