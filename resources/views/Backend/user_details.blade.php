@@ -11,7 +11,7 @@
                         <span class="mb-3">Name: {{ $user->name }}</span>
                         <span class="mb-3">Email: {{ $user->email }}</span>
                         <span class="mb-3">Phone: {{ $user->number }}</span>
-                        <span class="mb-3">Amount: {{ {{number_format($user->amount,0)}} }}</span>
+                        <span class="mb-3">Amount: {{ number_format($user->amount,0) }}</span>
                         <span class="mb-3">Status: {{ $user->terminate == 1 ? 'Active' : 'Terminated' }}</span>
 
                     </div>
