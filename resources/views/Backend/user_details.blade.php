@@ -27,8 +27,8 @@
                     <div class="d-flex flex-column">
                         <span class="mb-3">Created: {{$user->created_at->format('j F y').' ('.$user->created_at->diffForHumans().')' }}</span>
                         <span class="mb-3">Total Oders: {{ $user->total_orders->count() }}</span>
-                        <span class="mb-3">Total Deposit: </span>
-                        <span class="mb-3">Last Deposit: </span>
+                        <span class="mb-3">Total Recharge: ৳{{$total_recharge}} </span>
+                        <span class="mb-3">Last Recharge: ৳{{$last_recharge ?? 0}}</span>
 
                     </div>
                 </div>

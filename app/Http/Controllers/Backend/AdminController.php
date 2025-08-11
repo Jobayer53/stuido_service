@@ -199,8 +199,14 @@ class AdminController extends Controller
     public function user_details($uuid)
     {
         $user = User::where('uuid', $uuid)->first();
+        $last_recharge = Payment::where('user_id', $user->id)->orderBy('id', 'desc')->first();
+        $total_recharge = Payment::where('user_id', $user->id)->sum('amount');
+
         return view('Backend.user_details', [
-            'user' => $user
+            'user' => $user,
+            'last_recharge' => $last_recharge,
+            'total_recharge' => $total_recharge,
+           
         ]);
     }
     public function user_terminate($uuid)
