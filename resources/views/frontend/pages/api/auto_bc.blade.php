@@ -1,0 +1,363 @@
+@extends('frontend.layout.frontend_app')
+
+@section('style')
+    <style>
+        .text-container {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .animated-text {
+            /* display: inline-block; */
+            /* white-space: nowrap; */
+            animation: moveText 8s linear infinite;
+        }
+
+        @keyframes moveText {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-45%);
+            }
+        }
+    </style>
+@endsection
+
+@section('content')
+    {{-- @include('frontend.layout.floating_text') --}}
+    <div class="row mt-3 ">
+        <div class="col-lg-6 m-auto ">
+            @if ($service->available == 1)
+            <div class="card">
+                <h5 class="card-header text-center">এক ক্লিকে অটো নিবন্ধন ডাউনলোড</h5>
+                <div class="card-body">
+                    <form id="auto_bc_form">
+                        @csrf
+
+                        <div class="mb-3">
+                            <label for="" class="form-label">BIRTH REG NO</label>
+                            <input type="text" class="form-control" name="brn" id="" placeholder="123567890"
+                                autofocus required value="{{ old('brn') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Date Of Birth (YYYY-MM-DD)</label>
+                            <input type="text" class="form-control" name="dob" id=""
+                                placeholder="2000-12-21" autofocus required>
+                        </div>
+                        <span class="text-danger fw-semibold mb-3" id="autoBc_error"></span>
+                         <div class="mb-1 text-center">
+                                <small class="">আপনার একাউন্ট থেকে <span
+                                        class="text-danger">{{ number_format($service->cost, 0) }} টাকা</span> কেটে নেয়া
+                                    হবে !</small>
+
+                            </div>
+                        <div class=" text-center">
+                            <button class="btn btn-primary btn-sm " type="submit" id="orderBtn">তথ্য দেখুন</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            @else
+                <div class="card">
+                    <h5 class="card-header text-center mb-4">অটো নিবন্ধন</h5>
+                    <div class="card-body">
+                        <i class=" text-danger d-flex  justify-content-center mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-clock-pause">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M20.942 13.018a9 9 0 1 0 -7.909 7.922" />
+                                <path d="M12 7v5l2 2" />
+                                <path d="M17 17v5" />
+                                <path d="M21 17v5" />
+                            </svg>
+                        </i>
+                        <p class="text-center text-danger">কাজ বন্ধ আছে!</p>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+    <div class="row p-2">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0 fw-semibold">জন্ম নিবন্ধন তথ্য <span class="text-danger warning float-right d-none"
+                            style="font-size: 12px">*পেইজ রিফ্রেশ করলে তথ্য চলে যাবে*</span></h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{route('api_autoBc_download')}}" id=""method="POST" target="_blank">
+                        @csrf
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label">নাম বাংলা</label>
+                                    <input type="text" class="form-control" name="nameBangla" id="nameBangla"
+                                          value="{{ old('nameBangla') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label">নাম ইংরেজি</label>
+                                    <input type="text" class="form-control" name="nameEnglish" id="nameEnglish"
+                                          value="{{ old('nameEnglish') }}">
+                                </div>
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label">জন্ম তারিখ</label>
+                                    <input type="text" class="form-control" name="dateOfBirth" id="dateOfBirth"
+                                         required value="{{ old('dateOfBirth') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label">জন্ম তারিখ ইংরেজি </label>
+                                    <input type="text" class="form-control" name="dateOfBirthEn" id="dateOfBirthEn"
+                                          value="{{ old('dateOfBirthEn') }}">
+                                </div>
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label">নিবন্ধন নং </label>
+                                    <input type="text" class="form-control" name="brn" id="brn"  required value="{{ old('brn') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label">আজকের তারিখ</label>
+                                    <input type="text" class="form-control" name="dateOfToday" id="dateOfToday"
+                                       required value="{{ old('dateOfToday') }}">
+                                </div>
+
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label">লিঙ্গ </label>
+                                    <input type="text" class="form-control" name="gender" id="gender" required value="{{ old('gender') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label">লিঙ্গ ইংরেজিতে</label>
+                                    <input type="text" class="form-control" name="genderEn" id="genderEn"
+                                        value="{{ old('genderEn') }}">
+                                </div>
+
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label">পিতার নাম </label>
+                                    <input type="text" class="form-control" name="fatherName" id="fatherName"  value="{{ old('fatherName') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label">পিতার নাম ইংরেজিতে</label>
+                                    <input type="text" class="form-control" name="fatherNameEn" id="fatherNameEn"
+                                         value="{{ old('fatherNameEn') }}">
+                                </div>
+
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label">পিতার জাতীয়তা </label>
+                                    <input type="text" class="form-control" name="fathersNationality" id="fathersNationality"  value="{{ old('fathersNationality') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label">পিতার জাতীয়তা ইংরেজিতে</label>
+                                    <input type="text" class="form-control" name="fathersNationalityEn" id="fathersNationalityEn"
+                                         value="{{ old('fathersNationalityEn') }}">
+                                </div>
+
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label">মাতার নাম </label>
+                                    <input type="text" class="form-control" name="motherName" id="motherName"  value="{{ old('motherName') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label">মাতার নাম ইংরেজিতে</label>
+                                    <input type="text" class="form-control" name="motherNameEn" id="motherNameEn"
+                                         value="{{ old('motherNameEn') }}">
+                                </div>
+
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label">মাতার জাতীয়তা </label>
+                                    <input type="text" class="form-control" name="mothersNationality" id="mothersNationality"  value="{{ old('mothersNationality') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label">মাতার জাতীয়তা ইংরেজিতে</label>
+                                    <input type="text" class="form-control" name="mothersNationalityEn" id="mothersNationalityEn"
+                                         value="{{ old('mothersNationalityEn') }}">
+                                </div>
+
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label"> জন্মস্থান </label>
+                                    <input type="text" class="form-control" name="birthPlace" id="birthPlace"  value="{{ old('birthPlace') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label"> জন্মস্থান ইংরেজিতে</label>
+                                    <input type="text" class="form-control" name="birthPlaceEn" id="birthPlaceEn"
+                                         value="{{ old('birthPlaceEn') }}">
+                                </div>
+
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label"> রেজিষ্টার অফিস </label>
+                                    <input type="text" class="form-control" name="registerOffice" id="registerOffice"  value="{{ old('registerOffice') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label"> রেজিষ্টার অফিস ইংরেজিতে</label>
+                                    <input type="text" class="form-control" name="registerOfficeEn" id="registerOfficeEn"
+                                         value="{{ old('registerOfficeEn') }}">
+                                </div>
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label"> রেজিষ্টার অফিস লোকেশন </label>
+                                    <input type="text" class="form-control" name="registerOfficeLocation" id="registerOfficeLocation"  value="{{ old('registerOfficeLocation') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label"> রেজিষ্টার অফিস লোকেশন ইংরেজিতে</label>
+                                    <input type="text" class="form-control" name="registerOfficeLocationEn" id="registerOfficeLocationEn"
+                                         value="{{ old('registerOfficeLocationEn') }}">
+                                </div>
+                            </div>
+                        </div>
+                         <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label"> ঠিকানা </label>
+                                    <input type="text" class="form-control" name="address" id="address"  value="{{ old('address') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label"> ঠিকানা ইংরেজিতে</label>
+                                    <input type="text" class="form-control" name="addressEn" id="addressEn"
+                                         value="{{ old('addressEn') }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-5 text-center warning d-none">
+                            <button type="submit" id="" class="btn btn-primary btn-sm ">ডাউনলোড</button>
+                        </div>
+
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('#orderBtn').on('click', function(e) {
+                const $btn = $('#orderBtn');
+
+                $btn.prop('disabled', true);
+                $btn.text('অপেক্ষা করুন...');
+                // $data = $('#auto_bc_form').serialize();
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ route('get_autoBc') }}",
+                    method: "POST",
+                    data: new FormData($('#auto_bc_form')[0]),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            $('#autoBc_error').empty();
+                            $('.warning').removeClass('d-none');
+                            $btn.text('তথ্য পাওয়া গেছে');
+                            $('#nameBangla').val(response.data.nameBangla);
+                            $('#nameEnglish').val(response.data.nameEnglish);
+                            $('#dateOfBirth').val(response.data.dateOfBirth);
+                            $('#dateOfBirthEn').val(response.data.dateOfBirthEn);
+                            $('#brn').val(response.data.brn);
+                            $('#dateOfToday').val(response.data.dateOfToday);
+                            $('#gender').val(response.data.gender);
+                            $('#genderEn').val(response.data.genderEn);
+                            $('#fatherName').val(response.data.fatherName);
+                            $('#fatherNameEn').val(response.data.fatherNameEn);
+                            $('#fathersNationality').val(response.data.fathersNationality);
+                            $('#fathersNationalityEn').val(response.data.fathersNationalityEn);
+                            $('#motherName').val(response.data.motherName);
+                            $('#motherNameEn').val(response.data.motherNameEn);
+                            $('#mothersNationality').val(response.data.mothersNationality);
+                            $('#mothersNationalityEn').val(response.data.mothersNationalityEn);
+                            $('#birthPlace').val(response.data.birthPlace);
+                            $('#birthPlaceEn').val(response.data.birthPlaceEn);
+                            $('#registerOffice').val(response.data.registerOffice);
+                            $('#registerOfficeEn').val(response.data.registerOfficeEn);
+                            $('#registerOfficeLocation').val(response.data.registerOfficeLocation);
+                            $('#registerOfficeLocationEn').val(response.data.registerOfficeLocationEn);
+                            $('#address').val(response.data.address);
+                            $('#addressEn').val(response.data.addressEn);
+
+
+
+
+
+                        } else {
+                            $('#autoBc_error').text(response.message);
+                            console.log(response.message);
+                            $btn.prop('disabled', false);
+                            $btn.text('তথ্য দেখুন');
+                        }
+                    },
+                     error: function(xhr, status, errorThrown) {
+                        // xhr.responseJSON will contain your error response
+                        let res = xhr.responseJSON;
+                        let msg = res && res.message ? res.message : 'সার্ভার সমস্যা হয়েছে';
+                        $('#autoBc_error').text(msg);
+                        $btn.prop('disabled', false);
+                        $btn.text('তথ্য দেখুন');
+                        console.log(res);
+                    }
+
+
+                });
+            });
+
+        });
+        document.getElementById('photo').addEventListener('change', function(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let preview = document.getElementById('photo_preview');
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        });
+        document.getElementById('sign').addEventListener('change', function(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let preview = document.getElementById('sign_preview');
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        });
+    </script>
+@endsection

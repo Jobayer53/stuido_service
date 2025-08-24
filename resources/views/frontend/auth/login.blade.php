@@ -106,7 +106,7 @@
 
               <p class="text-center">
                 <span>একাউন্ট নেই?</span>
-                <a href="{{route('register')}}">
+                <a href="{{route('register')}}" class="text-primary">
                   <span>নতুন একাউন্ট খুলুন</span>
                 </a>
               </p>

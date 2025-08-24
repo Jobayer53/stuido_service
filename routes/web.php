@@ -8,6 +8,7 @@ use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\OrderController;
+use App\Http\Controllers\Frontend\ApiController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\ServerCopyController;
@@ -34,8 +35,20 @@ Route::middleware(['auth', 'check.termination'])->group(function () {
     //bkash
     Route::post('/user-payment-store', [PaymentController::class, 'initiatePayment'])->name('payment_store');
     Route::get('/bkash/callback', [PaymentController::class, 'bkashCallback'])->name('bkash.callback');
+    //api
+    Route::get('/Api-Server_copy', [ApiController::class, 'server_copy'])->name('api_serverCopy');
+    Route::post('/Api-Server_copy/download', [ApiController::class, 'server_copy_download'])->name('order_api_serverCopy');
 
+    Route::get('/Api-tin', [ApiController::class, 'tin'])->name('api_tin');
+    Route::post('/Api-tinStore', [ApiController::class, 'tinStore'])->name('order_api_tin');
 
+    Route::get('/api-sign-to-nid', [ApiController::class, 'sign_to_nid'])->name('api_sign_to_nid');
+    Route::post('/get-nid', [ApiController::class, 'get_nid'])->name('get_nid');
+    Route::post('api-sign-to-nid/download', [ApiController::class, 'signToNid_download'])->name('api_signToNid_download');
+
+    Route::get('/Api-auto-birth-certificate',[ApiController::class, 'auto_bc'])->name('api_auto_bc');
+    Route::post('/get-autoBc', [ApiController::class, 'get_autoBc'])->name('get_autoBc');
+    Route::post('/Api-auto-birth-certificate/download', [ApiController::class, 'autoBc_download'])->name('api_autoBc_download');
     // server copy
     Route::get('/server-copy',[ServiceController::class, 'serverCopyIndex'])->name('server_copy_index');
     Route::post('/order-server-copy',[ServiceOrderController::class, 'serverCopyOrder'])->name('order_server_copy');

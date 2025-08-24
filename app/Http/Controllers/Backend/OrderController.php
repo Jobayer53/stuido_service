@@ -18,12 +18,12 @@ class OrderController extends Controller
         $serviceGroups = [
             'biometric' => [7, 8, 9, 10],
             'passport' => [12, 13, 14],
-            'sms' => [16, 17, 18,43],
+            'sms' => [16, 17, 18, 43],
             'imei' => [19, 20, 21, 22, 23, 24],
             'nagad' => [25, 26, 27, 28, 29, 30],
             'register' => [35, 36, 37, 38],
             'statement' => [39, 40],
-            'bmet' => [44,45]
+            'bmet' => [44, 45]
         ];
 
         $stats = [];
@@ -35,10 +35,12 @@ class OrderController extends Controller
 
         // Optional: For unused service IDs
         $usedIds = collect($serviceGroups)->flatten()->toArray();
+        $apiServiceIds = [47, 48, 49];
+        $usedIds = array_merge($usedIds, $apiServiceIds);
         $otherServices = Service::whereNotIn('id', $usedIds)
             ->withCount([
                 'orders as total' => fn($q) => $q->whereDate('created_at', today()),
-                'orders as completed' => fn($q) => $q ->whereIn('status', ['completed', 'cancelled'])->whereDate('created_at', today()),
+                'orders as completed' => fn($q) => $q->whereIn('status', ['completed', 'cancelled'])->whereDate('created_at', today()),
                 'orders as new' => fn($q) => $q->where('notified', 0)->whereDate('created_at', today()),
             ])
             ->get();
@@ -67,7 +69,7 @@ class OrderController extends Controller
         }
         $service = Service::findOrFail($id);
 
-        $defaultFields = ['id','user_id', 'slug', 'status', 'cost', 'created_at',  'service_id', 'downloaded_info'];
+        $defaultFields = ['id', 'user_id', 'slug', 'status', 'cost', 'created_at',  'service_id', 'downloaded_info'];
         $extraFields = array_keys(ServiceFieldMap::fields()[$service->id] ?? []);
 
         $selectFields = array_merge($defaultFields, $extraFields);
@@ -143,7 +145,7 @@ class OrderController extends Controller
         $banglalink = Service::find(8);
         $teletalk = Service::find(9);
         $grameenphone = Service::find(10);
-        $query = Order::whereIn('service_id', [7,8,9,10]);
+        $query = Order::whereIn('service_id', [7, 8, 9, 10]);
 
 
         $checkQuery = clone $query;
@@ -153,7 +155,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
+            ->select(['id', 'user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -169,7 +171,7 @@ class OrderController extends Controller
     public function passport_show()
     {
 
-        $query = Order:: whereIn('service_id', [12, 13, 14]);
+        $query = Order::whereIn('service_id', [12, 13, 14]);
 
 
         $checkQuery = clone $query;
@@ -179,7 +181,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
+            ->select(['id', 'user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -192,14 +194,13 @@ class OrderController extends Controller
     public function lostNidShow()
     {
         $lost_nid = Service::find(11);
-        $orders = Order::
-            where('service_id', 11)
-            ->select(['id','user_id', 'slug', 'status', 'cost', 'description', 'downloaded_file', 'created_at'])
+        $orders = Order::where('service_id', 11)
+            ->select(['id', 'user_id', 'slug', 'status', 'cost', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
-            $checkQuery = Order::where('service_id', 11) ->where('notified', 0)->count();
+        $checkQuery = Order::where('service_id', 11)->where('notified', 0)->count();
 
-        if($checkQuery > 0){
+        if ($checkQuery > 0) {
             Order::where('service_id', 11)->update(['notified' => 1]);
         }
 
@@ -211,7 +212,7 @@ class OrderController extends Controller
     public function sms_show()
     {
 
-        $query = Order::  whereIn('service_id', [16, 17, 18,43]);
+        $query = Order::whereIn('service_id', [16, 17, 18, 43]);
 
 
         $checkQuery = clone $query;
@@ -221,7 +222,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
+            ->select(['id', 'user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -234,7 +235,7 @@ class OrderController extends Controller
     public function imei_show()
     {
 
-        $query = Order:: whereIn('service_id', [19, 20, 21, 22, 23, 24]);
+        $query = Order::whereIn('service_id', [19, 20, 21, 22, 23, 24]);
 
 
         $checkQuery = clone $query;
@@ -244,7 +245,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at', 'service_id'])
+            ->select(['id', 'user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at', 'service_id'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -257,8 +258,7 @@ class OrderController extends Controller
     public function nagad_show()
     {
 
-        $query = Order::
-            whereIn('service_id', [25, 26, 27, 28, 29, 30]);
+        $query = Order::whereIn('service_id', [25, 26, 27, 28, 29, 30]);
 
         $checkQuery = clone $query;
 
@@ -267,7 +267,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
+            ->select(['id', 'user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -290,7 +290,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
+            ->select(['id', 'user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -303,7 +303,7 @@ class OrderController extends Controller
     public function statement_show()
     {
 
-        $query = Order:: whereIn('service_id', [39, 40]);
+        $query = Order::whereIn('service_id', [39, 40]);
 
 
         $checkQuery = clone $query;
@@ -313,7 +313,7 @@ class OrderController extends Controller
         }
 
         $orders = $query
-            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
+            ->select(['id', 'user_id', 'slug', 'status', 'cost', 'type', 'type_number', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -326,13 +326,13 @@ class OrderController extends Controller
     public function bmet_show()
     {
 
-        $query = Order:: whereIn('service_id', [44,45]);
+        $query = Order::whereIn('service_id', [44, 45]);
         $checkQuery = clone $query;
         if ($checkQuery->where('notified', 0)->count() > 0) {
             $query->update(['notified' => 1]);
         }
         $orders = $query
-            ->select(['id','user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at'])
+            ->select(['id', 'user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -345,7 +345,7 @@ class OrderController extends Controller
     {
 
         $order = Order::where('slug', $request->slug)->get()->first();
-        if(!$order){
+        if (!$order) {
             notyf()->position('x', 'right')->position('y', 'top')->error('Order Not Found');
             return back();
         }
@@ -353,7 +353,7 @@ class OrderController extends Controller
 
         $biometric = [7, 8, 9, 10];
         $passport = [12, 13, 14];
-        $sms = [16, 17, 18,43];
+        $sms = [16, 17, 18, 43];
         $imei = [19, 20, 21, 22, 23, 24];
         $nagad = [25, 26, 27, 28, 29, 30];
         $register = [35, 36, 37, 38];
@@ -375,10 +375,9 @@ class OrderController extends Controller
             return redirect(route('register_order_details'));
         } elseif (in_array($order->service_id, $statement)) {
             return redirect(route('statement_order_details'));
-        }elseif (in_array($order->service_id, $bmet)) {
+        } elseif (in_array($order->service_id, $bmet)) {
             return redirect(route('bmet_order_details'));
-        }
-        else {
+        } else {
 
             return redirect()->route('admin_order_details', $order->service_id);
         }

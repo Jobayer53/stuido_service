@@ -108,7 +108,7 @@
 
                         <p class="text-center">
                             <span>একাইউন্ট আছে?</span>
-                            <a href="{{ route('login') }}">
+                            <a href="{{ route('login') }}" class="text-primary">
                                 <span>লগইন করুন</span>
                             </a>
                         </p>

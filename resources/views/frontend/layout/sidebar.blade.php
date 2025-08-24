@@ -4,13 +4,47 @@
 <div class="nk-sidebar" style="padding-bottom:25px !important; height: 88% !important">
     <div class="nk-nav-scroll">
         <ul class="metismenu" id="menu">
-            {{-- <li class="nav-label">ড্যাশবোর্ড</li> --}}
+            <li class="nav-label" style="padding-top: 10px; padding-bottom: 10px; padding-left:10px">ড্যাশবোর্ড</li>
 
             <li>
                 <a href="{{ route('user_home') }}" aria-expanded="false">
                     <i class="icon-speedometer menu-icon"></i><span class="nav-text">ড্যাশবোর্ড</span>
                 </a>
             </li>
+             <li>
+                <a href="{{ route('user_payment') }}" aria-expanded="false">
+                    <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-lightning-charge" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41z" />
+                                        </svg>
+                    </i>
+                    <span class="nav-text">রিচার্জ</span>
+                </a>
+            </li>
+             <li class="nav-label "style="padding-top: 10px; padding-bottom: 10px; padding-left:10px">অটোমেশন সার্ভিস</li>
+            <li>
+                <a href="{{ route('api_serverCopy') }}" aria-expanded="false">
+                    <i class="icon-speedometer menu-icon"></i><span class="nav-text">সার্ভার কপি</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('api_sign_to_nid') }}" aria-expanded="false">
+                    <i class="icon-speedometer menu-icon"></i><span class="nav-text">সাইন টু এনআইডি</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('api_auto_bc') }}" aria-expanded="false">
+                    <i class="icon-speedometer menu-icon"></i><span class="nav-text">অটো নিবন্ধন</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('api_tin') }}" aria-expanded="false">
+                    <i class="icon-speedometer menu-icon"></i><span class="nav-text">টিন সার্টিফিকেট</span>
+                </a>
+            </li>
+             <li class="nav-label " style="padding-top: 10px; padding-bottom: 10px; padding-left:10px">ওর্ডার সার্ভিস</li>
             <li>
                 <a href="{{ route('server_copy_index') }}" aria-expanded="false">
                     <i>
@@ -277,18 +311,7 @@
                     <span class="nav-text">ট্রেনিং সার্টিফিকেট</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('user_payment') }}" aria-expanded="false">
-                    <i>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-lightning-charge" viewBox="0 0 16 16">
-                                            <path
-                                                d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09zM4.157 8.5H7a.5.5 0 0 1 .478.647L6.11 13.59l5.732-6.09H9a.5.5 0 0 1-.478-.647L9.89 2.41z" />
-                                        </svg>
-                    </i>
-                    <span class="nav-text">রিচার্জ</span>
-                </a>
-            </li>
+
             {{-- <li>
                       <a href="./accessability.html"  aria-expanded="false">
                           <i class="icon-grid menu-icon"></i><span class="nav-text">Accessability</span>

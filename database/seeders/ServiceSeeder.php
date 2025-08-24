@@ -62,6 +62,9 @@ class ServiceSeeder extends Seeder
              ['id' => 44, 'name' => 'BMET 78%', 'cost' =>75.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
              ['id' => 45, 'name' => 'BMET Country Change', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
              ['id' => 46, 'name' => 'Official Server Copy', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
+             ['id' => 47, 'name' => 'API Server Copy', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
+             ['id' => 48, 'name' => 'API Sign To NID', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
+             ['id' => 49, 'name' => 'API Auto Birth Certificate', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
         ]);
     }
 }
