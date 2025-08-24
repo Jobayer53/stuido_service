@@ -29,7 +29,7 @@
     {{-- @include('frontend.layout.floating_text') --}}
     <div class="row mt-3 ">
         <div class="col-lg-6 m-auto ">
-            {{-- @if($server_copy->available == 1) --}}
+            @if($service->available == 1)
                 <div class="card">
                     <h5 class="card-header text-center">এক ক্লিকে টিন সার্টিফিকেট ডাউনলোড</h5>
                     <div class="card-body">
@@ -60,9 +60,9 @@
                         </form>
                     </div>
                 </div>
-                  {{-- @else
+                  @else
                 <div class="card">
-                    <h5 class="card-header text-center mb-4">সার্ভার কপি</h5>
+                    <h5 class="card-header text-center mb-4"> টিন সার্টিফিকেট</h5>
                     <div class="card-body">
                         <i class=" text-danger d-flex  justify-content-center mb-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"
@@ -79,7 +79,7 @@
                         <p class="text-center text-danger">কাজ বন্ধ আছে!</p>
                     </div>
                 </div>
-            @endif --}}
+            @endif
         </div>
     </div>
 

@@ -156,8 +156,10 @@ class ApiController extends Controller
         // return $fileContent;
     }
     public function tin()
-    {
-        return view('frontend.pages.api.tin');
+    {   $service = Service::find(50);
+        return view('frontend.pages.api.tin',[
+            'service' => $service
+        ]);
     }
     public function tinStore(Request $request)
     {
