@@ -54,11 +54,11 @@
                 <!--**********************************
             Footer start
         ***********************************-->
-        <div class="footer" style="padding-left: 0px !important;">
+        {{-- <div class="footer" style="padding-left: 0px !important; position: fixed;bottom:0px; width: -webkit-fill-available">
             <div class="copyright">
                 <p>Copyright &copy; {{ date('Y')}} All Rights Reserved</p>
             </div>
-        </div>
+        </div> --}}
         <!--**********************************
             Footer end
         ***********************************-->

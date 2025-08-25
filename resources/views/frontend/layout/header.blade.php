@@ -33,4 +33,36 @@
     color: #fff;
     transform: scale(1.1);
 }
+.nk-sidebar .metismenu > li.active > a{
+    background: #4d7cff!important;
+}
+.nk-sidebar .metismenu > li.active > a > i{
+    color: #fff!important;
+}
+.nk-sidebar .metismenu > li.active > a > .nav-text{
+    color: #fff!important;
+}
+.nk-sidebar .metismenu > li.active > a > .nav-text> i{
+    color: #fff!important;
+}
+::-webkit-scrollbar {
+  width: 10px;               /* width of vertical scrollbar */
+  height: 10px;              /* height of horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;        /* Track color */
+  border-radius: 10px;        /* Rounded track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4e73df, #4d7cff); /* Thumb color */
+  border-radius: 10px;        /* Rounded thumb */
+  border: 2px solid #f1f1f1;  /* Adds space around thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #224abe, #1e3a8a); /* On hover */
+}
+
 </style>
