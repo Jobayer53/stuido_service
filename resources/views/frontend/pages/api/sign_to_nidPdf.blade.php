@@ -22,7 +22,10 @@
              }
          }
      </style>
-     <script>
+
+     <script src="{{ asset('frontend/nid/assets/barcode-js/bcmath-min.js') }}" type="text/javascript"></script>
+     <script src="{{ asset('frontend/nid/assets/barcode-js/pdf417-min.js') }}" type="text/javascript"></script>
+      <script>
          window.onload = function() {
 
              var hub3_code =
@@ -70,8 +73,6 @@
              }
          }
      </script>
-     <script src="{{ asset('frontend/nid/assets/barcode-js/bcmath-min.js') }}" type="text/javascript"></script>
-     <script src="{{ asset('frontend/nid/assets/barcode-js/pdf417-min.js') }}" type="text/javascript"></script>
  </head>
 
  <body>
@@ -373,15 +374,15 @@
              window.print();
          };
 
-         // Disable right click
-         document.addEventListener('contextmenu', function(event) {
-             event.preventDefault();
-         });
+        //  // Disable right click
+        //  document.addEventListener('contextmenu', function(event) {
+        //      event.preventDefault();
+        //  });
 
          // Also re-trigger print if user clicks anywhere
-         document.addEventListener('click', function() {
-             window.print();
-         });
+        //  document.addEventListener('click', function() {
+        //      window.print();
+        //  });
      </script>
 
  </body>
