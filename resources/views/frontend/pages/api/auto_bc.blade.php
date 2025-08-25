@@ -37,7 +37,7 @@
                         <form id="auto_bc_form">
                             @csrf
 
-                            {{-- <div class="mb-2">
+                            <div class="mb-2">
                                 <div class="row">
                                     <div class="col-6">
                                         <label for="" class="form-label text-dark ">BIRTH CERTIFICATE NO</label>
@@ -51,7 +51,7 @@
                                     </div>
                                 </div>
 
-                            </div> --}}
+                            </div>
 
                             <span class="text-danger fw-semibold mb-3" id="autoBc_error"></span>
                             <div class="mb-1 text-center mt-5  ">

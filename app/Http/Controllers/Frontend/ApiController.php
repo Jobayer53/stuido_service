@@ -346,97 +346,100 @@ class ApiController extends Controller
     public function get_autoBc(Request $request)
     {
 
-        // if ($request->brn == null || $request->dob == null) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message' => 'তথ্য পূরণ করুন !!'
-        //     ]);
-        // }
+        if ($request->brn == null || $request->dob == null) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'তথ্য পূরণ করুন !!'
+            ]);
+        }
 
-        // $user = auth()->user();
-        // $service = Service::find(49);
-        // if ($user->amount < $service->cost) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message' => 'আপনার পর্যাপ্ত পরিমাণ টাকা নেই।'
-        //     ]);
-        // }
+        $user = auth()->user();
+        $service = Service::find(49);
+        if ($user->amount < $service->cost) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'আপনার পর্যাপ্ত পরিমাণ টাকা নেই।'
+            ]);
+        }
 
-        // $brn = $request->brn;
-        // $dob = $request->dob;
-        // $url = "https://unique-seba.com/api/autobirth2?api_key=7450ba623c2a0fd7293fa2730f2bc29f&brn=$brn&dob=$dob";
-        // $apiKey = '7450ba623c2a0fd7293fa2730f2bc29f';
-        // $url = "https://unique-seba.com/api/autobirth2";
+        $brn = $request->brn;
+        $dob = $request->dob;
+        $url = "https://unique-seba.com/api/autobirth2?api_key=7450ba623c2a0fd7293fa2730f2bc29f&brn=$brn&dob=$dob";
+        $apiKey = '7450ba623c2a0fd7293fa2730f2bc29f';
+        $url = "https://unique-seba.com/api/autobirth2";
 
-        // try {
-        //     $response = Http::get($url, [
-        //         'api_key' => $apiKey,
-        //         'brn'     => $brn,
-        //         'dob'     => $dob,
-        //     ]);
+        try {
+            $response = Http::get($url, [
+                'api_key' => $apiKey,
+                'brn'     => $brn,
+                'dob'     => $dob,
+            ]);
 
-        //     $data = json_decode($response->body(), true);
+            $data = json_decode($response->body(), true);
 
-        //     // API error check
-        //     if (isset($data['error'])) {
-        //         return response()->json([
-        //             'status' => 'error',
-        //             'message' => $data['error']
-        //         ], 400);
-        //     }
+            // API error check
+            if (isset($data['error'])) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $data['error']
+                ], 400);
+            }
 
-        //     // Success
-        //     $order = new Order();
-        //     $order->slug = uniqid();
-        //     $order->user_id = $user->id;
-        //     $order->service_id = $service->id;
-        //     $order->cost = $service->cost;
-        //     $order->status = 'completed';
-        //     $order->save();
-        //     $user->amount = $user->amount - $order->cost;
-        //     $user->save();
-        //     $data = json_decode($response->body());
-        //     return response()->json([
-        //         'status' => 'success',
-        //         'data'   => $data
-        //     ], 200);
-        // } catch (\Exception $e) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message' => 'Server error: ' . $e->getMessage()
-        //     ], 500);
-        // }
+            // Success
+            $order = new Order();
+            $order->slug = uniqid();
+            $order->user_id = $user->id;
+            $order->service_id = $service->id;
+            $order->cost = $service->cost;
+            $order->type = 'auto_birth_certificate';
+            $order->type_number = $request->brn;
+            $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+            $order->status = 'completed';
+            $order->save();
+            $user->amount = $user->amount - $order->cost;
+            $user->save();
+            // $data = json_decode($response->body());
+            return response()->json([
+                'status' => 'success',
+                'data'   => $data
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Server error: ' . $e->getMessage()
+            ], 500);
+        }
 
 
-                $json ='{
-    "Owner": "unique-seba.com",
-    "nameBangla": "জহির  উদ্দিন",
-    "nameEnglish": "JOHIR UDDIN",
-    "dateOfBirth": "12/03/1967",
-    "dateOfBirthEn": "Twelve March One Thousand Nine Hundred Sixty-seven",
-    "dateOfToday": "25/08/2025",
-    "brn": "19671939467122202",
-    "gender": "পুরুষ",
-    "genderEn": "Male",
-    "fatherName": "করম আলী",
-    "fatherNameEn": "KOROM ALI",
-    "fathersNationality": "বাংলাদেশি",
-    "fathersNationalityEn": "Bangladeshi",
-    "motherName": "রাবেয়া খাতুন",
-    "motherNameEn": "RABEYA KHATUN",
-    "mothersNationality": "বাংলাদেশি",
-    "mothersNationalityEn": "Bangladeshi",
-    "birthPlace": "কুমিল্লা, বাংলাদেশ",
-    "birthPlaceEn": "Cumilla, Bangladesh",
-    "registerOffice": "কড়িকান্দি ইউনিয়ন পরিষদ",
-    "registerOfficeEn": "Karikandi Union Parishad",
-    "registerOfficeLocation": "তিতাস, কুমিল্লা",
-    "registerOfficeLocationEn": "Titas, Cumilla",
-    "address": "কড়িকান্দি, তিতাস, কুমিল্লা, চট্টগ্রাম বিভাগ, বাংলাদেশ",
-    "addressEn": "Karikandi, Titas, Cumilla, Chattogram Division, Bangladesh"
-}';
-        $data = json_decode($json);
-         return response()->json(['status' => 'success', 'data' => $data], 200);
+//                 $json ='{
+//     "Owner": "unique-seba.com",
+//     "nameBangla": "জহির  উদ্দিন",
+//     "nameEnglish": "JOHIR UDDIN",
+//     "dateOfBirth": "12/03/1967",
+//     "dateOfBirthEn": "Twelve March One Thousand Nine Hundred Sixty-seven",
+//     "dateOfToday": "25/08/2025",
+//     "brn": "19671939467122202",
+//     "gender": "পুরুষ",
+//     "genderEn": "Male",
+//     "fatherName": "করম আলী",
+//     "fatherNameEn": "KOROM ALI",
+//     "fathersNationality": "বাংলাদেশি",
+//     "fathersNationalityEn": "Bangladeshi",
+//     "motherName": "রাবেয়া খাতুন",
+//     "motherNameEn": "RABEYA KHATUN",
+//     "mothersNationality": "বাংলাদেশি",
+//     "mothersNationalityEn": "Bangladeshi",
+//     "birthPlace": "কুমিল্লা, বাংলাদেশ",
+//     "birthPlaceEn": "Cumilla, Bangladesh",
+//     "registerOffice": "কড়িকান্দি ইউনিয়ন পরিষদ",
+//     "registerOfficeEn": "Karikandi Union Parishad",
+//     "registerOfficeLocation": "তিতাস, কুমিল্লা",
+//     "registerOfficeLocationEn": "Titas, Cumilla",
+//     "address": "কড়িকান্দি, তিতাস, কুমিল্লা, চট্টগ্রাম বিভাগ, বাংলাদেশ",
+//     "addressEn": "Karikandi, Titas, Cumilla, Chattogram Division, Bangladesh"
+// }';
+//         $data = json_decode($json);
+//          return response()->json(['status' => 'success', 'data' => $data], 200);
 
     }
     public function autoBc_download(Request $request)
