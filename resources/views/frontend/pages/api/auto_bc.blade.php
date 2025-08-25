@@ -28,41 +28,47 @@
 
 @section('content')
     {{-- @include('frontend.layout.floating_text') --}}
-    <div class="row mt-3 ">
-        <div class="col-lg-6 m-auto ">
+    <div class="row mt-3 px-3 pb-0 pt-3">
+        <div class="col-lg-12 m-auto mb-0">
             @if ($service->available == 1)
-            <div class="card">
-                <h5 class="card-header text-center">এক ক্লিকে অটো নিবন্ধন ডাউনলোড</h5>
-                <div class="card-body">
-                    <form id="auto_bc_form">
-                        @csrf
+                <div class="card mb-0">
+                    <h5 class="card-header text-center">এক ক্লিকে অটো নিবন্ধন ডাউনলোড</h5>
+                    <div class="card-body">
+                        <form id="auto_bc_form">
+                            @csrf
 
-                        <div class="mb-3">
-                            <label for="" class="form-label">BIRTH REG NO</label>
-                            <input type="text" class="form-control" name="brn" id="" placeholder="123567890"
-                                autofocus required value="{{ old('brn') }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Date Of Birth (YYYY-MM-DD)</label>
-                            <input type="text" class="form-control" name="dob" id=""
-                                placeholder="2000-12-21" autofocus required>
-                        </div>
-                        <span class="text-danger fw-semibold mb-3" id="autoBc_error"></span>
-                         <div class="mb-1 text-center">
+                            {{-- <div class="mb-2">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="" class="form-label text-dark ">BIRTH CERTIFICATE NO</label>
+                                        <input type="text" class="form-control" name="brn" id=""
+                                            placeholder="123567890" autofocus required value="{{ old('brn') }}">
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="" class="form-label text-dark">Date Of Birth </label>
+                                        <input type="text" class="form-control" name="dob" id=""
+                                            placeholder="YYYY-MM-DD" autofocus required>
+                                    </div>
+                                </div>
+
+                            </div> --}}
+
+                            <span class="text-danger fw-semibold mb-3" id="autoBc_error"></span>
+                            <div class="mb-1 text-center mt-5  ">
                                 <small class="">আপনার একাউন্ট থেকে <span
                                         class="text-danger">{{ number_format($service->cost, 0) }} টাকা</span> কেটে নেয়া
                                     হবে !</small>
 
                             </div>
-                        <div class=" text-center">
-                            <button class="btn btn-primary btn-sm " type="submit" id="orderBtn">তথ্য দেখুন</button>
-                        </div>
+                            <div class=" text-center">
+                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn">তথ্য দেখুন</button>
+                            </div>
 
-                    </form>
+                        </form>
+                    </div>
                 </div>
-            </div>
             @else
-                <div class="card">
+                <div class="card mb-0">
                     <h5 class="card-header text-center mb-4">অটো নিবন্ধন</h5>
                     <div class="card-body">
                         <i class=" text-danger d-flex  justify-content-center mb-3">
@@ -83,178 +89,172 @@
             @endif
         </div>
     </div>
-    <div class="row p-2">
+    <div class="row px-3 pb-0 ">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0 fw-semibold">জন্ম নিবন্ধন তথ্য <span class="text-danger warning float-right d-none"
+                    <h5 class="card-title mb-0 fw-semibold "><span class="text-danger warning float-right d-none"
                             style="font-size: 12px">*পেইজ রিফ্রেশ করলে তথ্য চলে যাবে*</span></h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('api_autoBc_download')}}" id=""method="POST" target="_blank">
+                    <form action="{{ route('api_autoBc_download') }}" id=""method="POST" target="_blank">
                         @csrf
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col-6">
-                                    <label for="" class="form-label">নাম বাংলা</label>
-                                    <input type="text" class="form-control" name="nameBangla" id="nameBangla"
-                                          value="{{ old('nameBangla') }}">
+                                    <label for="" class="form-label text-dark"> Register Office Address </label>
+                                    <input type="hidden" class="form-control" name="registerOffice" id="registerOffice"
+                                        value="{{ old('registerOffice') }}" >
+                                    <input type="text" name="registerOfficeEn"
+                                        id="registerOfficeEn" class="form-control" value="{{ old('registerOfficeEn') }}" placeholder="রেজিস্টার অফিসের ঠিকানা">
                                 </div>
                                 <div class="col-6">
-                                    <label for="" class="form-label">নাম ইংরেজি</label>
-                                    <input type="text" class="form-control" name="nameEnglish" id="nameEnglish"
-                                          value="{{ old('nameEnglish') }}">
-                                </div>
-                            </div>
-                        </div>
-                         <div class="mb-3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="" class="form-label">জন্ম তারিখ</label>
-                                    <input type="text" class="form-control" name="dateOfBirth" id="dateOfBirth"
-                                         required value="{{ old('dateOfBirth') }}">
-                                </div>
-                                <div class="col-6">
-                                    <label for="" class="form-label">জন্ম তারিখ ইংরেজি </label>
-                                    <input type="text" class="form-control" name="dateOfBirthEn" id="dateOfBirthEn"
-                                          value="{{ old('dateOfBirthEn') }}">
+                                    <label for="" class="form-label text-dark"> Upazila/Pourashava/City Corporation,
+                                        Zila </label>
+                                    <input type="hidden" class="form-control" name="registerOfficeLocation"
+                                        id="registerOfficeLocation" value="{{ old('registerOfficeLocation') }}"
+                                        >
+                                    <input type="text" class="form-control" name="registerOfficeLocationEn"
+                                        id="registerOfficeLocationEn"value="{{ old('registerOfficeLocationEn') }}" placeholder="উপজেলা/পৌরসভা/সিটি কর্পোরেশন, জেলা">
+
                                 </div>
                             </div>
                         </div>
-                         <div class="mb-3">
+                        <div class="mb-3">
                             <div class="row">
                                 <div class="col-6">
-                                    <label for="" class="form-label">নিবন্ধন নং </label>
-                                    <input type="text" class="form-control" name="brn" id="brn"  required value="{{ old('brn') }}">
+                                    <label for="" class="form-label text-dark">Birth Registration Number </label>
+                                    <input type="text" class="form-control" name="brn" id="brn" required value="{{ old('brn') }}" placeholder="XXXXXXXXXXX">
+
                                 </div>
                                 <div class="col-6">
-                                    <label for="" class="form-label">আজকের তারিখ</label>
-                                    <input type="text" class="form-control" name="dateOfToday" id="dateOfToday"
-                                       required value="{{ old('dateOfToday') }}">
+                                    <label for="" class="form-label text-dark">Gender</label>
+                                    <input type="text" class="form-control" name="genderEn" id="genderEn"value="{{ old('genderEn') }}" placeholder="Male/Female">
+                                      <input type="hidden" class="form-control" name="gender" id="gender" required value="{{ old('gender') }}">
                                 </div>
 
                             </div>
                         </div>
-                         <div class="mb-3">
+                        <div class="mb-3">
                             <div class="row">
                                 <div class="col-6">
-                                    <label for="" class="form-label">লিঙ্গ </label>
-                                    <input type="text" class="form-control" name="gender" id="gender" required value="{{ old('gender') }}">
+                                    <label for="" class="form-label text-dark">Date of Registration </label>
+                                    <input type="text" class="form-control" name="dateOfRegistration" id="dateOfRegistration" required value="{{ old('dateOfRegistration') }}" placeholder="DD/MM/YYYY">
                                 </div>
                                 <div class="col-6">
-                                    <label for="" class="form-label">লিঙ্গ ইংরেজিতে</label>
-                                    <input type="text" class="form-control" name="genderEn" id="genderEn"
-                                        value="{{ old('genderEn') }}">
+                                    <label for="" class="form-label text-dark">Date of Issuance </label>
+                                    <input type="text" class="form-control" name="dateOfIssuance" id="dateOfIssuance" required value="{{ old('dateOfIssuance') }}" placeholder="DD/MM/YYYY">
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">Date of Birth</label>
+                                    <input type="text" class="form-control" name="dateOfBirth" id="dateOfBirth" required value="{{ old('dateOfBirth') }}" placeholder="DD/MM/YYYY">
+
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">Date of Birth in Word </label>
+                                    <input type="text" class="form-control" name="dateOfBirthEn" id="dateOfBirthEn"value="{{ old('dateOfBirthEn') }}" placeholder="Eleven August Two Thousand Three">
+
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <div class="col-6">
+                            <label for="" class="form-label text-dark">আজকের তারিখ</label>
+                            <input type="text" class="form-control" name="dateOfToday" id="dateOfToday" required
+                                value="{{ old('dateOfToday') }}">
+                        </div> --}}
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">নাম </label>
+                                    <input type="text" class="form-control" name="nameBangla" id="nameBangla"value="{{ old('nameBangla') }}" placeholder="নাম বাংলা">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">Name</label>
+                                    <input type="text" class="form-control" name="nameEnglish" id="nameEnglish"value="{{ old('nameEnglish') }}" placeholder="Full Name in English">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">পিতার নাম </label>
+                                    <input type="text" class="form-control" name="fatherName" id="fatherName" value="{{ old('fatherName') }}" placeholder="পিতার নাম বাংলা">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">Father Name</label>
+                                    <input type="text" class="form-control" name="fatherNameEn" id="fatherNameEn" value="{{ old('fatherNameEn') }}" placeholder="Father Name in English">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">পিতার জাতীয়তা </label>
+                                    <input type="text" class="form-control" name="fathersNationality"id="fathersNationality" value="{{ old('fathersNationality') }}" placeholder="বাংলাদেশী">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">Father Nationality</label>
+                                    <input type="text" class="form-control" name="fathersNationalityEn"id="fathersNationalityEn" value="{{ old('fathersNationalityEn') }}" placeholder="Bangladeshi">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">মাতার নাম </label>
+                                    <input type="text" class="form-control" name="motherName" id="motherName" value="{{ old('motherName') }}" placeholder=" মাতার নাম বাংলা">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">Mother Name</label>
+                                    <input type="text" class="form-control" name="motherNameEn" id="motherNameEn"value="{{ old('motherNameEn') }}" placeholder="Mother Name in English">
                                 </div>
 
                             </div>
                         </div>
-                         <div class="mb-3">
+                        <div class="mb-3">
                             <div class="row">
                                 <div class="col-6">
-                                    <label for="" class="form-label">পিতার নাম </label>
-                                    <input type="text" class="form-control" name="fatherName" id="fatherName"  value="{{ old('fatherName') }}">
+                                    <label for="" class="form-label text-dark">মাতার জাতীয়তা </label>
+                                    <input type="text" class="form-control" name="mothersNationality"id="mothersNationality" value="{{ old('mothersNationality') }}" placeholder="বাংলাদেশী">
                                 </div>
                                 <div class="col-6">
-                                    <label for="" class="form-label">পিতার নাম ইংরেজিতে</label>
-                                    <input type="text" class="form-control" name="fatherNameEn" id="fatherNameEn"
-                                         value="{{ old('fatherNameEn') }}">
+                                    <label for="" class="form-label text-dark">Mother Nationality</label>
+                                    <input type="text" class="form-control" name="mothersNationalityEn"id="mothersNationalityEn" value="{{ old('mothersNationalityEn') }}" placeholder="Bangladeshi">
                                 </div>
 
                             </div>
                         </div>
-                         <div class="mb-3">
+                        <div class="mb-3">
                             <div class="row">
                                 <div class="col-6">
-                                    <label for="" class="form-label">পিতার জাতীয়তা </label>
-                                    <input type="text" class="form-control" name="fathersNationality" id="fathersNationality"  value="{{ old('fathersNationality') }}">
+                                    <label for="" class="form-label text-dark"> জন্মস্থান </label>
+                                    <input type="text" class="form-control" name="birthPlace" id="birthPlace" value="{{ old('birthPlace') }}" placeholder=" জন্মস্থান বাংলায়">
                                 </div>
                                 <div class="col-6">
-                                    <label for="" class="form-label">পিতার জাতীয়তা ইংরেজিতে</label>
-                                    <input type="text" class="form-control" name="fathersNationalityEn" id="fathersNationalityEn"
-                                         value="{{ old('fathersNationalityEn') }}">
+                                    <label for="" class="form-label text-dark"> Place of Birth</label>
+                                    <input type="text" class="form-control" name="birthPlaceEn" id="birthPlaceEn" value="{{ old('birthPlaceEn') }}" placeholder="Place of Birth in English">
+
                                 </div>
 
                             </div>
                         </div>
-                         <div class="mb-3">
+                        <div class="mb-3">
                             <div class="row">
                                 <div class="col-6">
-                                    <label for="" class="form-label">মাতার নাম </label>
-                                    <input type="text" class="form-control" name="motherName" id="motherName"  value="{{ old('motherName') }}">
+                                    <label for="" class="form-label text-dark">স্থায়ী ঠিকানা </label>
+                                    <textarea class="form-control" name="address" id="address"cols="30" rows="5" placeholder="স্থায়ী ঠিকানা বাংলায়"></textarea>
                                 </div>
                                 <div class="col-6">
-                                    <label for="" class="form-label">মাতার নাম ইংরেজিতে</label>
-                                    <input type="text" class="form-control" name="motherNameEn" id="motherNameEn"
-                                         value="{{ old('motherNameEn') }}">
-                                </div>
-
-                            </div>
-                        </div>
-                         <div class="mb-3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="" class="form-label">মাতার জাতীয়তা </label>
-                                    <input type="text" class="form-control" name="mothersNationality" id="mothersNationality"  value="{{ old('mothersNationality') }}">
-                                </div>
-                                <div class="col-6">
-                                    <label for="" class="form-label">মাতার জাতীয়তা ইংরেজিতে</label>
-                                    <input type="text" class="form-control" name="mothersNationalityEn" id="mothersNationalityEn"
-                                         value="{{ old('mothersNationalityEn') }}">
-                                </div>
-
-                            </div>
-                        </div>
-                         <div class="mb-3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="" class="form-label"> জন্মস্থান </label>
-                                    <input type="text" class="form-control" name="birthPlace" id="birthPlace"  value="{{ old('birthPlace') }}">
-                                </div>
-                                <div class="col-6">
-                                    <label for="" class="form-label"> জন্মস্থান ইংরেজিতে</label>
-                                    <input type="text" class="form-control" name="birthPlaceEn" id="birthPlaceEn"
-                                         value="{{ old('birthPlaceEn') }}">
-                                </div>
-
-                            </div>
-                        </div>
-                         <div class="mb-3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="" class="form-label"> রেজিষ্টার অফিস </label>
-                                    <input type="text" class="form-control" name="registerOffice" id="registerOffice"  value="{{ old('registerOffice') }}">
-                                </div>
-                                <div class="col-6">
-                                    <label for="" class="form-label"> রেজিষ্টার অফিস ইংরেজিতে</label>
-                                    <input type="text" class="form-control" name="registerOfficeEn" id="registerOfficeEn"
-                                         value="{{ old('registerOfficeEn') }}">
-                                </div>
-                            </div>
-                        </div>
-                         <div class="mb-3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="" class="form-label"> রেজিষ্টার অফিস লোকেশন </label>
-                                    <input type="text" class="form-control" name="registerOfficeLocation" id="registerOfficeLocation"  value="{{ old('registerOfficeLocation') }}">
-                                </div>
-                                <div class="col-6">
-                                    <label for="" class="form-label"> রেজিষ্টার অফিস লোকেশন ইংরেজিতে</label>
-                                    <input type="text" class="form-control" name="registerOfficeLocationEn" id="registerOfficeLocationEn"
-                                         value="{{ old('registerOfficeLocationEn') }}">
-                                </div>
-                            </div>
-                        </div>
-                         <div class="mb-3">
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="" class="form-label"> ঠিকানা </label>
-                                    <input type="text" class="form-control" name="address" id="address"  value="{{ old('address') }}">
-                                </div>
-                                <div class="col-6">
-                                    <label for="" class="form-label"> ঠিকানা ইংরেজিতে</label>
-                                    <input type="text" class="form-control" name="addressEn" id="addressEn"
-                                         value="{{ old('addressEn') }}">
+                                    <label for="" class="form-label text-dark"> Permanent Address</label>
+                                    <textarea class="form-control" name="addressEn" id="addressEn" cols="30" rows="5" placeholder="Permanent Address in English"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -312,8 +312,10 @@
                             $('#birthPlaceEn').val(response.data.birthPlaceEn);
                             $('#registerOffice').val(response.data.registerOffice);
                             $('#registerOfficeEn').val(response.data.registerOfficeEn);
-                            $('#registerOfficeLocation').val(response.data.registerOfficeLocation);
-                            $('#registerOfficeLocationEn').val(response.data.registerOfficeLocationEn);
+                            $('#registerOfficeLocation').val(response.data
+                                .registerOfficeLocation);
+                            $('#registerOfficeLocationEn').val(response.data
+                                .registerOfficeLocationEn);
                             $('#address').val(response.data.address);
                             $('#addressEn').val(response.data.addressEn);
 
@@ -328,7 +330,7 @@
                             $btn.text('তথ্য দেখুন');
                         }
                     },
-                     error: function(xhr, status, errorThrown) {
+                    error: function(xhr, status, errorThrown) {
                         // xhr.responseJSON will contain your error response
                         let res = xhr.responseJSON;
                         let msg = res && res.message ? res.message : 'সার্ভার সমস্যা হয়েছে';

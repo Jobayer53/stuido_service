@@ -97,7 +97,7 @@
                     <div class="top_part1">
                         <div class="left">
                             <p style="font-weight: normal">Date of Registration</p>
-                            <p style="font-weight: normal">{{ $data['dateOfToday'] }}</p>
+                            <p style="font-weight: normal">{{ $data['dateOfRegistration'] }}</p>
                         </div>
                         <div class="middle" style="font-family: 'Times New Roman', Times, serif;">
                             <h2 style="font-weight: normal">Birth Registration Number</h2>
@@ -110,7 +110,7 @@
 
                         <div class="right">
                             <p style="font-weight: normal">Date of Issuance</p>
-                            <p style="font-weight: normal">{{ $data['dateOfToday'] }}</p>
+                            <p style="font-weight: normal">{{ $data['dateOfIssuance'] }}</p>
                         </div>
                     </div>
                     <div class="middle" style="padding-top: 15px">
