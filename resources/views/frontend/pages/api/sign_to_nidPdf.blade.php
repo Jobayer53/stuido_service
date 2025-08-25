@@ -323,7 +323,7 @@
                                                              height: 100%;
                                                          }
                                                      </style>
-                                                     <img id="card_qr_code" class="w-full h-[39px] mt-1" alt="NID Card Generator" src="https://barcode.tec-it.com/barcode.ashx?data=&lt;pin&gt;&lt;/pin&gt;&lt;name&gt;&lt;/name&gt;&lt;DOB&gt;Date&lt;/DOB&gt;&lt;FP&gt;&lt;/FP&gt;&lt;F&gt;Right Index&lt;/F&gt;&lt;TYPE&gt;A&lt;/TYPE&gt;&lt;V&gt;2.0&lt;/V&gt;&lt;ds&gt;&lt;/ds&gt;&amp;code=PDF417"/>
+                                                     {{-- <img id="card_qr_code" class="w-full h-[39px] mt-1" alt="NID Card Generator" src="https://barcode.tec-it.com/barcode.ashx?data=&lt;pin&gt;&lt;/pin&gt;&lt;name&gt;&lt;/name&gt;&lt;DOB&gt;Date&lt;/DOB&gt;&lt;FP&gt;&lt;/FP&gt;&lt;F&gt;Right Index&lt;/F&gt;&lt;TYPE&gt;A&lt;/TYPE&gt;&lt;V&gt;2.0&lt;/V&gt;&lt;ds&gt;&lt;/ds&gt;&amp;code=PDF417"/> --}}
                                                  </div>
                                              </div>
                                          </div>
@@ -370,9 +370,9 @@
          var bangla_date_number = date_number.getDigitBanglaFromEnglish();
 
          document.getElementById("card_date").innerHTML = bangla_date_number;
-         window.onload = function() {
-             window.print();
-         };
+        //  window.onload = function() {
+        //      window.print();
+        //  };
 
         //  // Disable right click
         //  document.addEventListener('contextmenu', function(event) {
