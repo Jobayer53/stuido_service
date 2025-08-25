@@ -95,8 +95,9 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <label for="" class="form-label"> ছবি</label>
-                                            <input type="file" class="form-control" name="photo" id="photo"
-                                                value="">
+                                            <input type="file" class="form-control" name="photo" id="photo"value="">
+                                            <input type="hidden" name="slug" id="slug">
+
                                             <input type="hidden" name="photo_url" id="photo_url">
                                         </div>
                                         <div class="col-lg-6">
@@ -201,7 +202,7 @@
             </form>
         </div>
     </div>
-    
+
 @endsection
 
 @section('script')
@@ -225,6 +226,7 @@
                         if (response.status == 'success') {
                             $('.warning').removeClass('d-none');
                              $btn.text('তথ্য পাওয়া গেছে');
+                            $('#slug').val(response.slug);
                             $('#photo_url').val(response.data.photo);
                             $('#sign_url').val(response.data.signature);
                             $('#photo_preview').attr('src', response.data.photo);

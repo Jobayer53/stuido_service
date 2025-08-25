@@ -156,8 +156,9 @@ class ApiController extends Controller
         // return $fileContent;
     }
     public function tin()
-    {   $service = Service::find(50);
-        return view('frontend.pages.api.tin',[
+    {
+        $service = Service::find(50);
+        return view('frontend.pages.api.tin', [
             'service' => $service
         ]);
     }
@@ -264,24 +265,39 @@ class ApiController extends Controller
         // }';
         // $data = json_decode($json);
         //  return response()->json(['status' => 'success', 'data' => $data], 200);
+        $data = json_decode($response->body());
         if ($response->successful()) {
             $order = new Order();
             $order->slug = uniqid();
             $order->user_id = $user->id;
             $order->service_id = $service->id;
             $order->cost = $service->cost;
+            $order->type = 'sign_to_nid';
+            $order->type_number = $data->pin;
+            $order->nid_number = $data->nid;
+            $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
             $order->save();
             $user->amount = $user->amount - $order->cost;
             $user->save();
-            $data = json_decode($response->body());
-            return response()->json(['status' => 'success', 'data' => $data], 200);
+
+            return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug], 200);
         } else {
             return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
         }
     }
     public function signToNid_download(Request $request)
     {
+        $order = Order::where('slug', $request->slug)->first();
+        if ($order == null || $order->user_id != auth()->user()->id) {
+            notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
+            return back();
+        }
+        if ($order->type_number != $request->pin) {
+            notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
+            return back();
+        }
+
         $data = $request->all();
         $photo = $request->photo_url;
         $sign = $request->sign_url;
@@ -320,13 +336,14 @@ class ApiController extends Controller
             'data' => $data
         ]);
     }
-    public function auto_bc(){
+    public function auto_bc()
+    {
         $service = Service::find(49);
-        return view('frontend.pages.api.auto_bc',[
+        return view('frontend.pages.api.auto_bc', [
             'service' => $service
         ]);
     }
-     public function get_autoBc(Request $request)
+    public function get_autoBc(Request $request)
     {
 
         if ($request->brn == null || $request->dob == null) {
@@ -383,11 +400,10 @@ class ApiController extends Controller
                 'status' => 'success',
                 'data'   => $data
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Server error: '.$e->getMessage()
+                'message' => 'Server error: ' . $e->getMessage()
             ], 500);
         }
         //         $json =' {
@@ -421,11 +437,11 @@ class ApiController extends Controller
         //  return response()->json(['status' => 'success', 'data' => $data], 200);
 
     }
-    public function autoBc_download(Request $request){
+    public function autoBc_download(Request $request)
+    {
         $data = $request->all();
-        return view('frontend.pages.api.auto_bcPdf',[
+        return view('frontend.pages.api.auto_bcPdf', [
             'data' => $data
         ]);
-
     }
 }
