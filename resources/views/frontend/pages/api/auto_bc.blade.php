@@ -250,11 +250,11 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="" class="form-label text-dark">স্থায়ী ঠিকানা </label>
-                                    <textarea class="form-control" name="address" id="address"cols="30" rows="5" placeholder="স্থায়ী ঠিকানা বাংলায়"></textarea>
+                                    <textarea class="form-control" name="address" id="address"cols="30" rows="5" placeholder="স্থায়ী ঠিকানা বাংলায়" required></textarea>
                                 </div>
                                 <div class="col-6">
                                     <label for="" class="form-label text-dark"> Permanent Address</label>
-                                    <textarea class="form-control" name="addressEn" id="addressEn" cols="30" rows="5" placeholder="Permanent Address in English"></textarea>
+                                    <textarea class="form-control" name="addressEn" id="addressEn" cols="30" rows="5" placeholder="Permanent Address in English" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -316,8 +316,8 @@
                                 .registerOfficeLocation);
                             $('#registerOfficeLocationEn').val(response.data
                                 .registerOfficeLocationEn);
-                            $('#address').val(response.data.address);
-                            $('#addressEn').val(response.data.addressEn);
+                            // $('#address').val(response.data.address);
+                            // $('#addressEn').val(response.data.addressEn);
 
 
 
