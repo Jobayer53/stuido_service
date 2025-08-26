@@ -401,7 +401,8 @@ class ApiController extends Controller
             // $data = json_decode($response->body());
             return response()->json([
                 'status' => 'success',
-                'data'   => $data
+                'data'   => $data,
+                'slug'   => $order->slug
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -445,6 +446,16 @@ class ApiController extends Controller
     public function autoBc_download(Request $request)
     {
         $data = $request->all();
+        $user = auth()->user();
+        $order = Order::where('slug', $request->slug)->first();
+        if ($order == null || $order->user_id != $user->id) {
+            notyf()->position('x', 'right')->position('y', 'top')->error('অর্ডার পাওয়া যায়নি।');
+            return back();
+        }
+        if($order->type_number != $request->brn){
+            notyf()->position('x', 'right')->position('y', 'top')->error('অর্ডার পাওয়া যায়নি।');
+            return back();
+        }
         return view('frontend.pages.api.auto_bcPdf', [
             'data' => $data
         ]);

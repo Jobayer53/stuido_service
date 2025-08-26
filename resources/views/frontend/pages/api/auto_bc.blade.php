@@ -42,6 +42,7 @@
                                         <label for="" class="form-label text-dark ">BIRTH CERTIFICATE NO</label>
                                         <input type="text" class="form-control" name="brn" id=""
                                             placeholder="123567890" autofocus required value="{{ old('brn') }}">
+                                            <input type="hidden" name="slug" id="slug">
                                     </div>
                                     <div class="col-6">
                                         <label for="" class="form-label text-dark">Date Of Birth </label>
@@ -291,6 +292,7 @@
                             $('#autoBc_error').empty();
                             $('.warning').removeClass('d-none');
                             $btn.text('তথ্য পাওয়া গেছে');
+                            $('#slug').val(response.slug);
                             $('#nameBangla').val(response.data.nameBangla);
                             $('#nameEnglish').val(response.data.nameEnglish);
                             $('#dateOfBirth').val(response.data.dateOfBirth);
