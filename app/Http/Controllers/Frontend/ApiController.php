@@ -327,6 +327,7 @@ class ApiController extends Controller
             "birth_place" => $data['birth_place'] ?? '',
             "blood_group" => $data['blood_group'] ?? '',
             "fulladdress" => $data['fulladdress'] ?? '',
+            'issue_date'  => $data['issue_date'] ?? '',
             // extra static (or generated) fields
             "photo"       => $photo ?? '',
             "signature"   => $sign ?? '',

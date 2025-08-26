@@ -312,7 +312,7 @@
                                                          স্বাক্ষর</p>
                                                      <span class="pr-4 bn"
                                                          style="font-size:12px;padding-top:1px">প্রদানের
-                                                         তারিখ:<span class="ml-2.5" id="card_date"></span></span>
+                                                         তারিখ:<span class="ml-2.5" id="">{{$data->issue_date}}</span></span>
                                                  </div>
                                                  <div id="barcode" class="w-full h-[39px] mt-1"
                                                      alt="NID Card Generator"

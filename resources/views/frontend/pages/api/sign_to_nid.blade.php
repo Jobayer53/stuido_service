@@ -38,7 +38,7 @@
                         @csrf
 
                         <div class="mb-3">
-                            <label for="" class="form-label">সাইন কপি</label>
+                            <label for="" class="form-label text-dark">সাইন কপি</label>
                             <input type="file" class="form-control" name="sign_copy">
 
                         </div>
@@ -94,7 +94,7 @@
                                 <div class="col-6">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <label for="" class="form-label"> ছবি</label>
+                                            <label for="" class="form-label text-dark"> ছবি</label>
                                             <input type="file" class="form-control" name="photo" id="photo"value="">
                                             <input type="hidden" name="slug" id="slug">
 
@@ -109,7 +109,7 @@
                                 <div class="col-6">
                                     <div class="row">
                                         <div class="col-6">
-                                            <label for="" class="form-label">সাইন</label>
+                                            <label for="" class="form-label text-dark">সাইন</label>
                                             <input type="file" class="form-control" name="sign" id="sign"
                                                 value="">
                                             <input type="hidden" name="sign_url" id="sign_url">
@@ -126,12 +126,12 @@
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col-6">
-                                    <label for="" class="form-label">এনাইডি নং</label>
+                                    <label for="" class="form-label text-dark">এনাইডি নং</label>
                                     <input type="text" class="form-control" name="nid" id="nid"
                                         placeholder="123567890" required value="{{ old('nid') }}">
                                 </div>
                                 <div class="col-6">
-                                    <label for="" class="form-label">পিন কোড</label>
+                                    <label for="" class="form-label text-dark">পিন কোড</label>
                                     <input type="text" class="form-control" name="pin" id="pin"
                                         placeholder="1234567890" required value="{{ old('pin') }}">
                                 </div>
@@ -140,12 +140,12 @@
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col-6">
-                                    <label for="" class="form-label">নাম বাংলা</label>
+                                    <label for="" class="form-label text-dark">নাম বাংলা</label>
                                     <input type="text" class="form-control" name="name_bn" id="name_bn"
                                         placeholder="নাম বাংলা" required value="{{ old('name_bn') }}">
                                 </div>
                                 <div class="col-6">
-                                    <label for="" class="form-label">নাম ইংরেজি</label>
+                                    <label for="" class="form-label text-dark">নাম ইংরেজি</label>
                                     <input type="text" class="form-control" name="name_en" id="name_en"
                                         placeholder="নাম ইংরেজি" required value="{{ old('name_en') }}">
                                 </div>
@@ -154,12 +154,12 @@
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col-6">
-                                    <label for="" class="form-label"> পিতার নাম</label>
+                                    <label for="" class="form-label text-dark"> পিতার নাম</label>
                                     <input type="text" class="form-control" name="father_name" id="father_name"
                                         placeholder="পিতার নাম" required value="{{ old('father_name') }}">
                                 </div>
                                 <div class="col-6">
-                                    <label for="" class="form-label">মাতার নাম</label>
+                                    <label for="" class="form-label text-dark">মাতার নাম</label>
                                     <input type="text" class="form-control" name="mother_name" id="mother_name"
                                         placeholder="মাতার নাম" required value="{{ old('mother_name') }}">
                                 </div>
@@ -167,27 +167,37 @@
                         </div>
                         <div class="mb-3">
                             <div class="row">
-                                <div class="col-4">
-                                    <label for="" class="form-label">জন্ম তারিখ</label>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">জন্ম তারিখ</label>
                                     <input type="text" class="form-control" name="dob" id="dob"
                                         placeholder="জন্ম তারিখ" required value="{{ old('dob') }}">
                                 </div>
-                                <div class="col-4">
-                                    <label for="" class="form-label"> জন্মস্থান</label>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark"> জন্মস্থান</label>
                                     <input type="text" class="form-control" name="birth_place" id="birth_place"
                                         placeholder="জন্মস্থান" required value="{{ old('birth_place') }}">
                                 </div>
-                                <div class="col-4">
-                                    <label for="" class="form-label"> ব্লাড গ্রুপ</label>
+
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark"> ব্লাড গ্রুপ</label>
                                     <input type="text" class="form-control" name="blood_group" id="blood_group"
                                         placeholder="ব্লাড গ্রুপ" value="{{ old('blood_group') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark"> প্রধানের তারিখ</label>
+                                    <input type="text" class="form-control" name="issue_date" id="issue_date"
+                                        placeholder="DD/MM/YYYY" value="{{ old('issue_date') }}">
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <div class="row">
                                 <div class="col-12">
-                                    <label for="" class="form-label"> ঠিকানা</label>
+                                    <label for="" class="form-label text-dark"> ঠিকানা</label>
                                     <textarea name="fulladdress" id="fulladdress" cols="30" rows="5" class="form-control "></textarea>
                                 </div>
 
