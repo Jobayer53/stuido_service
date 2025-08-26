@@ -23,6 +23,29 @@
                 transform: translateX(-45%);
             }
         }
+         .spinner {
+            border: 2px solid #f3f3f3;
+            /* Light gray */
+            border-top: 2px solid #3498db;
+            /* Blue */
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 @endsection
 
@@ -222,7 +245,7 @@
                 const $btn = $('#orderBtn');
 
                 $btn.prop('disabled', true);
-                $btn.text('অপেক্ষা করুন...');
+                 $btn.html('অপেক্ষা করুন... <span class="spinner"></span>');
                 $data = $('sign_copy_form').serialize();
                 e.preventDefault();
                 $.ajax({
