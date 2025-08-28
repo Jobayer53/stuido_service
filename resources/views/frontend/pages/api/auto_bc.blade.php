@@ -66,7 +66,7 @@
                                         <label for="" class="form-label text-dark ">BIRTH CERTIFICATE NO</label>
                                         <input type="text" class="form-control" name="brn" id=""
                                             placeholder="123567890" autofocus required value="{{ old('brn') }}">
-                                        <input type="hidden" name="slug" id="slug">
+
                                     </div>
                                     <div class="col-6">
                                         <label for="" class="form-label text-dark">Date Of Birth </label>
@@ -131,6 +131,7 @@
                                         value="{{ old('registerOffice') }}">
                                     <input type="text" name="registerOfficeEn" id="registerOfficeEn" class="form-control"
                                         value="{{ old('registerOfficeEn') }}" placeholder="রেজিস্টার অফিসের ঠিকানা">
+                                         <input type="hidden" name="slug" id="slug">
                                 </div>
                                 <div class="col-6">
                                     <label for="" class="form-label text-dark"> Upazila/Pourashava/City Corporation,
@@ -373,7 +374,7 @@
                             // $('#address').val(response.data.address);
                             // $('#addressEn').val(response.data.addressEn);
 
-
+                            console.log(response.slug);
 
 
 

@@ -411,6 +411,7 @@ class ApiController extends Controller
                 'message' => 'Server error: ' . $e->getMessage()
             ], 500);
         }
+        
 
 
 //                 $json ='{
@@ -441,7 +442,21 @@ class ApiController extends Controller
 //     "addressEn": "Karikandi, Titas, Cumilla, Chattogram Division, Bangladesh"
 // }';
 //         $data = json_decode($json);
-//          return response()->json(['status' => 'success', 'data' => $data], 200);
+//           $user = auth()->user();
+//         $service = Service::find(49);
+//   $order = new Order();
+//             $order->slug = uniqid();
+//             $order->user_id = $user->id;
+//             $order->service_id = $service->id;
+//             $order->cost = $service->cost;
+//             $order->type = 'auto_birth_certificate';
+//             $order->type_number = $request->brn;
+//             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+//             $order->status = 'completed';
+//             $order->save();
+//             $user->amount = $user->amount - $order->cost;
+//             $user->save();
+//          return response()->json(['status' => 'success', 'data' => $data, 'slug'   => $order->slug], 200);
 
     }
     public function autoBc_download(Request $request)
@@ -449,12 +464,13 @@ class ApiController extends Controller
         $data = $request->all();
         $user = auth()->user();
         $order = Order::where('slug', $request->slug)->first();
+
         if ($order == null || $order->user_id != $user->id) {
-            notyf()->position('x', 'right')->position('y', 'top')->error('অর্ডার পাওয়া যায়নি।');
+            notyf()->position('x', 'right')->position('y', 'top')->error('অর্ডার পাওয়া যায়নি।1');
             return back();
         }
         if($order->type_number != $request->brn){
-            notyf()->position('x', 'right')->position('y', 'top')->error('অর্ডার পাওয়া যায়নি।');
+            notyf()->position('x', 'right')->position('y', 'top')->error('অর্ডার পাওয়া যায়নি।2');
             return back();
         }
         return view('frontend.pages.api.auto_bcPdf', [
