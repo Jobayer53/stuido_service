@@ -24,7 +24,8 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between ">
                         <h5 class="card-title fw-semibold mb-4">Payment History</h5>
-                        <span>Total: {{ number_format($total, 0) }} ৳</span>
+                        <span>Total Recharge: {{ number_format($total, 0) }} ৳</span>
+                        <span>Remaining Total: {{ number_format($remaining, 0) }} ৳</span>
                     </div>
 
                     <div class="table-responsive">
@@ -44,8 +45,10 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td class="d-flex flex-column">
-                                            <span class="font-weight-bold text-dark">{{ $payment->msisdn }}</span>
-                                            <span class="">{{ $payment->transaction_id }}</span>
+                                            <a href="{{route('user_details', $payment->user->uuid)}}">
+                                                <span class="font-weight-bold text-dark">{{ $payment->msisdn }}</span>
+                                                <span class="">{{ $payment->transaction_id }}</span>
+                                            </a>
                                         </td>
                                         <td>{{ $payment->status }}</td>
                                         <td>{{ $payment->created_at?->diffForHumans() }}</td>

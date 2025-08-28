@@ -233,9 +233,11 @@ class AdminController extends Controller
     {
         $payments = Payment::paginate(50);
         $total = Payment::sum('amount');
+        $remaining = User:: sum('amount');
         return view('Backend.payment', [
             'payments' => $payments,
-            'total' => $total
+            'total' => $total,
+            'remaining' => $remaining
         ]);
     }
 }
