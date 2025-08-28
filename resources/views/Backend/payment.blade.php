@@ -44,8 +44,8 @@
                                 @forelse ($payments as $payment)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td class="d-flex flex-column">
-                                            <a href="{{route('user_details', $payment->user->uuid)}}">
+                                        <td >
+                                            <a class="d-flex flex-column" href="{{route('user_details', $payment->user->uuid)}}">
                                                 <span class="font-weight-bold text-dark">{{ $payment->msisdn }}</span>
                                                 <span class="">{{ $payment->transaction_id }}</span>
                                             </a>
