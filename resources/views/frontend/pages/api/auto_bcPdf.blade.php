@@ -12,17 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/css/bootstrap.min.css"
         integrity="sha512-NZ19NrT58XPK5sXqXnnvtf9T5kLXSzGQlVZL9taZWeTBtXoN3xIfTdxbkQh6QSoJfJgpojRqMfhyqBAAEeiXcA=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
-    <script>
-        var birthRegistrationNumber = "{{ $data['brn'] }}";
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey) {
-                e.preventDefault();
-            }
-        });
-    </script>
+
     <link rel="stylesheet" href="{{ asset('frontend/nid/assets/birth-card-files/card.css') }}">
     <style>
         @page {
@@ -308,7 +298,7 @@
                                     <p style="display:flex;  font-weight:500">Permanent<br>Address<span
                                             style="margin-left: 37px; margin-right: 8px;" class="clone">:</span></p>
                                 </div>
-                                <div class="part2">
+                                <div class="part2" style="width: 196px">
                                     <p><span style="font-weight:500;text-transform: capitalize;">
                                             {{ $data['addressEn'] }} </span></p>
                                 </div>
@@ -380,7 +370,17 @@
         window.addEventListener('click', function(){
         	window.print();
         });
+        var birthRegistrationNumber = "{{ $data['brn'] }}";
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey) {
+                e.preventDefault();
+            }
+        });
     </script>
+
 </body>
 
 </html>
