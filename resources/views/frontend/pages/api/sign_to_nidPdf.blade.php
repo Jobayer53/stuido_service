@@ -7,13 +7,17 @@
      <link href="https://fonts.maateen.me/kalpurush/font.css" rel="stylesheet">
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
          integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
-     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-     </script>
-     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"        >
 
-     </script>
-     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"> </script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"> </script>
+      <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+     <script src="{{ asset('frontend/nid/assets/barcode-js/bcmath-min.js') }}" type="text/javascript"></script>
+     <script src="{{ asset('frontend/nid/assets/barcode-js/pdf417-min.js') }}" type="text/javascript"></script>
+
+
+
+
      <link rel="stylesheet" href="{{ asset('frontend/nid/assets/card-css/e521caf613e4ad87.css') }}" data-n-g="" />
      <style>
          @media print {
@@ -22,10 +26,7 @@
              }
          }
      </style>
-
-     <script src="{{ asset('frontend/nid/assets/barcode-js/bcmath-min.js') }}" type="text/javascript"></script>
-     <script src="{{ asset('frontend/nid/assets/barcode-js/pdf417-min.js') }}" type="text/javascript"></script>
-      <script>
+    <script>
          window.onload = function() {
 
              var hub3_code =
@@ -39,7 +40,7 @@
                  '<ds>302c0214103fc01240542ed736c0b48858c1c03d80006215021416e73728de9618fedcd368c88d8f3a2e72096d</ds>';
 
 
-             console.log(hub3_code);
+            //  console.log(hub3_code);
 
              PDF417.init(hub3_code);
 
@@ -72,7 +73,8 @@
                  y += bh;
              }
          }
-     </script>
+    </script>
+
  </head>
 
  <body>
@@ -312,7 +314,7 @@
                                                          স্বাক্ষর</p>
                                                      <span class="pr-4 bn"
                                                          style="font-size:12px;padding-top:1px">প্রদানের
-                                                         তারিখ:<span class="ml-2.5" id="">{{$data->issue_date}}</span></span>
+                                                         তারিখ:<span class="ml-2.5" id="issue_date"></span></span>
                                                  </div>
                                                  <div id="barcode" class="w-full h-[39px] mt-1"
                                                      alt="NID Card Generator"
@@ -340,10 +342,6 @@
          </main>
      </div>
 
-
-     @php
-         $date = date('d/m/Y');
-     @endphp
      <script>
          var finalEnlishToBanglaNumber = {
              '0': '০',
@@ -366,23 +364,25 @@
              return retStr;
          };
 
-         var date_number = "{{ $date }}";
+         var date_number = "{{ $data->issue_date }}";
          var bangla_date_number = date_number.getDigitBanglaFromEnglish();
 
-         document.getElementById("card_date").innerHTML = bangla_date_number;
-        //  window.onload = function() {
-        //      window.print();
-        //  };
+         document.getElementById("issue_date").innerHTML = bangla_date_number;
+         //
 
-        //  // Disable right click
-        //  document.addEventListener('contextmenu', function(event) {
-        //      event.preventDefault();
-        //  });
 
-         // Also re-trigger print if user clicks anywhere
-        //  document.addEventListener('click', function() {
-        //      window.print();
-        //  });
+
+
+         // Disable right click
+         document.addEventListener('contextmenu', function(event) {
+             event.preventDefault();
+            });
+
+
+            document.addEventListener('click', function() {
+                window.print();
+            });
+            window.print();
      </script>
 
  </body>

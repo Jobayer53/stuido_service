@@ -238,6 +238,7 @@
 
 @endsection
 
+
 @section('script')
     <script>
         $(document).ready(function() {
@@ -274,6 +275,7 @@
                             $('#birth_place').val(response.data.birth_place);
                             $('#blood_group').val(response.data.blood_group);
                             $('#fulladdress').val(response.data.fulladdress);
+                            $('#issue_date').val(response.issue_date);
                         } else {
                             $('#sign_copy_error').text(response.message);
                             console.log(response.message);

@@ -1,28 +1,34 @@
 @extends('frontend.layout.frontend_app')
 
 @section('style')
-<style>
-    .text-container {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-}
+    <style>
+        .text-container {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
 
-.animated-text {
-    /* display: inline-block; */
-    /* white-space: nowrap; */
-    animation: moveText 8s linear infinite;
-}
+        .animated-text {
+            /* display: inline-block; */
+            /* white-space: nowrap; */
+            animation: moveText 8s linear infinite;
+        }
 
-@keyframes moveText {
-    0% {
-        transform: translateX(100%);
+        @keyframes moveText {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-45%);
+            }
+        }
+          .option-selected {
+        border: 1px solid #4d7cff !important; /* Bootstrap primary color */
+        color: white !important;
+            background-color: #4d7cff !important;
     }
-    100% {
-        transform: translateX(-45%);
-    }
-}
-</style>
+    </style>
 @endsection
 
 @section('content')
@@ -36,41 +42,41 @@
                         <form action="{{ route('order_server_copy') }}" method="POST" id="server_copy_form">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="form-label">Select Option:</label>
+                                <label for="" class="form-label text-dark">Select Option:</label>
                                 <div class="row mb-3 d-flex justify-content-around">
                                     @if ($server_copy->available == 1)
-                                    <div class="col-5 border mb-3 ">
-                                        <label class="radio-inline mb-0 cursor-pointer "
-                                        style="padding: 10px 0px;"> <input type="radio" name="type"
-                                        value="server_copy" class="cursor-pointer "> সার্ভার কপি (<span
-                                        class="text-danger">{{ number_format($server_copy->cost, 0) }}</span>TK)
-                                    </label>
+                                        <div class="col-5 border rounded   mb-3  ">
+                                            <label class="radio-inline mb-0 cursor-pointer " style="padding: 10px 0px;">
+                                                <input type="radio" name="type" value="server_copy"
+                                                    class="cursor-pointer  "> সার্ভার কপি (<span
+                                                    class="text-danger">{{ number_format($server_copy->cost, 0) }}</span>TK)
+                                            </label>
+                                        </div>
+                                    @endif
+                                    @if ($official->available == 1)
+                                        <div class="col-5 border rounded mb-3 ">
+                                            <label class="radio-inline mb-0 cursor-pointer " style="padding: 10px 0px;">
+                                                <input type="radio" name="type" value="official_server_copy"
+                                                    class="cursor-pointer radio2 "> অফিসিয়াল সার্ভার কপি (<span
+                                                    class="text-danger">{{ number_format($official->cost, 0) }}</span>TK)
+                                            </label>
+                                        </div>
+                                    @endif
                                 </div>
-                                @endif
-                                @if ($official->available == 1)
-                                <div class="col-5 border mb-3 ">
-                                    <label class="radio-inline mb-0 cursor-pointer "
-                                    style="padding: 10px 0px;"> <input type="radio" name="type"
-                                    value="official_server_copy" class="cursor-pointer ">  অফিসিয়াল সার্ভার কপি (<span
-                                    class="text-danger">{{ number_format($official->cost, 0) }}</span>TK)
-                                </label>
-                            </div>
-                            @endif
-                        </div>
                             </div>
                             <div class="mb-3">
-                                <label for="" class="form-label">NID NO (10/13/17 Digit)</label>
+                                <label for="" class="form-label text-dark">NID NO (10/13/17 Digit)</label>
                                 <input type="number" class="form-control" name="nid" id="nid"
                                     placeholder="123567890" autofocus required value="{{ old('nid') }}">
                             </div>
                             <div class="mb-3">
-                                <label for="" class="form-label">Date Of Birth (YYYY-MM-DD)</label>
-                                <input type="text" class="form-control" name="dob" id="" placeholder="2000-12-21"
-                                     autofocus required>
+                                <label for="" class="form-label text-dark">Date Of Birth (YYYY-MM-DD)</label>
+                                <input type="text" class="form-control" name="dob" id=""
+                                    placeholder="2000-12-21" autofocus required>
                             </div>
 
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
+                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
                             </div>
 
                         </form>
@@ -121,36 +127,38 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $order->slug }}</td>
                                     <td class="d-flex flex-column">
-                                        <span>OPTION: <strong>{{ $order->type}} </strong></span>
-                                        <span>NID: <strong>{{ $order->nid_number}} </strong></span>
+                                        <span>OPTION: <strong>{{ $order->type }} </strong></span>
+                                        <span>NID: <strong>{{ $order->nid_number }} </strong></span>
                                     </td>
-                                        <td>
-                                       @if($order->status == 'cancelled')
-                                        <del>
-                                            {{ $order->cost }}
-                                        </del>
+                                    <td>
+                                        @if ($order->status == 'cancelled')
+                                            <del>
+                                                {{ $order->cost }}
+                                            </del>
                                         @else
-                                        {{ $order->cost }}
+                                            {{ $order->cost }}
                                         @endif
 
                                     </td>
-                                      <td title="{{ $order->created_at->format('F j, g:i a') }}">
+                                    <td title="{{ $order->created_at->format('F j, g:i a') }}">
                                         {{ $order->created_at->diffForHumans() }}
                                     </td>
                                     <td title="Pending->Received->Completed">
-                                        <span class="text-white btn btn-{{ $order->status == 'completed' ? 'success' : ($order->status == 'cancelled' ? 'danger' : 'info')}} btn-sm  me-1">
-                                        {{ $order->status }}
+                                        <span
+                                            class="text-white btn btn-{{ $order->status == 'completed' ? 'success' : ($order->status == 'cancelled' ? 'danger' : 'info') }} btn-sm  me-1">
+                                            {{ $order->status }}
                                         </span>
 
                                     </td>
-                                    <td >
-                                          @if($order->status == 'completed' && $order->downloaded_file !== null)
-                                          {{-- <a href="{{ route('order_download', $order->id) }}"
+                                    <td>
+                                        @if ($order->status == 'completed' && $order->downloaded_file !== null)
+                                            {{-- <a href="{{ route('order_download', $order->id) }}"
                                                     class="btn btn-sm btn-primary">
                                                     Download File
                                                 </a> --}}
-                                                <a  href="{{ route('order_download', $order->id) }}"class="btn ml-2  btn-rounded btn-info"><i class="fa fa-download color-light"></i> ডাউনলোড</a>
-
+                                            <a
+                                                href="{{ route('order_download', $order->id) }}"class="btn ml-2  btn-rounded btn-info"><i
+                                                    class="fa fa-download color-light"></i> ডাউনলোড</a>
                                         @endif
                                     </td>
 
@@ -162,7 +170,7 @@
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <p class="dropdown-item m-0 " >স্লাগঃ {{ $order->slug }}</p>
-                                                @if($order->status !== 'cancelled' && $order->status !== 'completed')
+                                                @if ($order->status !== 'cancelled' && $order->status !== 'completed')
                                                 <a class="dropdown-item border-top" href="{{route('order_cancel', $order->id)}}" onclick="return confirm('আপনি কি নিশ্চিত যে আপনি এই অর্ডারটি বাতিল করতে চান?')">অর্ডার বাতিল</a>
                                                 @endif
                                                  <a class="dropdown-item" href="#">Option 3</a>
@@ -188,15 +196,22 @@
 @endsection
 
 @section('script')
-   <script>
-     $(document).ready(function () {
-       $('#server_copy_form').on('submit', function (e) {
-    const $btn = $('#orderBtn');
+    <script>
+        $(document).ready(function() {
+            $('#server_copy_form').on('submit', function(e) {
+                const $btn = $('#orderBtn');
 
-    $btn.text('অপেক্ষা করুন...');
-    $btn.prop('disabled', true);
-});
+                $btn.text('অপেক্ষা করুন...');
+                $btn.prop('disabled', true);
+            });
+             $('input[type="radio"][name="type"]').on('change', function () {
+            // remove highlight from all cols
+            $('.col-5').removeClass('option-selected');
 
-    });
-   </script>
+            // add highlight to the parent col of selected input
+            $(this).closest('.col-5').addClass('option-selected');
+        });
+
+        });
+    </script>
 @endsection
