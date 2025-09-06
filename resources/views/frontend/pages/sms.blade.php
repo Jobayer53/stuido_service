@@ -23,6 +23,11 @@
                 transform: translateX(-45%);
             }
         }
+         .option-selected {
+        border: 1px solid #4d7cff !important; /* Bootstrap primary color */
+        color: white !important;
+            background-color: #4d7cff !important;
+    }
     </style>
 @endsection
 
@@ -37,10 +42,10 @@
                         <form action="{{ route('order_sms') }}" method="POST" id="sms_form">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="form-label">Select Option:</label>
+                                <label for="" class="form-label text-dark">Select Option:</label>
                                 <div class="mb-3 row d-flex justify-content-around">
                                     @if ($call_list->available == 1)
-                                        <div class="col-5 border mb-3 ">
+                                        <div class="col-5 border rounded mb-3 ">
                                             <label class="radio-inline mb-0 cursor-pointer call_list"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="call_list" class="cursor-pointer call_list"> ৩ মাসের কল লিষ্ট (<span
@@ -49,7 +54,7 @@
                                         </div>
                                     @endif
                                     @if ($call_list6->available == 1)
-                                        <div class="col-5 border mb-3">
+                                        <div class="col-5 border rounded mb-3">
                                             <label class="radio-inline mb-0 cursor-pointer call_list6" style="padding: 10px 0px;">
                                                 <input type="radio" name="type" value="call_list_6M"
                                                     class="cursor-pointer call_list6"> ৬ মাসের কল লিস্ট(<span
@@ -58,7 +63,7 @@
                                         </div>
                                     @endif
                                     @if ($sms_gp->available == 1)
-                                        <div class="col-5 border mb-3">
+                                        <div class="col-5 border rounded mb-3">
                                             <label class="radio-inline mb-0 cursor-pointer sms_gp" style="padding: 10px 0px;">
                                                 <input type="radio" name="type" value="sms_gp"
                                                     class="cursor-pointer sms_gp"> ১ মাসের জিপি SMS লিষ্ট  (<span
@@ -67,7 +72,7 @@
                                         </div>
                                     @endif
                                     @if ($sms_banglalink->available == 1)
-                                        <div class="col-5 border mb-3">
+                                        <div class="col-5 border rounded mb-3">
                                             <label class="radio-inline mb-0 cursor-pointer sms_banglalink"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="sms_banglalink" class="cursor-pointer sms_banglalink"> ১ মাসের বাংলালিংক SMS লিষ্ট (<span
@@ -78,14 +83,14 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="" class="form-label">ফোন নাম্বারঃ</label>
+                                <label for="" class="form-label text-dark">ফোন নাম্বারঃ</label>
                                 <input type="number" class="form-control" name="number" id="number" placeholder="অপশন সিলেক্ট করুন!"
                                     autofocus required>
                             </div>
 
 
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn"
+                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn"
                                   >ওর্ডার করুন</button>
                             </div>
 
@@ -211,7 +216,14 @@
             })
             $('.sms_banglalink').on('click', function() {
                 $('#number').attr('placeholder', '019XXXXXXXX');
-            })
+            });
+                $('input[type="radio"][name="type"]').on('change', function() {
+                // remove highlight from all cols
+                $('.col-5').removeClass('option-selected');
+
+                // add highlight to the parent col of selected input
+                $(this).closest('.col-5').addClass('option-selected');
+            });
 
         });
     </script>

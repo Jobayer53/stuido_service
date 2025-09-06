@@ -23,11 +23,13 @@
                 transform: translateX(-45%);
             }
         }
-          .option-selected {
-        border: 1px solid #4d7cff !important; /* Bootstrap primary color */
-        color: white !important;
+
+        .option-selected {
+            border: 1px solid #4d7cff !important;
+            /* Bootstrap primary color */
+            color: white !important;
             background-color: #4d7cff !important;
-    }
+        }
     </style>
 @endsection
 
@@ -204,13 +206,13 @@
                 $btn.text('অপেক্ষা করুন...');
                 $btn.prop('disabled', true);
             });
-             $('input[type="radio"][name="type"]').on('change', function () {
-            // remove highlight from all cols
-            $('.col-5').removeClass('option-selected');
+            $('input[type="radio"][name="type"]').on('change', function() {
+                // remove highlight from all cols
+                $('.col-5').removeClass('option-selected');
 
-            // add highlight to the parent col of selected input
-            $(this).closest('.col-5').addClass('option-selected');
-        });
+                // add highlight to the parent col of selected input
+                $(this).closest('.col-5').addClass('option-selected');
+            });
 
         });
     </script>

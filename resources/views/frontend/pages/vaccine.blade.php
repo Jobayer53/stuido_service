@@ -37,7 +37,7 @@
                         <form action="{{ route('order_vaccine') }}" method="POST" id="vaccine_form">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="form-label">ভেক্সিন ক্লোন সনদ:</label>
+                                <label for="" class="form-label text-dark">ভেক্সিন ক্লোন সনদ:</label>
                                <textarea name="data" id="data" cols="30" rows="4" class="form-control">
 নাম ইংরেজী :
 পাসপোর্ট নং :

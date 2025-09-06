@@ -23,6 +23,11 @@
                 transform: translateX(-45%);
             }
         }
+         .option-selected {
+        border: 1px solid #4d7cff !important; /* Bootstrap primary color */
+        color: white !important;
+            background-color: #4d7cff !important;
+    }
     </style>
 @endsection
 
@@ -37,10 +42,10 @@
                         <form action="{{ route('order_passport') }}" method="POST" id="passport_form">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="form-label">Select Option:</label>
+                                <label for="" class="form-label text-dark">Select Option:</label>
                                 <div class="mb-3 row d-flex justify-content-around">
                                     @if ($ePass->available == 1)
-                                        <div class="col-5 border mb-3 ">
+                                        <div class="col-5 border rounded mb-3 ">
                                             <label class="radio-inline mb-0 cursor-pointer ePass"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="nid_to_epass" class="cursor-pointer ePass"> এনআইডি টু ই-পাসপোর্ট
@@ -50,7 +55,7 @@
                                         </div>
                                     @endif
                                     @if ($mrp->available == 1)
-                                        <div class="col-5 border mb-3">
+                                        <div class="col-5 border rounded mb-3">
                                             <label class="radio-inline mb-0 cursor-pointer mrp" style="padding: 10px 0px;">
                                                 <input type="radio" name="type" value="nid_to_mrp"
                                                     class="cursor-pointer mrp"> এন আইডি টু এমআরপি পাসপোর্ট ইনফরমেশন (<span
@@ -59,7 +64,7 @@
                                         </div>
                                     @endif
                                     @if ($server_copy->available == 1)
-                                        <div class="col-5 border mb-3">
+                                        <div class="col-5 border rounded mb-3">
                                             <label class="radio-inline mb-0 cursor-pointer server_copy"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="mrp_to_serverCopy" class="cursor-pointer server_copy"> MRP পাসপোর্ট নম্বর টু সার্ভার কপি (<span
@@ -70,7 +75,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="" class="form-label">নিম্মক্ত তথ্য প্রদান করুন</label>
+                                <label for="" class="form-label text-dark">নিম্মক্ত তথ্য প্রদান করুন</label>
                                 <textarea name="data" id="" cols="30" rows="4" class="form-control "
                                     placeholder="
                                    ">
@@ -82,7 +87,7 @@
 
 
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn"
+                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn"
                                    >ওর্ডার করুন</button>
                             </div>
 
@@ -215,7 +220,14 @@
             $('.showBtn').on('click', function() {
                 var data = $(this).data('data');
                 $('#showData').val('Type: '+ data.type + '\n'+'Data: '+'\n' + data.description);
-            })
+            });
+                $('input[type="radio"][name="type"]').on('change', function() {
+                // remove highlight from all cols
+                $('.col-5').removeClass('option-selected');
+
+                // add highlight to the parent col of selected input
+                $(this).closest('.col-5').addClass('option-selected');
+            });
 
         });
     </script>

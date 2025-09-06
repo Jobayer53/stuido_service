@@ -37,22 +37,22 @@
                         <form action="{{ route('order_sign_copy') }}" method="POST" id="sign_copy_form">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="form-label mb-3">Select Type:</label>
+                                <label for="" class="form-label text-dark mb-3">Select Type:</label>
                                 <div class="form-group">
                                     <label class="radio-inline mr-3 cursor-pointer"> <input class="cursor-pointer" type="radio" name="type" value="form_no"> Form NO</label>
-                                    <label class="radio-inline mr-3 cursor-pointer"> <input class="cursor-pointer" type="radio" name="type" value="nid_no"> NID NO</label>
+                                    <label class="radio-inline  mr-3 cursor-pointer"> <input class="cursor-pointer" type="radio" name="type" value="nid_no"> NID NO</label>
                                     <label class="radio-inline mr-3 cursor-pointer"> <input class="cursor-pointer" type="radio" name="type" value="voter_no"> Voter NO</label>
                                     <label class="radio-inline mr-3 cursor-pointer"><input  class="cursor-pointer"type="radio" name="type" value="birth_no"> Birth NO</label>
                                     {{-- <label class="radio-inline mr-3"><input type="radio" name="optradio">Smart Card Pdf </label> --}}
                                 </div>
                             </div>
-                            <div class="mb-3 text-center">
-                                <label for="" class="form-label ">Name</label>
+                            <div class="mb-3 ">
+                                <label for="" class="form-label text-dark">Name</label>
                                 <input type="text" class="form-control" name="type_name" id=""
                                     placeholder="নাম লিখুন" autofocus required>
                             </div>
-                            <div class="mb-3 text-center">
-                                <label for="" class="form-label ">Form/NID/Voter/Birth NO </label>
+                            <div class="mb-3 ">
+                                <label for="" class="form-label text-dark">Form/NID/Voter/Birth NO </label>
                                 <input type="text" class="form-control" name="type_no" id=""
                                     placeholder="1234567890" autofocus required>
                             </div>
@@ -63,7 +63,7 @@
                                 {{-- <small class="">চার্জ <span class="text-danger">০ টাকা</span> !</small> --}}
                             </div>
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
+                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
                             </div>
 
                         </form>

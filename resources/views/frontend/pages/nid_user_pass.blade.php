@@ -23,6 +23,11 @@
                 transform: translateX(-45%);
             }
         }
+         .option-selected {
+        border: 1px solid #4d7cff !important; /* Bootstrap primary color */
+        color: white !important;
+            background-color: #4d7cff !important;
+    }
     </style>
 @endsection
 
@@ -37,10 +42,10 @@
                         <form action="{{ route('order_nid_pass') }}" method="POST" id="nid_pass_form">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="form-label">Select Option:</label>
+                                <label for="" class="form-label text-dark">Select Option:</label>
                                 <div class="mb-3 row d-flex justify-content-around">
                                     @if ($nid_pass->available == 1)
-                                        <div class="col-5 border ">
+                                        <div class="col-5 border rounded">
                                             <label class="radio-inline mb-0 cursor-pointer nid_pass"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="nid_pass" class="cursor-pointer nid_pass"> NID User Pass
@@ -50,7 +55,7 @@
                                         </div>
                                     @endif
                                     @if ($nidform->available == 1)
-                                        <div class="col-5 border">
+                                        <div class="col-5 border rounded">
                                             <label class="radio-inline mb-0 cursor-pointer nid_form"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="nid_form" class="cursor-pointer nid_form"> এন আইডি কারেকশন ফরম
@@ -67,7 +72,7 @@
 
 
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
+                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
                             </div>
 
                         </form>
@@ -212,6 +217,13 @@
                 var data = $(this).data('data');
                 $('#data').val(data.downloaded_info);
 
+            });
+                $('input[type="radio"][name="type"]').on('change', function() {
+                // remove highlight from all cols
+                $('.col-5').removeClass('option-selected');
+
+                // add highlight to the parent col of selected input
+                $(this).closest('.col-5').addClass('option-selected');
             });
         });
     </script>

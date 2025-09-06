@@ -37,7 +37,7 @@
                         <form action="{{ route('order_location') }}" method="POST" id="location_form">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="form-label">ফোন নাম্বার লিখুন</label>
+                                <label for="" class="form-label text-dark">ফোন নাম্বার লিখুন</label>
                                 <input type="number" class="form-control" name="number" id="number" required placeholder="01XXXXXXXXX">
                             </div>
 
@@ -48,7 +48,7 @@
                                     হবে !</small>
                             </div>
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
+                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
                             </div>
 
                         </form>

@@ -37,7 +37,7 @@
                         <form action="{{ route('order_lost_nid') }}" method="POST" id="lost_nid_form">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="form-label">নিম্মক্ত তথ্য প্রদান করুন</label>
+                                <label for="" class="form-label text-dark">নিম্মক্ত তথ্য প্রদান করুন</label>
                                 <textarea name="data" id="data" cols="30" rows="7" class="form-control" placeholder="" required>
 ⚠নামঃ
 ⚠পিতার নামঃ
@@ -60,7 +60,7 @@
                                 {{-- <small class="">চার্জ <span class="text-danger">০ টাকা</span> !</small> --}}
                             </div>
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn"
+                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn"
                                   >ওর্ডার করুন</button>
                             </div>
 

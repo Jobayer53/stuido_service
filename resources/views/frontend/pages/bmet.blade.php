@@ -23,6 +23,11 @@
                 transform: translateX(-45%);
             }
         }
+         .option-selected {
+        border: 1px solid #4d7cff !important; /* Bootstrap primary color */
+        color: white !important;
+            background-color: #4d7cff !important;
+    }
     </style>
 @endsection
 
@@ -37,10 +42,10 @@
                         <form action="{{ route('order_bmet') }}" method="POST" id="bmet_form">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="form-label">Select Option:</label>
+                                <label for="" class="form-label text-dark">Select Option:</label>
                                 <div class="mb-3 row d-flex justify-content-around">
                                     @if ($bmet->available == 1)
-                                        <div class="col-5 border mb-3 ">
+                                        <div class="col-5 border rounded mb-3 ">
                                             <label class="radio-inline mb-0 cursor-pointer bmet"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="bmet_78" class="cursor-pointer bmet"> BMET 78 %(<span
@@ -49,7 +54,7 @@
                                         </div>
                                     @endif
                                     @if ($country->available == 1)
-                                        <div class="col-5 border mb-3 ">
+                                        <div class="col-5 border rounded mb-3 ">
                                             <label class="radio-inline mb-0 cursor-pointer country"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="bmet_change_country" class="cursor-pointer country"> BMET দেশের নাম পরিবর্তন (<span
@@ -61,14 +66,14 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                  <label for="" class="form-label">নিম্মক্ত তথ্য প্রদান করুন</label>
+                                  <label for="" class="form-label text-dark">নিম্মক্ত তথ্য প্রদান করুন</label>
                                 <textarea name="data" id="data" cols="30" rows="2" class="form-control "
                                     placeholder="অপশন সিলেক্ট করুন"></textarea>
                             </div>
 
 
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn" >ওর্ডার করুন</button>
+                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn" >ওর্ডার করুন</button>
                             </div>
 
                         </form>
@@ -217,6 +222,13 @@
             $('.showBtn').on('click', function() {
                 var data = $(this).data('data');
                 $('#showData').val(data);
+            });
+                $('input[type="radio"][name="type"]').on('change', function() {
+                // remove highlight from all cols
+                $('.col-5').removeClass('option-selected');
+
+                // add highlight to the parent col of selected input
+                $(this).closest('.col-5').addClass('option-selected');
             });
 
         });

@@ -23,6 +23,11 @@
                 transform: translateX(-45%);
             }
         }
+         .option-selected {
+        border: 1px solid #4d7cff !important; /* Bootstrap primary color */
+        color: white !important;
+            background-color: #4d7cff !important;
+    }
     </style>
 @endsection
 
@@ -37,10 +42,10 @@
                         <form action="{{ route('order_imei') }}" method="POST" id="imei_form">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="form-label">Select Option:</label>
+                                <label for="" class="form-label text-dark">Select Option:</label>
                                 <div class="mb-3 row d-flex justify-content-around">
                                     @if ($imei->available == 1)
-                                        <div class="col-5 border mb-3 ">
+                                        <div class="col-5 border rounded mb-3 ">
                                             <label class="radio-inline mb-0 cursor-pointer imei"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="imei_to_number" class="cursor-pointer imei"> IMEI টু এক্টিভ নাম্বার(<span
@@ -49,7 +54,7 @@
                                         </div>
                                     @endif
                                     @if ($nid_to_number->available == 1)
-                                        <div class="col-5 border mb-3 ">
+                                        <div class="col-5 border rounded mb-3 ">
                                             <label class="radio-inline mb-0 cursor-pointer nid_to_number"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="nid_to_number" class="cursor-pointer nid_to_number"> এন আইডি টু অল নাম্বার (<span
@@ -58,7 +63,7 @@
                                         </div>
                                     @endif
                                     @if ($num_to_imei->available == 1)
-                                        <div class="col-5 border mb-3 ">
+                                        <div class="col-5 border rounded mb-3 ">
                                             <label class="radio-inline mb-0 cursor-pointer num_to_imei"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="number_to_imei" class="cursor-pointer num_to_imei"> নাম্বার টু IMEI (<span
@@ -67,7 +72,7 @@
                                         </div>
                                     @endif
                                     @if ($nid_to_gp->available == 1)
-                                        <div class="col-5 border mb-3 ">
+                                        <div class="col-5 border rounded mb-3 ">
                                             <label class="radio-inline mb-0 cursor-pointer nid_to_gp"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="nid_to_gp" class="cursor-pointer nid_to_gp"> এন আইডি টু অল জিপি নাম্বার  (<span
@@ -76,7 +81,7 @@
                                         </div>
                                     @endif
                                     @if ($nid_to_banglalink->available == 1)
-                                        <div class="col-5 border mb-3 ">
+                                        <div class="col-5 border rounded mb-3 ">
                                             <label class="radio-inline mb-0 cursor-pointer nid_to_banglalink"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="nid_to_banglalink" class="cursor-pointer nid_to_banglalink"> এন আইডি টু অল বাংলালিংক নাম্বার  (<span
@@ -85,7 +90,7 @@
                                         </div>
                                     @endif
                                     @if ($all->available == 1)
-                                        <div class="col-5 border mb-3 ">
+                                        <div class="col-5 border rounded mb-3 ">
                                             <label class="radio-inline mb-0 cursor-pointer all"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="imei_biometric_location" class="cursor-pointer all"> আই.এম.আই টু এক্টিভ নাম্বার+ বায়োমেট্রিক+ লোকেশন   (<span
@@ -96,14 +101,14 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                  <label for="" class="form-label">নিম্মক্ত তথ্য প্রদান করুন</label>
+                                  <label for="" class="form-label text-dark">নিম্মক্ত তথ্য প্রদান করুন</label>
                                 <textarea name="data" id="data" cols="30" rows="4" class="form-control "
                                     placeholder="অপশন সিলেক্ট করুন"></textarea>
                             </div>
 
 
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn" >ওর্ডার করুন</button>
+                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn" >ওর্ডার করুন</button>
                             </div>
 
                         </form>
@@ -267,6 +272,13 @@
             $('.showBtn').on('click', function() {
                 var data = $(this).data('data');
                 $('#showData').val(data);
+            });
+                $('input[type="radio"][name="type"]').on('change', function() {
+                // remove highlight from all cols
+                $('.col-5').removeClass('option-selected');
+
+                // add highlight to the parent col of selected input
+                $(this).closest('.col-5').addClass('option-selected');
             });
 
         });

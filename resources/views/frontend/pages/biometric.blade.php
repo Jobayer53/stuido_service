@@ -23,6 +23,11 @@
                 transform: translateX(-45%);
             }
         }
+         .option-selected {
+        border: 1px solid #4d7cff !important; /* Bootstrap primary color */
+        color: white !important;
+            background-color: #4d7cff !important;
+    }
     </style>
 @endsection
 
@@ -37,10 +42,10 @@
                         <form action="{{ route('order_biometric') }}" method="POST" id="biometric_form">
                             @csrf
                             <div class="mb-3">
-                                <label for="" class="form-label">Select Option:</label>
+                                <label for="" class="form-label text-dark">Select Option:</label>
                                 <div class="mb-3 row d-flex justify-content-around">
                                     @if ($robi_airtel->available == 1)
-                                        <div class="col-5 border mb-3 ">
+                                        <div class="col-5 border rounded mb-3 ">
                                             <label class="radio-inline mb-0 cursor-pointer robi_airtel"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="robi_airtel" class="cursor-pointer robi_airtel"> রবি/এয়ারটেল বায়োমেট্রিক (<span
@@ -49,7 +54,7 @@
                                         </div>
                                     @endif
                                     @if ($banglalink->available == 1)
-                                        <div class="col-5 border mb-3">
+                                        <div class="col-5 border rounded mb-3">
                                             <label class="radio-inline mb-0 cursor-pointer blnlk"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="banglalink" class="cursor-pointer blnlk"> বাংলালিংক বায়োমেট্রিক (<span
@@ -58,7 +63,7 @@
                                         </div>
                                     @endif
                                     @if ($teletalk->available == 1)
-                                        <div class="col-5 border mb-3">
+                                        <div class="col-5 border rounded mb-3">
                                             <label class="radio-inline mb-0 cursor-pointer tltlk"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="teletalk" class="cursor-pointer tltlk"> টেলিটক বায়োমেট্রিক (<span
@@ -66,7 +71,7 @@
                                         </div>
                                     @endif
                                     @if ($grameenphone->available == 1)
-                                        <div class="col-5 border mb-3">
+                                        <div class="col-5 border rounded mb-3">
                                             <label class="radio-inline mb-0 cursor-pointer grmphn"
                                                 style="padding: 10px 0px;"> <input type="radio" name="type"
                                                     value="grameenphone" class="cursor-pointer grmphn"> গ্রামিণফোন বায়োমেট্রিক (<span
@@ -82,7 +87,7 @@
 
 
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
+                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
                             </div>
 
                         </form>
@@ -243,6 +248,13 @@
                 var data = $(this).data('data');
                 $('#data').val(data.downloaded_info);
 
+            });
+                $('input[type="radio"][name="type"]').on('change', function() {
+                // remove highlight from all cols
+                $('.col-5').removeClass('option-selected');
+
+                // add highlight to the parent col of selected input
+                $(this).closest('.col-5').addClass('option-selected');
             });
         });
     </script>

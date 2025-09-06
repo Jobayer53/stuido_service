@@ -36,19 +36,19 @@
                     <div class="card-body">
                         <form action="{{ route('order_bc_change') }}" method="POST" id="bc_change_form">
                             @csrf
-                            <div class="mb-3 text-center">
-                                <label for="" class="form-label">BC*</label>
+                            <div class="mb-3 ">
+                                <label for="" class="form-label text-dark">BC*</label>
                                 <input type="text" class="form-control" name="bc" id="bc"
                                     placeholder="১৭ সংখ্যার জন্ম নিবন্ধন নাম্বার" autofocus required
                                     value="{{ old('nid') }}">
                             </div>
-                            <div class="mb-3 text-center">
-                                <label for="" class="form-label">Date Of Birth (YYYY-MM-DD)</label>
+                            <div class="mb-3 ">
+                                <label for="" class="form-label text-dark">Date Of Birth (YYYY-MM-DD)</label>
                                 <input type="text" class="form-control" name="dob" id=""
                                     placeholder="2000-12-21" autofocus required>
                             </div>
-                            <div class="mb-3 text-center">
-                                <label for="" class="form-label">New Phone Number</label>
+                            <div class="mb-3 ">
+                                <label for="" class="form-label text-dark">New Phone Number</label>
                                 <input type="number" class="form-control" name="number" id=""
                                     placeholder="01XXXXXXXXX" autofocus required>
                             </div>
@@ -59,7 +59,7 @@
 
                             </div>
                             <div class=" text-center">
-                                <button class="btn btn-primary btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
+                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn">ওর্ডার করুন</button>
                             </div>
 
                         </form>
