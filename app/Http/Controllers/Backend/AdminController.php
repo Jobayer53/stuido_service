@@ -231,7 +231,7 @@ class AdminController extends Controller
     }
     public function payment()
     {
-        $payments = Payment::paginate(50);
+        $payments = Payment::orderBy('id', 'desc')->paginate(50);
         $total = Payment::sum('amount');
         $remaining = User:: sum('amount');
         return view('Backend.payment', [
