@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Order;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\OrderNotification;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
 
 class ServiceOrderController extends Controller
 {
@@ -41,6 +44,11 @@ class ServiceOrderController extends Controller
         $order->save();
         $user->amount = $user->amount - $service->cost;
         $user->save();
+
+         $admin = Admin::first();
+        $admin->notify(new OrderNotification($order));
+//    Notification::send($admin, new OrderNotification($order));
+
         notyf()->position('x', 'right')->position('y', 'top')->success('আপনার অর্ডার সংরক্ষণ করা হয়েছে।');
         notyf()->position('x', 'right')->position('y', 'top')->info('অনুগ্রহ করে ৫-২০ মিনিট অপেক্ষা করুন।');
         return back();

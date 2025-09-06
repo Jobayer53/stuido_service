@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Admin extends Authenticatable
 {
      use HasFactory, Notifiable;
+     
 
     protected $fillable = [
         'name',
