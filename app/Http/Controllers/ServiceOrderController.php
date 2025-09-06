@@ -45,8 +45,8 @@ class ServiceOrderController extends Controller
         $user->amount = $user->amount - $service->cost;
         $user->save();
 
-         $admin = Admin::first();
-        $admin->notify(new OrderNotification($order));
+        //  $admin = Admin::first();
+        // $admin->notify(new OrderNotification($order));
 //    Notification::send($admin, new OrderNotification($order));
 
         notyf()->position('x', 'right')->position('y', 'top')->success('আপনার অর্ডার সংরক্ষণ করা হয়েছে।');
