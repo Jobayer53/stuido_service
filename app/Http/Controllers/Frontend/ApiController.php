@@ -20,80 +20,6 @@ class ApiController extends Controller
     }
     public function server_copy_download(Request $request)
     {
-        // $json = ' {
-        //        "Owner": "unique-seba.com",
-        // "nameBangla": "উইন আগস্টিন কস্তা",
-        // "nameEnglish": "WIN AUGUSTIN COSTA",
-        // "nationalId": "7355243812",
-        // "dateOfBirth": "11 Nov 1999",
-        // "pin": "19996547017004686",
-        // "gender": "male",
-        // "religion": "Christian",
-        // "occupation": "ছাত্র/ছাত্রী",
-        // "bloodGroup": "O+",
-        // "fatherName": "উইলিয়াম অসীম কস্তা",
-        // "nidFather": "19642699039579191",
-        // "motherName": "স্বর্ন ক্লারা কস্তা",
-        // "nidMother": "19702698880375563",
-        // "spouseName": "",
-        // "spouseNameEn": "",
-        // "birthPlace": "ঢাকা",
-        // "voterNo": "609317253514",
-        // "voterArea": "তেজগাঁও উপজেলা আওতাধীন",
-        // "voterAreaCode": "971443",
-        // "slNo": "993",
-        // "mobile": "",
-        // "presentHomeOrHoldingNo": "৬",
-        // "presentAdditionalVillageOrRoad": "তেজকুনি পাড়া",
-        // "presentMouzaOrMoholla": "",
-        // "presentAdditionalMouzaOrMoholla": "-",
-        // "presentUnionOrWard": "ওয়ার্ড নং-২৬",
-        // "presentWardForUnionPorishod": 0,
-        // "presentPostOffice": "তেজগাঁও টি এস ও",
-        // "presentPostalCode": "১২১৫",
-        // "presentCityCorporationOrMunicipality": "ঢাকা উত্তর সিটি কর্পোরেশন",
-        // "presentUpozila": "তেজগাঁও",
-        // "presentRmo": "9",
-        // "presentDistrict": "ঢাকা",
-        // "presentDivision": "ঢাকা",
-        // "presentRegion": "ঢাকা",
-        // "permanentHomeOrHoldingNo": "৬",
-        // "permanentAdditionalVillageOrRoad": "তেজকুনি পাড়া",
-        // "permanentMouzaOrMoholla": "",
-        // "permanentAdditionalMouzaOrMoholla": "-",
-        // "permanentUnionOrWard": "ওয়ার্ড নং-২৬",
-        // "permanentWardForUnionPorishod": "",
-        // "permanentPostOffice": "তেজগাঁও টি এস ও",
-        // "permanentPostalCode": "১২১৫",
-        // "permanentCityCorporationOrMunicipality": "",
-        // "permanentUpozila": "তেজগাঁও",
-        // "permanentRmo": "9",
-        // "permanentDistrict": "ঢাকা",
-        // "permanentDivision": "ঢাকা",
-        // "permanentRegion": "ঢাকা",
-        // "photo": "https://unique-seba.com/loadedImages/photos/photo_7355243812_1753259052_76e55bc4.jpg",
-        // "sign": "https://unique-seba.com/loadedImages/signs/sign_7355243812_1753259052_68809c2c4ee9a.png",
-        // "preAddress": {
-        //     "addressLine": "বাসা/হোল্ডিং: ৬, গ্রাম/রাস্তা: তেজকুনি পাড়া, মৌজা/মহল্লা: , ইউনিয়ন ওয়ার্ড: ওয়ার্ড নং-২৬, ডাকঘর: তেজগাঁও টি এস ও - ১২১৫, পৌরসভা: ঢাকা উত্তর সিটি কর্পোরেশন, উপজেলা: তেজগাঁও, জেলা: ঢাকা, বিভাগ: ঢাকা"
-        // },
-        // "perAddress": {
-        //     "addressLine": "বাসা/হোল্ডিং: ৬, গ্রাম/রাস্তা: তেজকুনি পাড়া, মৌজা/মহল্লা: , ইউনিয়ন ওয়ার্ড: ওয়ার্ড নং-২৬, ডাকঘর: তেজগাঁও টি এস ও - ১২১৫, পৌরসভা: , উপজেলা: তেজগাঁও, জেলা: ঢাকা, বিভাগ: ঢাকা"
-        // },
-        // "Developer": "Software Engineer [Arif]",
-        // "System": "SERVER COPY API - PER REQUEST TOKEN/CREDIT SYSTEM",
-        // "Contact With Me Telegram": "https://t.me/onlineweb500",
-        // "Contact With Me WhatsApp": "https://wa.me/447727748765",
-        // "Join Our Telegram Channel Group": "https://t.me/online700800",
-        // "Join Our WhatsApp Community Group": "https://chat.whatsapp.com/HgLgbKGPVq3390EfefVDV5"
-        // } ';
-        //   $server_copy = Service::find(47);
-        // $user = auth()->user();
-
-        // if ($user->amount < $server_copy->cost) {
-        //     notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
-        //     return back();
-        // }
-
         $validator = Validator::make($request->all(), [
             'nid' => 'required',
             'dob' => 'required',
@@ -105,9 +31,16 @@ class ApiController extends Controller
             notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
             return back();
         }
+        $server_copy = Service::find(47);
+        $user = auth()->user();
+
+        if ($user->amount < $server_copy->cost) {
+            notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
+            return back();
+        }
         $nid = $request->nid;
         $dob = $request->dob;
-        $apiKey = '88d9f1afa2b45a1b39ab118d3d530600';
+        $apiKey = '89d6492a89191d4c50728c56cb548ba8';
         $url = "https://unique-seba.com/api/servercopy2";
 
         $response = Http::get($url, [
@@ -126,34 +59,22 @@ class ApiController extends Controller
             notyf()->position('x', 'right')->position('y', 'top')->error('আপনার এনআইডি নাম্বার সঠিক নয়।');
             return back();
         }
-
+        $order = new Order();
+        $order->slug = uniqid();
+        $order->user_id = $user->id;
+        $order->service_id = $server_copy->id;
+        $order->cost = $server_copy->cost;
+        $order->type = 'server_copy';
+        $order->nid_number = $data->nationalId;
+        $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+        $order->status = 'completed';
+        $order->save();
+        $user->amount = $user->amount - $order->cost;
+        $user->save();
         return view('frontend.pages.api.server_copyPdf', [
             'data' => $data
         ]);
-        // $server_copy = Service::find(47);
-        // $user = auth()->user();
-        // if ($user->amount < $server_copy->cost) {
-        //     notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
-        //     return back();
-        // }
 
-        // $nid = $request->nid;
-        // $dob = $request->dob;
-
-        // $url = "https://no.eservice24.top/info.php?nationalId=$nid&dob=$dob&key=A200";
-        // $fileContent = file_get_contents($url);
-        // dd($fileContent);
-        // if(empty($fileContent)){
-        //     notyf()->position('x', 'right')->position('y', 'top')->error('আপনার নিবন্ধন নম্বর সঠিক নয়।');
-        //     return back();
-        // }
-        // $fileName = "nid_{$nid}.pdf";
-        // $filePath = public_path('upload/' . $fileName);
-
-        // // Save file
-        // file_put_contents($filePath, $fileContent);
-        // // $response = file_get_contents($url);
-        // return $fileContent;
     }
     public function tin()
     {
@@ -474,6 +395,72 @@ class ApiController extends Controller
             return back();
         }
         return view('frontend.pages.api.auto_bcPdf', [
+            'data' => $data
+        ]);
+    }
+    public function auto_nid(){
+        $service = Service::find(51);
+        return view('frontend.pages.api.auto_nid',[
+            'service' => $service
+        ]);
+    }
+    public function autoNid_download(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'nid' => 'required',
+            'dob' => 'required',
+        ], [
+            'nid.required' => 'আপনার এনআইডি নাম্বার লিখুন',
+            'dob.required' => 'আপনার জন্ম তারিখ লিখুন',
+        ]);
+        if ($validator->fails()) {
+            notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
+            return back();
+        }
+        $service = Service::find(51);
+        $user = auth()->user();
+
+        if ($user->amount < $service->cost) {
+            notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
+            return back();
+        }
+        $nid = $request->nid;
+        $dob = $request->dob;
+        $apiKey = '2033d0459c1bd9ae1bf6bd42dd034936';
+        $url = "https://unique-seba.com/api/autonid2";
+
+        $response = Http::get($url, [
+            'api_key' => $apiKey,
+            'nid'     => $nid,
+            'dob'     => $dob,
+        ]);
+        $data = json_decode($response->body());
+        if (isset($data->error)) {
+            notyf()->position('x', 'right')->position('y', 'top')->error($data->error);
+            return back();
+        }
+
+        // Case 2: No valid NID in response
+        if (!isset($data->nid) || empty($data->nid)) {
+            notyf()->position('x', 'right')->position('y', 'top')->error('আপনার এনআইডি নাম্বার সঠিক নয়।');
+            return back();
+        }
+        $order = new Order();
+        $order->slug = uniqid();
+        $order->user_id = $user->id;
+        $order->service_id = $service->id;
+        $order->cost = $service->cost;
+        $order->type = 'auto_nid';
+        $order->nid_number = $data->nid;
+        $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+        $order->status = 'completed';
+        $order->save();
+        $user->amount = $user->amount - $order->cost;
+        $user->save();
+
+        $data->issue_date = now()->format('d/m/Y');
+
+        return view('frontend.pages.api.sign_to_nidPdf', [
             'data' => $data
         ]);
     }

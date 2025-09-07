@@ -314,7 +314,7 @@
                         </div>
 
                         <div class="mb-3 mt-5 text-center warning d-none">
-                            <button type="submit" id="" class="btn btn-primary btn-sm ">ডাউনলোড</button>
+                            <button type="submit" id="" class="btn btn-info btn-sm ">ডাউনলোড</button>
                         </div>
 
                 </div>

@@ -73,7 +73,7 @@
 
                             </div>
                         <div class=" text-center ">
-                            <button class="btn btn-primary btn-sm " type="button" id="orderBtn">তথ্য দেখুন</button>
+                            <button class="btn btn-info btn-sm " type="button" id="orderBtn">তথ্য দেখুন</button>
                         </div>
 
                     </form>
@@ -227,7 +227,7 @@
                             </div>
                         </div>
                         <div class="mb-3 text-center warning d-none">
-                            <button type="submit" id="" class="btn btn-primary btn-sm ">ডাউনলোড</button>
+                            <button type="submit" id="" class="btn btn-info btn-sm ">ডাউনলোড</button>
                         </div>
 
                 </div>

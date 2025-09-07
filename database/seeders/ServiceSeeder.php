@@ -66,6 +66,7 @@ class ServiceSeeder extends Seeder
              ['id' => 48, 'name' => 'API Sign To NID', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
              ['id' => 49, 'name' => 'API Auto Birth Certificate', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
              ['id' => 50, 'name' => 'API Tin Certificate', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
+             ['id' => 51, 'name' => 'API Auto Nid', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
         ]);
     }
 }

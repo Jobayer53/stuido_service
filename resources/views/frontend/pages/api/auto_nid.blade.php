@@ -1,57 +1,52 @@
 @extends('frontend.layout.frontend_app')
 
 @section('style')
-<style>
-    .text-container {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-}
+    <style>
+        .text-container {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
 
-.animated-text {
-    /* display: inline-block; */
-    /* white-space: nowrap; */
-    animation: moveText 8s linear infinite;
-}
+        .animated-text {
+            /* display: inline-block; */
+            /* white-space: nowrap; */
+            animation: moveText 8s linear infinite;
+        }
 
-@keyframes moveText {
-    0% {
-        transform: translateX(100%);
-    }
-    100% {
-        transform: translateX(-45%);
-    }
-}
-</style>
+        @keyframes moveText {
+            0% {
+                transform: translateX(100%);
+            }
+
+            100% {
+                transform: translateX(-45%);
+            }
+        }
+    </style>
 @endsection
 
 @section('content')
     {{-- @include('frontend.layout.floating_text') --}}
     <div class="row mt-3 ">
         <div class="col-lg-6 m-auto ">
-            @if($service->available == 1)
+            @if ($service->available == 1)
                 <div class="card">
-                    <h5 class="card-header text-center">এক ক্লিকে টিন সার্টিফিকেট ডাউনলোড</h5>
+                    <h5 class="card-header text-center">এক ক্লিকে এনআইডি ডাউনলোড</h5>
                     <div class="card-body">
-                        <form action="{{route('order_api_tin')}}"  method="POST" id="tin_form" enctype="multipart/form-data">
+                        <form action="{{ route('order_api_autoNid') }}" method="POST" id="auto_nid_form" target="_blank">
                             @csrf
 
                             <div class="mb-3">
-                                <label for="" class="form-label">file</label>
-                                <input type="file" class="form-control" name="file"
-                                   >
-                            </div>
-
-                            {{-- <div class="mb-3">
                                 <label for="" class="form-label">NID NO (10/13/17 Digit)</label>
                                 <input type="text" class="form-control" name="nid" id="nid"
                                     placeholder="123567890" autofocus required value="{{ old('nid') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Date Of Birth (YYYY-MM-DD)</label>
-                                <input type="text" class="form-control" name="dob" id="" placeholder="2000-12-21"
-                                     autofocus required>
-                            </div> --}}
+                                <input type="text" class="form-control" name="dob" id=""
+                                    placeholder="2000-12-21" autofocus required>
+                            </div>
 
                             <div class=" text-center">
                                 <button class="btn btn-info btn-sm " type="submit" id="orderBtn">ডাউনলোড</button>
@@ -60,9 +55,9 @@
                         </form>
                     </div>
                 </div>
-                  @else
+            @else
                 <div class="card">
-                    <h5 class="card-header text-center mb-4"> টিন সার্টিফিকেট</h5>
+                    <h5 class="card-header text-center mb-4">অটো এনআইডি</h5>
                     <div class="card-body">
                         <i class=" text-danger d-flex  justify-content-center mb-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"
@@ -82,19 +77,18 @@
             @endif
         </div>
     </div>
-
 @endsection
 
 @section('script')
-   <script>
-     $(document).ready(function () {
-       $('#tin_form').on('submit', function (e) {
-    const $btn = $('#orderBtn');
+    {{-- <script>
+        $(document).ready(function() {
+            $('#server_copy_form').on('submit', function(e) {
+                const $btn = $('#orderBtn');
 
-    $btn.text('অপেক্ষা করুন...');
-    $btn.prop('disabled', true);
-});
+                $btn.text('অপেক্ষা করুন...');
+                $btn.prop('disabled', true);
+            });
 
-    });
-   </script>
+        });
+    </script> --}}
 @endsection
