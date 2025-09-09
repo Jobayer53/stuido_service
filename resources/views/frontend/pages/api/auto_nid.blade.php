@@ -23,6 +23,29 @@
                 transform: translateX(-45%);
             }
         }
+        .spinner {
+            border: 2px solid #f3f3f3;
+            /* Light gray */
+            border-top: 2px solid #3498db;
+            /* Blue */
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 @endsection
 
@@ -34,23 +57,28 @@
                 <div class="card">
                     <h5 class="card-header text-center">এক ক্লিকে এনআইডি ডাউনলোড</h5>
                     <div class="card-body">
-                        <form action="{{ route('order_api_autoNid') }}" method="POST" id="auto_nid_form" target="_blank">
+                        <form id="auto_nid_form">
                             @csrf
 
                             <div class="mb-3">
                                 <label for="" class="form-label">NID NO (10/13/17 Digit)</label>
-                                <input type="text" class="form-control" name="nid" id="nid"
+                                <input type="text" class="form-control" name="nid"
                                     placeholder="123567890" autofocus required value="{{ old('nid') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Date Of Birth (YYYY-MM-DD)</label>
-                                <input type="text" class="form-control" name="dob" id=""
+                                <input type="text" class="form-control" name="dob"
                                     placeholder="2000-12-21" autofocus required>
                             </div>
+                              <span class="text-danger fw-semibold mb-3" id="sign_copy_error"></span>
+                             <div class="mb-1 text-center">
+                                <small class="">আপনার একাউন্ট থেকে <span
+                                        class="text-danger">{{ number_format($service->cost, 0) }} টাকা</span> কেটে নেয়া
+                                    হবে !</small>
 
-                            <div class=" text-center">
-                                <button class="btn btn-info btn-sm " type="submit" id="orderBtn">ডাউনলোড</button>
                             </div>
+                            <div class=" text-center">
+   <button class="btn btn-info btn-sm " type="button" id="orderBtn">তথ্য দেখুন</button>                            </div>
 
                         </form>
                     </div>
@@ -77,18 +105,211 @@
             @endif
         </div>
     </div>
+        <div class="row p-2">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0 fw-semibold">এনআইডি তথ্য <span class="text-danger warning float-right d-none"
+                            style="font-size: 12px">*পেইজ রিফ্রেশ করলে তথ্য চলে যাবে*</span></h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('order_api_autoNid') }}" id="nid_form" enctype="multipart/form-data"
+                        method="POST" target="_blank">
+                        @csrf
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label for="" class="form-label text-dark"> ছবি</label>
+                                            <input type="file" class="form-control" name="photo" id="photo"value="">
+                                            <input type="hidden" name="slug" id="slug">
+
+                                            <input type="hidden" name="photo_url" id="photo_url">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <img src="" class="img-fluid" alt="" id="photo_preview"
+                                                width="100px">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="" class="form-label text-dark">সাইন</label>
+                                            <input type="file" class="form-control" name="sign" id="sign"
+                                                value="">
+                                            <input type="hidden" name="sign_url" id="sign_url">
+                                        </div>
+                                        <div class="col-6">
+                                            <img src="" class="img-fluid" alt="" id="sign_preview"
+                                                width="100px">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">এনাইডি নং</label>
+                                    <input type="text" class="form-control" name="nid" id="nid"
+                                        placeholder="123567890" required value="{{ old('nid') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">পিন কোড</label>
+                                    <input type="text" class="form-control" name="pin" id="pin"
+                                        placeholder="1234567890" required value="{{ old('pin') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">নাম বাংলা</label>
+                                    <input type="text" class="form-control" name="name_bn" id="name_bn"
+                                        placeholder="নাম বাংলা" required value="{{ old('name_bn') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">নাম ইংরেজি</label>
+                                    <input type="text" class="form-control" name="name_en" id="name_en"
+                                        placeholder="নাম ইংরেজি" required value="{{ old('name_en') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark"> পিতার নাম</label>
+                                    <input type="text" class="form-control" name="father_name" id="father_name"
+                                        placeholder="পিতার নাম" required value="{{ old('father_name') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">মাতার নাম</label>
+                                    <input type="text" class="form-control" name="mother_name" id="mother_name"
+                                        placeholder="মাতার নাম" required value="{{ old('mother_name') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark">জন্ম তারিখ</label>
+                                    <input type="text" class="form-control" name="dob" id="dob"
+                                        placeholder="জন্ম তারিখ" required value="{{ old('dob') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark"> জন্মস্থান</label>
+                                    <input type="text" class="form-control" name="birth_place" id="birth_place"
+                                        placeholder="জন্মস্থান" required value="{{ old('birth_place') }}">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark"> ব্লাড গ্রুপ</label>
+                                    <input type="text" class="form-control" name="blood_group" id="blood_group"
+                                        placeholder="ব্লাড গ্রুপ" value="{{ old('blood_group') }}">
+                                </div>
+                                <div class="col-6">
+                                    <label for="" class="form-label text-dark"> প্রধানের তারিখ</label>
+                                    <input type="text" class="form-control" name="issue_date" id="issue_date"
+                                        placeholder="DD/MM/YYYY" value="{{ old('issue_date') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label for="" class="form-label text-dark"> ঠিকানা</label>
+                                    <textarea name="fulladdress" id="fulladdress" cols="30" rows="5" class="form-control "></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="mb-3 text-center warning d-none">
+                            <button type="submit" id="" class="btn btn-info btn-sm ">ডাউনলোড</button>
+                        </div>
+
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
 @endsection
 
 @section('script')
-    {{-- <script>
+     <script>
         $(document).ready(function() {
-            $('#server_copy_form').on('submit', function(e) {
+            $('#orderBtn').on('click', function(e) {
                 const $btn = $('#orderBtn');
 
-                $btn.text('অপেক্ষা করুন...');
                 $btn.prop('disabled', true);
+                 $btn.html('অপেক্ষা করুন... <span class="spinner"></span>');
+                $data = $('sign_copy_form').serialize();
+                e.preventDefault();
+                $.ajax({
+                    url: "{{ route('get_nid2') }}",
+                    method: "POST",
+                    data: new FormData($('#auto_nid_form')[0]),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.status == 'success') {
+                             $('#sign_copy_error').text('');
+                            $('.warning').removeClass('d-none');
+                             $btn.text('তথ্য পাওয়া গেছে');
+                            $('#slug').val(response.slug);
+                            $('#photo_url').val(response.data.photo);
+                            $('#sign_url').val(response.data.signature);
+                            $('#photo_preview').attr('src', response.data.photo);
+                            $('#sign_preview').attr('src', response.data.signature);
+                            $('#nid').val(response.data.nid);
+                            $('#pin').val(response.data.pin);
+                            $('#name_bn').val(response.data.name_bn);
+                            $('#name_en').val(response.data.name_en);
+                            $('#father_name').val(response.data.father_name);
+                            $('#mother_name').val(response.data.mother_name);
+                            $('#dob').val(response.data.dob);
+                            $('#birth_place').val(response.data.birth_place);
+                            $('#blood_group').val(response.data.blood_group);
+                            $('#fulladdress').val(response.data.fulladdress);
+                            $('#issue_date').val(response.issue_date);
+                        } else {
+                            $('#sign_copy_error').text(response.message);
+                            console.log(response.message);
+                             $btn.prop('disabled', false);
+                              $btn.text('তথ্য দেখুন');
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+
+
+                });
             });
 
         });
-    </script> --}}
+        document.getElementById('photo').addEventListener('change', function(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let preview = document.getElementById('photo_preview');
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        });
+        document.getElementById('sign').addEventListener('change', function(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let preview = document.getElementById('sign_preview');
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        });
+    </script>
 @endsection

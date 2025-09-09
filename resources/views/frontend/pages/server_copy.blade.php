@@ -37,7 +37,7 @@
     @include('frontend.layout.floating_text')
     <div class="row mt-3 ">
         <div class="col-lg-6 m-auto ">
-            @if ($server_copy->available == 1 && $official->available == 1)
+            @if ($server_copy->available == 1 || $official->available == 1)
                 <div class="card">
                     <h5 class="card-header text-center">সার্ভার কপি</h5>
                     <div class="card-body">
@@ -115,7 +115,7 @@
                         <thead class=" bg-info text-white">
                             <th>#</th>
                             <th>স্লাগ আইডি</th>
-                            <th>এন আইডি</th>
+                            <th>তথ্য</th>
                             <th>চার্জ</th>
                             <th>সময়</th>
                             <th>স্ট্যাটাস</th>

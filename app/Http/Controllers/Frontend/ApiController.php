@@ -14,8 +14,10 @@ class ApiController extends Controller
     public function server_copy()
     {
         $server_copy = Service::find(47);
+        $orders = Order::where('user_id', auth()->user()->id)->where('service_id', $server_copy->id)->select(['id', 'slug', 'status', 'cost', 'type', 'nid_number', 'created_at'])->orderByDesc('created_at')->paginate(20);
         return view('frontend.pages.api.server_copy', [
-            'server_copy' => $server_copy
+            'server_copy' => $server_copy,
+            'orders' => $orders
         ]);
     }
     public function server_copy_download(Request $request)
@@ -74,7 +76,6 @@ class ApiController extends Controller
         return view('frontend.pages.api.server_copyPdf', [
             'data' => $data
         ]);
-
     }
     public function tin()
     {
@@ -202,7 +203,7 @@ class ApiController extends Controller
             $user->amount = $user->amount - $order->cost;
             $user->save();
 
-            return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug,'issue_date'=>date('d/m/Y')], 200);
+            return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug, 'issue_date' => date('d/m/Y')], 200);
         } else {
             return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
         }
@@ -335,49 +336,49 @@ class ApiController extends Controller
 
 
 
-//                 $json ='{
-//     "Owner": "unique-seba.com",
-//     "nameBangla": "জহির  উদ্দিন",
-//     "nameEnglish": "JOHIR UDDIN",
-//     "dateOfBirth": "12/03/1967",
-//     "dateOfBirthEn": "Twelve March One Thousand Nine Hundred Sixty-seven",
-//     "dateOfToday": "25/08/2025",
-//     "brn": "19671939467122202",
-//     "gender": "পুরুষ",
-//     "genderEn": "Male",
-//     "fatherName": "করম আলী",
-//     "fatherNameEn": "KOROM ALI",
-//     "fathersNationality": "বাংলাদেশি",
-//     "fathersNationalityEn": "Bangladeshi",
-//     "motherName": "রাবেয়া খাতুন",
-//     "motherNameEn": "RABEYA KHATUN",
-//     "mothersNationality": "বাংলাদেশি",
-//     "mothersNationalityEn": "Bangladeshi",
-//     "birthPlace": "কুমিল্লা, বাংলাদেশ",
-//     "birthPlaceEn": "Cumilla, Bangladesh",
-//     "registerOffice": "কড়িকান্দি ইউনিয়ন পরিষদ",
-//     "registerOfficeEn": "Karikandi Union Parishad",
-//     "registerOfficeLocation": "তিতাস, কুমিল্লা",
-//     "registerOfficeLocationEn": "Titas, Cumilla",
-//     "address": "কড়িকান্দি, তিতাস, কুমিল্লা, চট্টগ্রাম বিভাগ, বাংলাদেশ",
-//     "addressEn": "Karikandi, Titas, Cumilla, Chattogram Division, Bangladesh"
-// }';
-//         $data = json_decode($json);
-//           $user = auth()->user();
-//         $service = Service::find(49);
-//   $order = new Order();
-//             $order->slug = uniqid();
-//             $order->user_id = $user->id;
-//             $order->service_id = $service->id;
-//             $order->cost = $service->cost;
-//             $order->type = 'auto_birth_certificate';
-//             $order->type_number = $request->brn;
-//             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
-//             $order->status = 'completed';
-//             $order->save();
-//             $user->amount = $user->amount - $order->cost;
-//             $user->save();
-//          return response()->json(['status' => 'success', 'data' => $data, 'slug'   => $order->slug], 200);
+        //                 $json ='{
+        //     "Owner": "unique-seba.com",
+        //     "nameBangla": "জহির  উদ্দিন",
+        //     "nameEnglish": "JOHIR UDDIN",
+        //     "dateOfBirth": "12/03/1967",
+        //     "dateOfBirthEn": "Twelve March One Thousand Nine Hundred Sixty-seven",
+        //     "dateOfToday": "25/08/2025",
+        //     "brn": "19671939467122202",
+        //     "gender": "পুরুষ",
+        //     "genderEn": "Male",
+        //     "fatherName": "করম আলী",
+        //     "fatherNameEn": "KOROM ALI",
+        //     "fathersNationality": "বাংলাদেশি",
+        //     "fathersNationalityEn": "Bangladeshi",
+        //     "motherName": "রাবেয়া খাতুন",
+        //     "motherNameEn": "RABEYA KHATUN",
+        //     "mothersNationality": "বাংলাদেশি",
+        //     "mothersNationalityEn": "Bangladeshi",
+        //     "birthPlace": "কুমিল্লা, বাংলাদেশ",
+        //     "birthPlaceEn": "Cumilla, Bangladesh",
+        //     "registerOffice": "কড়িকান্দি ইউনিয়ন পরিষদ",
+        //     "registerOfficeEn": "Karikandi Union Parishad",
+        //     "registerOfficeLocation": "তিতাস, কুমিল্লা",
+        //     "registerOfficeLocationEn": "Titas, Cumilla",
+        //     "address": "কড়িকান্দি, তিতাস, কুমিল্লা, চট্টগ্রাম বিভাগ, বাংলাদেশ",
+        //     "addressEn": "Karikandi, Titas, Cumilla, Chattogram Division, Bangladesh"
+        // }';
+        //         $data = json_decode($json);
+        //           $user = auth()->user();
+        //         $service = Service::find(49);
+        //   $order = new Order();
+        //             $order->slug = uniqid();
+        //             $order->user_id = $user->id;
+        //             $order->service_id = $service->id;
+        //             $order->cost = $service->cost;
+        //             $order->type = 'auto_birth_certificate';
+        //             $order->type_number = $request->brn;
+        //             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+        //             $order->status = 'completed';
+        //             $order->save();
+        //             $user->amount = $user->amount - $order->cost;
+        //             $user->save();
+        //          return response()->json(['status' => 'success', 'data' => $data, 'slug'   => $order->slug], 200);
 
     }
     public function autoBc_download(Request $request)
@@ -390,7 +391,7 @@ class ApiController extends Controller
             notyf()->position('x', 'right')->position('y', 'top')->error('অর্ডার পাওয়া যায়নি।1');
             return back();
         }
-        if($order->type_number != $request->brn){
+        if ($order->type_number != $request->brn) {
             notyf()->position('x', 'right')->position('y', 'top')->error('অর্ডার পাওয়া যায়নি।2');
             return back();
         }
@@ -398,37 +399,31 @@ class ApiController extends Controller
             'data' => $data
         ]);
     }
-    public function auto_nid(){
+    public function auto_nid()
+    {
         $service = Service::find(51);
-        return view('frontend.pages.api.auto_nid',[
+        return view('frontend.pages.api.auto_nid', [
             'service' => $service
         ]);
     }
-    public function autoNid_download(Request $request){
-
-        $validator = Validator::make($request->all(), [
-            'nid' => 'required',
-            'dob' => 'required',
-        ], [
-            'nid.required' => 'আপনার এনআইডি নাম্বার লিখুন',
-            'dob.required' => 'আপনার জন্ম তারিখ লিখুন',
-        ]);
-        if ($validator->fails()) {
-            notyf()->position('x', 'right')->position('y', 'top')->error($validator->errors()->first());
-            return back();
+    public function get_nid2(Request $request)
+    {
+        if ($request->nid == null || $request->dob == null) {
+            return response()->json(['status' => 'error', 'message' => 'আপনার জন্মনিবন্ধন নম্বর এবং জন্ম তারিখ দিন'], 200);
         }
-        $service = Service::find(51);
-        $user = auth()->user();
 
+        $user = auth()->user();
+        $service = Service::find(51);
         if ($user->amount < $service->cost) {
-            notyf()->position('x', 'right')->position('y', 'top')->error('আপনার পর্যাপ্ত পরিমাণ টাকা নেই।');
-            return back();
+            return response()->json([
+                'status' => 'error',
+                'message' => 'আপনার পর্যাপ্ত পরিমাণ টাকা নেই।'
+            ]);
         }
         $nid = $request->nid;
         $dob = $request->dob;
         $apiKey = '2033d0459c1bd9ae1bf6bd42dd034936';
         $url = "https://unique-seba.com/api/autonid2";
-
         $response = Http::get($url, [
             'api_key' => $apiKey,
             'nid'     => $nid,
@@ -436,21 +431,35 @@ class ApiController extends Controller
         ]);
         $data = json_decode($response->body());
         if (isset($data->error)) {
-            notyf()->position('x', 'right')->position('y', 'top')->error($data->error);
-            return back();
+            return response()->json(['status' => 'error', 'message' => $data->error], 200);
         }
 
-        // Case 2: No valid NID in response
-        if (!isset($data->nid) || empty($data->nid)) {
-            notyf()->position('x', 'right')->position('y', 'top')->error('আপনার এনআইডি নাম্বার সঠিক নয়।');
-            return back();
-        }
+//         $json = '{
+//     "Owner": "unique-seba.com",
+//     "nid": "4222429823",
+//     "pin": "20024222429823385",
+//     "name_bn": "জোবায়ের হোসেন শিকদার",
+//     "name_en": "ZOBAIR HOSSAIN SHIKDAR",
+//     "dob": "09 Dec 2002",
+//     "birth_place": "কুমিল্লা",
+//     "father_name": "সফিকুল ইসলাম",
+//     "mother_name": "শান্তি বেগম",
+//     "blood_group": "N/A",
+//     "fulladdress": "বাসা/হোল্ডিং: মৌটুপী, গ্রাম/রাস্তা: মৌটুপী, মৌটুপী, ডাকঘর: মজিদ পুর - 3517, তিতাস, তিতাস",
+//     "photo": null,
+//     "signature": "https://unique-seba.com/public/loadedImages/signatures/4222429823_1757260850.png"
+// }';
+        // $data = json_decode($json);
+        //  return response()->json(['status' => 'success', 'data' => $data], 200);
+
+        if ($response->successful()) {
         $order = new Order();
         $order->slug = uniqid();
         $order->user_id = $user->id;
         $order->service_id = $service->id;
         $order->cost = $service->cost;
-        $order->type = 'auto_nid';
+        $order->type = 'auto nid';
+        $order->type_number = $data->pin;
         $order->nid_number = $data->nid;
         $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
         $order->status = 'completed';
@@ -458,8 +467,59 @@ class ApiController extends Controller
         $user->amount = $user->amount - $order->cost;
         $user->save();
 
-        $data->issue_date = now()->format('d/m/Y');
+        return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug, 'issue_date' => date('d/m/Y')], 200);
+        } else {
+        return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
+        }
+    }
+    public function autoNid_download(Request $request)
+    {
 
+        $order = Order::where('slug', $request->slug)->first();
+        if ($order == null || $order->user_id != auth()->user()->id) {
+            notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
+            return back();
+        }
+        if ($order->type_number != $request->pin) {
+            notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
+            return back();
+        }
+
+        $data = $request->all();
+        $photo = $request->photo_url;
+        $sign = $request->sign_url;
+        if ($request->photo) {
+            $photo = $request->photo;
+            $base64 = base64_encode(file_get_contents($photo));
+            $mime = $photo->getMimeType();
+            $src = "data:$mime;base64,$base64";
+            $photo = $src;
+        }
+        if ($request->sign) {
+            $sign = $request->sign;
+            $base64 = base64_encode(file_get_contents($sign));
+            $mime = $sign->getMimeType();
+            $src = "data:$mime;base64,$base64";
+            $sign = $src;
+        }
+
+        $json = [
+            "nid"         => $data['nid'] ?? '',
+            "pin"         => $data['pin'] ?? '',
+            "name_bn"     => $data['name_bn'] ?? '',
+            "name_en"     => $data['name_en'] ?? '',
+            "father_name" => $data['father_name'] ?? '',
+            "mother_name" => $data['mother_name'] ?? '',
+            "dob"         => $data['dob'] ?? '',
+            "birth_place" => $data['birth_place'] ?? '',
+            "blood_group" => $data['blood_group'] ?? '',
+            "fulladdress" => $data['fulladdress'] ?? '',
+            'issue_date'  => $data['issue_date'] ?? '',
+            // extra static (or generated) fields
+            "photo"       => $photo ?? '',
+            "signature"   => $sign ?? '',
+        ];
+        $data = json_decode(json_encode($json));
         return view('frontend.pages.api.sign_to_nidPdf', [
             'data' => $data
         ]);

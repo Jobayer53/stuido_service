@@ -51,6 +51,7 @@ Route::middleware(['auth', 'check.termination'])->group(function () {
     Route::post('/Api-auto-birth-certificate/download', [ApiController::class, 'autoBc_download'])->name('api_autoBc_download');
 
     Route::get('/api-auto-nid', [ApiController::class, 'auto_nid'])->name('api_auto_nid');
+      Route::post('/get-autoNid', [ApiController::class, 'get_nid2'])->name('get_nid2');
     Route::post('/api-auto-nid/download', [ApiController::class, 'autoNid_download'])->name('order_api_autoNid');
     //order
     // server copy

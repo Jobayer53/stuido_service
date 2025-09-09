@@ -62,7 +62,7 @@
 
                         <div class="mb-3">
                             <label for="" class="form-label text-dark">সাইন কপি</label>
-                            <input type="file" class="form-control" name="sign_copy">
+                            <input type="file" class="form-control"  name="sign_copy">
 
                         </div>
                         <span class="text-danger fw-semibold mb-3" id="sign_copy_error"></span>
