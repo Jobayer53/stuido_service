@@ -93,11 +93,11 @@ class ServiceController extends Controller
         $smrt_nidPdf = Service::find(4);
 
         $orders = Order::where('user_id', auth()->user()->id)
-            ->where('service_id', $nidPdf->id)
-            ->orWhere('service_id', $smrt_nidPdf->id)
+              ->whereIn('service_id', [$nidPdf->id, $smrt_nidPdf->id])
+
             ->select(['id', 'slug', 'status', 'cost', 'type', 'type_name', 'type_number', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
-            ->paginate(20); // limit to 10 latest orders
+            ->paginate(20);
 
         // dd($orders);
         return view('frontend.pages.nid_pdf', [
@@ -112,8 +112,8 @@ class ServiceController extends Controller
         $nidform = Service::find(6);
 
         $orders = Order::where('user_id', auth()->user()->id)
-            ->where('service_id', $nidPass->id)
-            ->orWhere('service_id', $nidform->id)
+            ->whereIn('service_id', [$nidPass->id,$nidform->id])
+
             ->select(['id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_file', 'downloaded_info',  'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20); // limit to 10 latest orders
