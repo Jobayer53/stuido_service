@@ -38,19 +38,19 @@
                             @csrf
 
                             <div class="mb-3">
-                                <label for="" class="form-label">NID NO (10/13/17 Digit)</label>
+                                <label for="" class="form-label text-dark">NID NO (10/13/17 Digit)</label>
                                 <input type="text" class="form-control" name="nid" id="nid"
                                     placeholder="123567890" autofocus required value="{{ old('nid') }}">
                             </div>
                             <div class="mb-3">
-                                <label for="" class="form-label">Date Of Birth (YYYY-MM-DD)</label>
+                                <label for="" class="form-label text-dark">Date Of Birth (YYYY-MM-DD)</label>
                                 <input type="text" class="form-control" name="dob" id=""
                                     placeholder="2000-12-21" autofocus required>
                             </div>
                              <div class="mb-1 text-center">
-                                <small class="">আপনার একাউন্ট থেকে <span
+                                <p class="">আপনার একাউন্ট থেকে <span
                                         class="text-danger">{{ number_format($server_copy->cost, 0) }} টাকা</span> কেটে নেয়া
-                                    হবে !</small>
+                                    হবে !</p>
 
                             </div>
 
@@ -83,7 +83,7 @@
             @endif
         </div>
     </div>
-       
+
 @endsection
 
 @section('script')

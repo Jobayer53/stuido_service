@@ -79,9 +79,9 @@
 
                             <span class="text-danger fw-semibold mb-3" id="autoBc_error"></span>
                             <div class="mb-1 text-center mt-5  ">
-                                <small class="">আপনার একাউন্ট থেকে <span
+                                <p class="">আপনার একাউন্ট থেকে <span
                                         class="text-danger">{{ number_format($service->cost, 0) }} টাকা</span> কেটে নেয়া
-                                    হবে !</small>
+                                    হবে !</p>
 
                             </div>
                             <div class=" text-center">

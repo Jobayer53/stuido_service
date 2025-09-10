@@ -43,9 +43,9 @@
                             </div>
 
                             <div class="mb-1 text-center">
-                                <small class="">আপনার একাউন্ট থেকে <span
+                                <p class="">আপনার একাউন্ট থেকে <span
                                         class="text-danger">{{ number_format($land->cost, 0) }} টাকা</span> কেটে নেয়া
-                                    হবে !</small>
+                                    হবে !</p>
                                 {{-- <small class="">চার্জ <span class="text-danger">০ টাকা</span> !</small> --}}
                             </div>
                             <div class=" text-center">

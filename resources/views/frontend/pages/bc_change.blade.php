@@ -53,9 +53,9 @@
                                     placeholder="01XXXXXXXXX" autofocus required>
                             </div>
                             <div class="mb-1 text-center">
-                                <small class="">আপনার একাউন্ট থেকে <span
+                                <p class="">আপনার একাউন্ট থেকে <span
                                         class="text-danger">{{ number_format($bc_change->cost, 0) }} টাকা</span> কেটে নেয়া
-                                    হবে !</small>
+                                    হবে !</p>
 
                             </div>
                             <div class=" text-center">
