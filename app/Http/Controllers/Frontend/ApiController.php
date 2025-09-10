@@ -205,7 +205,7 @@ class ApiController extends Controller
 
             return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug, 'issue_date' => date('d/m/Y')], 200);
         } else {
-            return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'.$data], 200);
+            return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
         }
     }
     public function signToNid_download(Request $request)
