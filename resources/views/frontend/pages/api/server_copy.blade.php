@@ -83,72 +83,7 @@
             @endif
         </div>
     </div>
-        <div class="row mt-3 p-2">
-        <div class="col-lg-12">
-            <div class="card">
-                <h5 class="card-header">ওর্ডার সমূহ</h5>
-                <div class="table-responsive ">
-                    <table class="table table-hover">
-                        <thead class=" bg-info text-white">
-                            <th>#</th>
-                            <th>স্লাগ আইডি</th>
-                            <th>এন আইডি</th>
-                            <th>চার্জ</th>
-                            <th>সময়</th>
-                            <th>স্ট্যাটাস</th>
-                            <th>ডাউনলোড</th>
-                            {{-- <th>একশন</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody class="text-dark">
-                            @forelse ($orders as $order)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $order->slug }}</td>
-                                    <td>{{ $order->nid_number }}  </td>
-                                    <td>
-                                        @if ($order->status == 'cancelled')
-                                            <del>
-                                                {{ $order->cost }}
-                                            </del>
-                                        @else
-                                            {{ $order->cost }}
-                                        @endif
-
-                                    </td>
-                                    <td title="{{ $order->created_at->format('F j, g:i a') }}">
-                                        {{ $order->created_at->diffForHumans() }}
-                                    </td>
-                                    <td title="Pending->Received->Completed">
-                                        <span
-                                            class="text-white btn btn-{{ $order->status == 'completed' ? 'success' : ($order->status == 'cancelled' ? 'danger' : 'info') }} btn-sm  me-1">
-                                            {{ $order->status }}
-                                        </span>
-
-                                    </td>
-                                    <td>
-                                        @if ($order->status == 'completed')
-                                            <a
-                                                href="{{ route('order_download', $order->id) }}"class="btn ml-2  btn-rounded btn-info"><i
-                                                    class="fa fa-download color-light"></i> ডাউনলোড</a>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td class="text-center py-3" colspan="7">কোনো ডাটা পাওয়া যায়নি</td>
-
-                                </tr>
-                            @endforelse
-
-                        </tbody>
-                    </table>
-                </div>
-                {{ $orders->links('pagination::bootstrap-5') }}
-            </div>
-
-        </div>
-    </div>
+       
 @endsection
 
 @section('script')
