@@ -402,8 +402,10 @@ class ApiController extends Controller
     public function auto_nid()
     {
         $service = Service::find(51);
+        $autoNid = Service::find(52);
         return view('frontend.pages.api.auto_nid', [
-            'service' => $service
+            'service' => $service,
+            'autoNid' => $autoNid
         ]);
     }
     public function get_nid2(Request $request)
@@ -458,7 +460,7 @@ class ApiController extends Controller
         $order->user_id = $user->id;
         $order->service_id = $service->id;
         $order->cost = $service->cost;
-        $order->type = 'auto nid';
+        $order->type = 'auto_nid';
         $order->type_number = $data->pin;
         $order->nid_number = $data->nid;
         $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
@@ -474,9 +476,12 @@ class ApiController extends Controller
     }
     public function autoNid_download(Request $request)
     {
-
+        $user = auth()->user();
+        $autoNid = Service::find(52);
+        $data = $request->all();
+        if($request->slug){
         $order = Order::where('slug', $request->slug)->first();
-        if ($order == null || $order->user_id != auth()->user()->id) {
+        if ($order == null || $order->user_id != $user->id) {
             notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
             return back();
         }
@@ -484,8 +489,26 @@ class ApiController extends Controller
             notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
             return back();
         }
+    }else{
+        if($autoNid->available == 0){
+            notyf()->position('x', 'right')->position('y', 'top')->error('সেবা বন্ধ আছে!');
+            return back();
+        }
+        $order = new Order();
+        $order->slug = uniqid();
+        $order->user_id = $user->id;
+        $order->service_id = $autoNid->id;
+        $order->cost = $autoNid->cost;
+        $order->type = 'auto_nid';
+        $order->type_number = $data['pin'];
+        $order->nid_number = $data['nid'];
+        $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+        $order->status = 'completed';
+        $order->save();
+        $user->amount = $user->amount - $autoNid->cost;
+        $user->save();
+    }
 
-        $data = $request->all();
         $photo = $request->photo_url;
         $sign = $request->sign_url;
         if ($request->photo) {

@@ -35,7 +35,7 @@ class OrderController extends Controller
 
         // Optional: For unused service IDs
         $usedIds = collect($serviceGroups)->flatten()->toArray();
-        $apiServiceIds = [47, 48, 49,50];
+        $apiServiceIds = [47, 48, 49,50,51,52];
         $usedIds = array_merge($usedIds, $apiServiceIds);
         $otherServices = Service::whereNotIn('id', $usedIds)
             ->withCount([

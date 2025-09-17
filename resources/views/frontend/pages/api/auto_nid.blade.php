@@ -23,6 +23,7 @@
                 transform: translateX(-45%);
             }
         }
+
         .spinner {
             border: 2px solid #f3f3f3;
             /* Light gray */
@@ -62,23 +63,23 @@
 
                             <div class="mb-3">
                                 <label for="" class="form-label text-dark">NID NO (10/13/17 Digit)</label>
-                                <input type="text" class="form-control" name="nid"
-                                    placeholder="123567890" autofocus required value="{{ old('nid') }}">
+                                <input type="text" class="form-control" name="nid" placeholder="123567890" autofocus
+                                    required value="{{ old('nid') }}">
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label text-dark">Date Of Birth (YYYY-MM-DD)</label>
-                                <input type="text" class="form-control" name="dob"
-                                    placeholder="2000-12-21" autofocus required>
+                                <input type="text" class="form-control" name="dob" placeholder="2000-12-21" autofocus
+                                    required>
                             </div>
-                              <span class="text-danger fw-semibold mb-3" id="sign_copy_error"></span>
-                             <div class="mb-1 text-center">
-                                <p class="" >আপনার একাউন্ট থেকে <span
+                            <span class="text-danger fw-semibold mb-3" id="sign_copy_error"></span>
+                            <div class="mb-1 text-center">
+                                <p class="">আপনার একাউন্ট থেকে <span
                                         class="text-danger">{{ number_format($service->cost, 0) }} টাকা</span> কেটে নেয়া
                                     হবে !</p>
-
                             </div>
                             <div class=" text-center">
-   <button class="btn btn-info btn-sm " type="button" id="orderBtn">তথ্য দেখুন</button>                            </div>
+                                <button class="btn btn-info btn-sm " type="button" id="orderBtn">তথ্য দেখুন</button>
+                            </div>
 
                         </form>
                     </div>
@@ -105,7 +106,7 @@
             @endif
         </div>
     </div>
-        <div class="row p-2">
+    <div class="row p-2">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
@@ -122,7 +123,8 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <label for="" class="form-label text-dark"> ছবি</label>
-                                            <input type="file" class="form-control" name="photo" id="photo"value="">
+                                            <input type="file" class="form-control" name="photo"
+                                                id="photo"value="" >
                                             <input type="hidden" name="slug" id="slug">
 
                                             <input type="hidden" name="photo_url" id="photo_url">
@@ -230,7 +232,12 @@
 
                             </div>
                         </div>
-                        <div class="mb-3 text-center warning d-none">
+                          <div class="mb-1 text-center nid ">
+                                <p class="">তথ্য দিয়ে এনআইডি ডাউনলোড @if($autoNid->available == 0) বন্ধ আছে! @else করুন
+                                    <span class="text-danger">{{ number_format($autoNid->cost, 0) }} টাকা </span>@endif
+                                </p>
+                            </div>
+                        <div class="mb-3 text-center ">
                             <button type="submit" id="" class="btn btn-info btn-sm ">ডাউনলোড</button>
                         </div>
 
@@ -242,13 +249,13 @@
 @endsection
 
 @section('script')
-     <script>
+    <script>
         $(document).ready(function() {
             $('#orderBtn').on('click', function(e) {
                 const $btn = $('#orderBtn');
 
                 $btn.prop('disabled', true);
-                 $btn.html('অপেক্ষা করুন... <span class="spinner"></span>');
+                $btn.html('অপেক্ষা করুন... <span class="spinner"></span>');
                 $data = $('sign_copy_form').serialize();
                 e.preventDefault();
                 $.ajax({
@@ -260,9 +267,10 @@
                     processData: false,
                     success: function(response) {
                         if (response.status == 'success') {
-                             $('#sign_copy_error').text('');
+                            $('#sign_copy_error').text('');
                             $('.warning').removeClass('d-none');
-                             $btn.text('তথ্য পাওয়া গেছে');
+                            $('.nid').addClass('d-none');
+                            $btn.text('তথ্য পাওয়া গেছে');
                             $('#slug').val(response.slug);
                             $('#photo_url').val(response.data.photo);
                             $('#sign_url').val(response.data.signature);
@@ -282,8 +290,8 @@
                         } else {
                             $('#sign_copy_error').text(response.message);
                             console.log(response.message);
-                             $btn.prop('disabled', false);
-                              $btn.text('তথ্য দেখুন');
+                            $btn.prop('disabled', false);
+                            $btn.text('তথ্য দেখুন');
                         }
                     },
                     error: function(error) {
