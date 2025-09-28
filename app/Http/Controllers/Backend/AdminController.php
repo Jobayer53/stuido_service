@@ -79,6 +79,13 @@ class AdminController extends Controller
         $autoNid = Order::whereDate('created_at', date('Y-m-d'))->where('service_id', 51)->count();
         $apiTotal = $serverCopy + $signToNid + $autoBC + $tin + $autoNid;
 
+        $yserverCopy = Order::whereDate('created_at', date('Y-m-d',strtotime("-1 day")))->where('service_id', 47)->count();
+        $ysignToNid = Order::whereDate('created_at', date('Y-m-d',strtotime("-1 day")))->where('service_id', 48)->count();
+        $yautoBC = Order::whereDate('created_at', date('Y-m-d',strtotime("-1 day")))->where('service_id', 49)->count();
+        $ytin = Order::whereDate('created_at', date('Y-m-d',strtotime("-1 day")))->where('service_id', 50)->count();
+        $yautoNid = Order::whereDate('created_at', date('Y-m-d',strtotime("-1 day")))->where('service_id', 51)->count();
+        $yapiTotal = $yserverCopy + $ysignToNid + $yautoBC + $ytin + $yautoNid;
+
         // dd($status. ' ' . $percentage_change);
         return view('Backend.index', [
             'todays_amount'            => $todays_amount,
@@ -102,7 +109,13 @@ class AdminController extends Controller
             'autoBC'                   => $autoBC,
             'tin'                      => $tin,
             'autoNid'                  => $autoNid,
-            'apiTotal'                 => $apiTotal
+            'apiTotal'                 => $apiTotal,
+            'yserverCopy'              => $yserverCopy,
+            'ysignToNid'               => $ysignToNid,
+            'yautoBC'                  => $yautoBC,
+            'ytin'                     => $ytin,
+            'yautoNid'                 => $yautoNid,
+            'yapiTotal'                => $yapiTotal
         ]);
     }
     public function admin_login()

@@ -410,6 +410,60 @@
             </div>
         </div>
     </div>
+      <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow">
+
+                <div class="card-body">
+                    <div class="d-flex justify-content-between  ">
+                        <h5 class="card-title mb-0 fw-semibold ">API Orders</h5>
+                        <h5 class="card-title mb-0 fw-semibold ">Total: {{$yapiTotal}}</h5>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-4 " style="border-right: 1px solid #ebf1f6;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Server Copy</span>
+                                    <span>{{ $yserverCopy }}</span>
+                                </li>
+                                   <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Auto Nid</span>
+                                    <span>{{ $yautoNid }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 " style="border-right: 1px solid #ebf1f6;">
+                            <ul class="list-group list-group-flush">
+                                 <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Sign to Nid</span>
+                                    <span>{{ $ysignToNid }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Tin Certificate</span>
+                                    <span>{{$ytin}}</span>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="col-lg-4" >
+                            <ul class="list-group list-group-flush">
+                                 <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Auto Birth Certificate</span>
+                                    <span>{{ $yautoBC }}</span>
+                                </li>
+
+                                {{-- <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Sign to Nid</span>
+                                    <span>2</span>
+                                </li> --}}
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     {{-- total --}}
     {{-- <div class="row mt-3">
         <div class="col-lg-12">
