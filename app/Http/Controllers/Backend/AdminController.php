@@ -20,21 +20,20 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $todays_amount = Order::whereDate('created_at', date('Y-m-d'))->where('status','!=','cancelled') ->sum('cost');
-        
+        $todays_amount = Order::whereDate('created_at', date('Y-m-d'))->where('status', '!=', 'cancelled')->sum('cost');
         $todays_totalOrder = Order::whereDate('created_at', date('Y-m-d'))->count();
         $todays_totalRecharge = Payment::whereDate('created_at', date('Y-m-d'))->sum('amount');
         $yesterdays_amount = Order::whereDate('created_at', date('Y-m-d', strtotime("-1 day")))->sum('cost');
-        $yesterday_totalRecharge = Payment::whereDate('created_at', date('Y-m-d',strtotime("-1 day")))->sum('amount');
+        $yesterday_totalRecharge = Payment::whereDate('created_at', date('Y-m-d', strtotime("-1 day")))->sum('amount');
         $yesterday_totalOrder = Order::whereDate('created_at', date('Y-m-d', strtotime("-1 day")))->count();
-            $yesterday = DB::table('orders')
-        ->selectRaw("
+        $yesterday = DB::table('orders')
+            ->selectRaw("
             SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completed,
             SUM(CASE WHEN status = 'canceled' THEN 1 ELSE 0 END) as canceled,
             SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending
         ")
-        ->whereDate('created_at', date('Y-m-d', strtotime("-1 day")))
-        ->first();
+            ->whereDate('created_at', date('Y-m-d', strtotime("-1 day")))
+            ->first();
 
         if ($yesterdays_amount > 0) {
             $percentage_change = (($todays_amount - $yesterdays_amount) / $yesterdays_amount) * 100;
@@ -46,52 +45,64 @@ class AdminController extends Controller
         $cancelled = Order::whereDate('created_at', date('Y-m-d'))->where('status', 'cancelled')->count();
         $completed = Order::whereDate('created_at', date('Y-m-d'))->where('status', 'completed')->count();
         $topCustomers = User::withCount(['orders' => function ($query) {
-                $query->whereDate('created_at', date('Y-m-d'));
-            }])
+            $query->whereDate('created_at', date('Y-m-d'));
+        }])
             ->having('orders_count', '>', 0)
             ->orderByDesc('orders_count')
             ->take(4)
             ->get();
-            $topCustomerYesterday = User::withCount(['orders' => function ($query) {
-                $query->whereDate('created_at', date('Y-m-d', strtotime("-1 day")));
-            }])
+        $topCustomerYesterday = User::withCount(['orders' => function ($query) {
+            $query->whereDate('created_at', date('Y-m-d', strtotime("-1 day")));
+        }])
             ->having('orders_count', '>', 0)
             ->orderByDesc('orders_count')
             ->take(4)
             ->get();
         $topService = Service::withCount(['orders' => function ($query) {
-                $query->whereDate('created_at', date('Y-m-d'));
-            }])
+            $query->whereDate('created_at', date('Y-m-d'));
+        }])
             ->having('orders_count', '>', 0)
             ->orderByDesc('orders_count')
             ->take(4)
             ->get();
         $topServiceYesterday = Service::withCount(['orders' => function ($query) {
-                $query->whereDate('created_at', date('Y-m-d', strtotime("-1 day")));
-            }])
+            $query->whereDate('created_at', date('Y-m-d', strtotime("-1 day")));
+        }])
             ->having('orders_count', '>', 0)
             ->orderByDesc('orders_count')
             ->take(4)
             ->get();
+        $serverCopy = Order::whereDate('created_at', date('Y-m-d'))->where('service_id', 47)->count();
+        $signToNid = Order::whereDate('created_at', date('Y-m-d'))->where('service_id', 48)->count();
+        $autoBC = Order::whereDate('created_at', date('Y-m-d'))->where('service_id', 49)->count();
+        $tin = Order::whereDate('created_at', date('Y-m-d'))->where('service_id', 50)->count();
+        $autoNid = Order::whereDate('created_at', date('Y-m-d'))->where('service_id', 51)->count();
+        $apiTotal = $serverCopy + $signToNid + $autoBC + $tin + $autoNid;
 
         // dd($status. ' ' . $percentage_change);
         return view('Backend.index', [
-            'todays_amount' => $todays_amount,
-            'todays_totalOrder' => $todays_totalOrder,
-            'percentage' => $percentage_change,
-            'status' => $status,
-            'pending' => $pending,
-            'cancelled' => $cancelled,
-            'completed' => $completed,
-            'topCustomers' => $topCustomers,
-            'topService' => $topService,
-            'todays_totalRecharge' =>$todays_totalRecharge,
-            'yesterday_totalRecharge' => $yesterday_totalRecharge,
-            'yesterday_totalOrder' =>$yesterday_totalOrder,
-            'yesterdays_amount' => $yesterdays_amount,
-            'yesterday' => $yesterday,
-            'topCustomerYesterday' => $topCustomerYesterday,
-            'topServiceYesterday' => $topServiceYesterday
+            'todays_amount'            => $todays_amount,
+            'todays_totalOrder'        => $todays_totalOrder,
+            'percentage'               => $percentage_change,
+            'status'                   => $status,
+            'pending'                  => $pending,
+            'cancelled'                => $cancelled,
+            'completed'                => $completed,
+            'topCustomers'             => $topCustomers,
+            'topService'               => $topService,
+            'todays_totalRecharge'     => $todays_totalRecharge,
+            'yesterday_totalRecharge'  => $yesterday_totalRecharge,
+            'yesterday_totalOrder'     => $yesterday_totalOrder,
+            'yesterdays_amount'        => $yesterdays_amount,
+            'yesterday'                => $yesterday,
+            'topCustomerYesterday'     => $topCustomerYesterday,
+            'topServiceYesterday'      => $topServiceYesterday,
+            'serverCopy'               => $serverCopy,
+            'signToNid'                => $signToNid,
+            'autoBC'                   => $autoBC,
+            'tin'                      => $tin,
+            'autoNid'                  => $autoNid,
+            'apiTotal'                 => $apiTotal
         ]);
     }
     public function admin_login()
@@ -234,7 +245,7 @@ class AdminController extends Controller
     {
         $payments = Payment::orderBy('id', 'desc')->paginate(50);
         $total = Payment::sum('amount');
-        $remaining = User:: sum('amount');
+        $remaining = User::sum('amount');
         return view('Backend.payment', [
             'payments' => $payments,
             'total' => $total,

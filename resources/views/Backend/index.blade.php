@@ -147,7 +147,7 @@
                         <span class="fw-semibold mb-0 card-title">৳{{ number_format($todays_totalRecharge, 0) }}</span>
                     </div>
                     <div class="mb-2 d-flex justify-content-between">
-                        <h5 class="card-title  fw-semibold">Orders</h5>
+                        <h5 class="card-title  fw-semibold">Total Orders</h5>
                         <span class="fw-semibold card-title">{{ $todays_totalOrder }}</span>
                     </div>
 
@@ -249,6 +249,60 @@
                         @endforelse
 
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow">
+
+                <div class="card-body">
+                    <div class="d-flex justify-content-between  ">
+                        <h5 class="card-title mb-0 fw-semibold ">API Orders</h5>
+                        <h5 class="card-title mb-0 fw-semibold ">Total: {{$apiTotal}}</h5>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-4 " style="border-right: 1px solid #ebf1f6;">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Server Copy</span>
+                                    <span>{{ $serverCopy }}</span>
+                                </li>
+                                   <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Auto Nid</span>
+                                    <span>{{ $autoNid }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 " style="border-right: 1px solid #ebf1f6;">
+                            <ul class="list-group list-group-flush">
+                                 <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Sign to Nid</span>
+                                    <span>{{ $signToNid }}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Tin Certificate</span>
+                                    <span>{{$tin}}</span>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <div class="col-lg-4" >
+                            <ul class="list-group list-group-flush">
+                                 <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Auto Birth Certificate</span>
+                                    <span>{{ $autoBC }}</span>
+                                </li>
+
+                                {{-- <li class="list-group-item d-flex justify-content-between">
+                                    <span class="text-dark">Sign to Nid</span>
+                                    <span>2</span>
+                                </li> --}}
+                            </ul>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -403,9 +457,10 @@
     <script>
         $(document).ready(function() {
             // Data for each segment
-            let value1 = $('.value1').data('value');
-            let value2 = $('.value2').data('value');
-            let value3 = $('.value3').data('value');
+            let value1 = $('.success').data('value');
+            let value2 = $('.danger').data('value');
+            let value3 = $('.primary').data('value');
+            console.log(value1, value2, value3);
             let total = value1 + value2 + value3;
             let percentage1 = (value1 / total) * 100;
             let percentage2 = (value2 / total) * 100;
@@ -498,11 +553,11 @@
             });
 
             // Optional: Add click functionality
-            $('.circle-segment').on('click', function() {
-                const label = $(this).data('label');
-                const value = $(this).data('value');
-                alert(`Clicked on ${label}: ${value}%`);
-            });
+            // $('.circle-segment').on('click', function() {
+            //     const label = $(this).data('label');
+            //     const value = $(this).data('value');
+            //     alert(`Clicked on ${label}: ${value}%`);
+            // });
         });
     </script>
 @endsection
