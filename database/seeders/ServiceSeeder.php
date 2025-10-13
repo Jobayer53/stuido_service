@@ -68,6 +68,8 @@ class ServiceSeeder extends Seeder
              ['id' => 50, 'name' => 'API Tin Certificate', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
              ['id' => 51, 'name' => 'API Auto Nid', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
              ['id' => 52, 'name' => ' Auto Nid', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
+             ['id' => 53, 'name' => 'API Sign To SmartNid', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
+             ['id' => 54, 'name' => 'Auto SmartNid', 'cost' => 100.00, 'available' => 1, 'created_at' => '2025-07-18 05:17:19', 'updated_at' => '2025-07-18 05:17:19'],
         ]);
     }
 }

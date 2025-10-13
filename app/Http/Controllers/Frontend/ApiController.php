@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Smalot\PdfParser\Parser;
 
 class ApiController extends Controller
 {
@@ -86,24 +87,56 @@ class ApiController extends Controller
     }
     public function tinStore(Request $request)
     {
-        $pdfPath = $request->file->getPathname();
-        $pdfName = $request->file->getClientOriginalName();
-        //https://tin.eservice24.top/tin.php?tin=376803390198
-        $response = Http::attach(
-            'pdf',
-            file_get_contents($pdfPath),
-            $pdfName
-        )->post('https://unique-seba.com/api/tin2', [
-            'api_key' => 'd277dd806869ce24023466deff9aef6b'
-        ]);
-        if ($response->successful()) {
-            return response()->json($response->json());
-        }
-        return response()->json([
-            'error' => true,
-            'message' => 'TIN API request failed',
-            'details' => $response->body()
-        ], $response->status());
+        //dd($request->all());
+
+
+
+        $parser = new Parser();
+        $pdf = $parser->parseFile($request->file('file')->getPathname());
+        $text = $pdf->getText();
+
+
+        // Step 1: Extract structured info with regex
+        $data = [
+            'nid' => $this->extractValue($text, 'National ID'),
+            'pin' => $this->extractValue($text, 'Pin'),
+            'status' => $this->extractValue($text, 'Status'),
+            'nameEnglish' => $this->extractValue($text, 'Name\\(English\\)'),
+            'nameBangla' => $this->extractValue($text, 'Name\\(Bangla\\)'),
+            'dateOfBirth' => $this->extractValue($text, 'Date of Birth'),
+            'birthPlace' => $this->extractValue($text, 'Birth Place'),
+            'fatherName' => $this->extractValue($text, 'Father Name'),
+            'motherName' => $this->extractValue($text, 'Mother Name'),
+            'spouseName' => $this->extractValue($text, 'Spouse Name'),
+            'gender' => $this->extractValue($text, 'Gender'),
+            'maritalStatus' => $this->extractValue($text, 'Marital'),
+            'occupation' => $this->extractValue($text, 'Occupation'),
+            'education' => $this->extractValue($text, 'Education'),
+            'religion' => $this->extractValue($text, 'Religion'),
+            // Add more fields as needed...
+        ];
+
+        return response()->json(['data' => $data]);
+
+        // $pdfPath = $request->file->getPathname();
+        // $pdfName = $request->file->getClientOriginalName();
+        // $response = Http::attach(
+        //     'pdf',
+        //     file_get_contents($pdfPath),
+        //     $pdfName
+        // )->post('https://api-store.top/sigg.php');
+        // if ($response->successful()) {
+        //     return response()->json($response->json());
+        // }
+        // return response()->json([
+        //     'error' => true,
+        //     'message' => 'TIN API request failed',
+        //     'details' => $response->body()
+        // ], $response->status());
+
+
+
+
         // $json = ' {
         //     "nid": "7318929564",
         //     "pin": "19831913621828203",
@@ -137,6 +170,11 @@ class ApiController extends Controller
         //     'message' => 'TIN API request failed',
         //     'details' => $response->body()
         // ], $response->status());
+    }
+    private function extractValue($text, $label)
+    {
+        preg_match("/{$label}\s+([^\n]+)/u", $text, $matches);
+        return $matches[1] ?? null;
     }
     public function sign_to_nid()
     {
@@ -436,42 +474,42 @@ class ApiController extends Controller
             return response()->json(['status' => 'error', 'message' => $data->error], 200);
         }
 
-//         $json = '{
-//     "Owner": "unique-seba.com",
-//     "nid": "4222429823",
-//     "pin": "20024222429823385",
-//     "name_bn": "জোবায়ের হোসেন শিকদার",
-//     "name_en": "ZOBAIR HOSSAIN SHIKDAR",
-//     "dob": "09 Dec 2002",
-//     "birth_place": "কুমিল্লা",
-//     "father_name": "সফিকুল ইসলাম",
-//     "mother_name": "শান্তি বেগম",
-//     "blood_group": "N/A",
-//     "fulladdress": "বাসা/হোল্ডিং: মৌটুপী, গ্রাম/রাস্তা: মৌটুপী, মৌটুপী, ডাকঘর: মজিদ পুর - 3517, তিতাস, তিতাস",
-//     "photo": null,
-//     "signature": "https://unique-seba.com/public/loadedImages/signatures/4222429823_1757260850.png"
-// }';
+        //         $json = '{
+        //     "Owner": "unique-seba.com",
+        //     "nid": "4222429823",
+        //     "pin": "20024222429823385",
+        //     "name_bn": "জোবায়ের হোসেন শিকদার",
+        //     "name_en": "ZOBAIR HOSSAIN SHIKDAR",
+        //     "dob": "09 Dec 2002",
+        //     "birth_place": "কুমিল্লা",
+        //     "father_name": "সফিকুল ইসলাম",
+        //     "mother_name": "শান্তি বেগম",
+        //     "blood_group": "N/A",
+        //     "fulladdress": "বাসা/হোল্ডিং: মৌটুপী, গ্রাম/রাস্তা: মৌটুপী, মৌটুপী, ডাকঘর: মজিদ পুর - 3517, তিতাস, তিতাস",
+        //     "photo": null,
+        //     "signature": "https://unique-seba.com/public/loadedImages/signatures/4222429823_1757260850.png"
+        // }';
         // $data = json_decode($json);
         //  return response()->json(['status' => 'success', 'data' => $data], 200);
 
         if ($response->successful()) {
-        $order = new Order();
-        $order->slug = uniqid();
-        $order->user_id = $user->id;
-        $order->service_id = $service->id;
-        $order->cost = $service->cost;
-        $order->type = 'auto_nid';
-        $order->type_number = $data->pin;
-        $order->nid_number = $data->nid;
-        $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
-        $order->status = 'completed';
-        $order->save();
-        $user->amount = $user->amount - $order->cost;
-        $user->save();
+            $order = new Order();
+            $order->slug = uniqid();
+            $order->user_id = $user->id;
+            $order->service_id = $service->id;
+            $order->cost = $service->cost;
+            $order->type = 'auto_nid';
+            $order->type_number = $data->pin;
+            $order->nid_number = $data->nid;
+            $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+            $order->status = 'completed';
+            $order->save();
+            $user->amount = $user->amount - $order->cost;
+            $user->save();
 
-        return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug, 'issue_date' => date('d/m/Y')], 200);
+            return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug, 'issue_date' => date('d/m/Y')], 200);
         } else {
-        return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
+            return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
         }
     }
     public function autoNid_download(Request $request)
@@ -479,35 +517,35 @@ class ApiController extends Controller
         $user = auth()->user();
         $autoNid = Service::find(52);
         $data = $request->all();
-        if($request->slug){
-        $order = Order::where('slug', $request->slug)->first();
-        if ($order == null || $order->user_id != $user->id) {
-            notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
-            return back();
+        if ($request->slug) {
+            $order = Order::where('slug', $request->slug)->first();
+            if ($order == null || $order->user_id != $user->id) {
+                notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
+                return back();
+            }
+            if ($order->type_number != $request->pin) {
+                notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
+                return back();
+            }
+        } else {
+            if ($autoNid->available == 0) {
+                notyf()->position('x', 'right')->position('y', 'top')->error('সেবা বন্ধ আছে!');
+                return back();
+            }
+            $order = new Order();
+            $order->slug = uniqid();
+            $order->user_id = $user->id;
+            $order->service_id = $autoNid->id;
+            $order->cost = $autoNid->cost;
+            $order->type = 'auto_nid';
+            $order->type_number = $data['pin'];
+            $order->nid_number = $data['nid'];
+            $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+            $order->status = 'completed';
+            $order->save();
+            $user->amount = $user->amount - $autoNid->cost;
+            $user->save();
         }
-        if ($order->type_number != $request->pin) {
-            notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
-            return back();
-        }
-    }else{
-        if($autoNid->available == 0){
-            notyf()->position('x', 'right')->position('y', 'top')->error('সেবা বন্ধ আছে!');
-            return back();
-        }
-        $order = new Order();
-        $order->slug = uniqid();
-        $order->user_id = $user->id;
-        $order->service_id = $autoNid->id;
-        $order->cost = $autoNid->cost;
-        $order->type = 'auto_nid';
-        $order->type_number = $data['pin'];
-        $order->nid_number = $data['nid'];
-        $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
-        $order->status = 'completed';
-        $order->save();
-        $user->amount = $user->amount - $autoNid->cost;
-        $user->save();
-    }
 
         $photo = $request->photo_url;
         $sign = $request->sign_url;
@@ -544,6 +582,137 @@ class ApiController extends Controller
         ];
         $data = json_decode(json_encode($json));
         return view('frontend.pages.api.sign_to_nidPdf', [
+            'data' => $data
+        ]);
+    }
+
+    public function smrtNid()
+    {
+        $service = Service::find(53);
+        $autoSmrtNid = Service::find(54);
+        return view('frontend.pages.api.sign_to_smrtNid', [
+            'service' => $service,
+            'autoSmrtNid' => $autoSmrtNid
+        ]);
+    }
+       public function get_smrtnid(Request $request)
+    {
+        if ($request->sign_copy == null) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'সাইন কপি আপলোড করুন'
+            ]);
+        }
+        $pdfPath = $request->sign_copy->getPathname();
+        $pdfName = $request->sign_copy->getClientOriginalName();
+        $user = auth()->user();
+        $service = Service::find(53);
+        if ($user->amount < $service->cost) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'আপনার পর্যাপ্ত পরিমাণ টাকা নেই।'
+            ]);
+        }
+        $response = Http::attach(
+            'pdf',
+            file_get_contents($pdfPath),
+            $pdfName
+        )->post('https://api-store.top/sigg.php');
+
+        $data = json_decode($response->body());
+    //    return response()->json(['status' => 'success', 'data' => $data], 200);
+        if ($response->successful()) {
+            $order = new Order();
+            $order->slug = uniqid();
+            $order->user_id = $user->id;
+            $order->service_id = $service->id;
+            $order->cost = $service->cost;
+            $order->type = 'sign_to_smrtNid';
+            $order->type_number = $data->data->pin;
+            $order->nid_number = $data->data->nid;
+            $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+            $order->status = 'completed';
+            $order->save();
+            $user->amount = $user->amount - $order->cost;
+            $user->save();
+
+            return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug, 'issue_date' => date('d M Y')], 200);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
+        }
+    }
+    public function signToSmrtNid_download(Request $request){
+
+         $user = auth()->user();
+        $autoSmrtNid = Service::find(54);
+        $data = $request->all();
+        if ($request->slug) {
+            $order = Order::where('slug', $request->slug)->first();
+            if ($order == null || $order->user_id != $user->id) {
+                notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
+                return back();
+            }
+            if ($order->type_number != $request->pin) {
+                notyf()->position('x', 'right')->position('y', 'top')->error(' অর্ডার পাওয়া যায়নি।');
+                return back();
+            }
+        } else {
+            if ($autoSmrtNid->available == 0) {
+                notyf()->position('x', 'right')->position('y', 'top')->error('সেবা বন্ধ আছে!');
+                return back();
+            }
+            $order = new Order();
+            $order->slug = uniqid();
+            $order->user_id = $user->id;
+            $order->service_id = $autoSmrtNid->id;
+            $order->cost = $autoSmrtNid->cost;
+            $order->type = 'auto_smrtNid';
+            $order->type_number = $data['pin'];
+            $order->nid_number = $data['nid'];
+            $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+            $order->status = 'completed';
+            $order->save();
+            $user->amount = $user->amount - $autoSmrtNid->cost;
+            $user->save();
+        }
+
+        $photo = $request->photo_url;
+        $sign = $request->sign_url;
+        if ($request->photo) {
+            $photo = $request->photo;
+            $base64 = base64_encode(file_get_contents($photo));
+            $mime = $photo->getMimeType();
+            $src = "data:$mime;base64,$base64";
+            $photo = $src;
+        }
+        if ($request->sign) {
+            $sign = $request->sign;
+            $base64 = base64_encode(file_get_contents($sign));
+            $mime = $sign->getMimeType();
+            $src = "data:$mime;base64,$base64";
+            $sign = $src;
+        }
+
+        $json = [
+            "nid"         => $data['nid'] ?? '',
+            "pin"         => $data['pin'] ?? '',
+            "name_bn"     => $data['name_bn'] ?? '',
+            "name_en"     => $data['name_en'] ?? '',
+            "father_name" => $data['father_name'] ?? '',
+            "mother_name" => $data['mother_name'] ?? '',
+            "dob"         => $data['dob'] ?? '',
+            "birth_place" => $data['birth_place'] ?? '',
+
+            "blood_group" => $data['blood_group'] ?? '',
+            "fulladdress" => $data['fulladdress'] ?? '',
+            'issue_date'  => $data['issue_date'] ?? '',
+            // extra static (or generated) fields
+            "photo"       => $photo ?? '',
+            "signature"   => $sign ?? '',
+        ];
+        $data = json_decode(json_encode($json));
+        // dd($data);
+        return view('frontend.pages.api.sign_to_smrtPdf', [
             'data' => $data
         ]);
     }

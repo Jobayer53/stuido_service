@@ -51,8 +51,12 @@ Route::middleware(['auth', 'check.termination'])->group(function () {
     Route::post('/Api-auto-birth-certificate/download', [ApiController::class, 'autoBc_download'])->name('api_autoBc_download');
 
     Route::get('/api-auto-nid', [ApiController::class, 'auto_nid'])->name('api_auto_nid');
-      Route::post('/get-autoNid', [ApiController::class, 'get_nid2'])->name('get_nid2');
+    Route::post('/get-autoNid', [ApiController::class, 'get_nid2'])->name('get_nid2');
     Route::post('/api-auto-nid/download', [ApiController::class, 'autoNid_download'])->name('order_api_autoNid');
+
+    Route::get('/api-auto-smartNid', [ApiController::class, 'smrtNid'])->name('api_smrt_nid');
+    Route::post('/get-smart-nid', [ApiController::class, 'get_smrtNid'])->name('get_smrtNid');
+    Route::post('/api-signTo-smrtNid/download', [ApiController::class, 'signToSmrtNid_download'])->name('api_signToSmrtNid_download');
     //order
     // server copy
     Route::get('/server-copy',[ServiceController::class, 'serverCopyIndex'])->name('server_copy_index');
