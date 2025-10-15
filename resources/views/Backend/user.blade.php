@@ -27,13 +27,38 @@
                         <span>Total: {{ $total }}</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('users.toggle-status') }}" >
-                        @csrf
-                        <input type="hidden" name="status" value="{{ $status }}">
-                        <button type="submit" class="btn btn-sm btn-{{ $status == 'Activate' ? 'primary' : 'danger'}}">
-                            {{ ucfirst($status) }} All Users
-                        </button>
-                    </form>
+                        <div class="d-flex gap-2 flex-wrap justify-content-between">
+                            <form method="POST" action="{{ route('users.toggle-status') }}">
+                                @csrf
+                                <input type="hidden" name="status" value="{{ $status }}">
+                                <button type="submit"
+                                    class="btn btn-sm btn-{{ $status == 'Activate' ? 'primary' : 'danger' }}">
+                                    {{ ucfirst($status) }} All Users
+                                </button>
+                            </form>
+                            <!-- Default dropstart button -->
+                            {{-- <div class="">
+                                <button type="button" class="btn btn-sm btn-secondary filter mb-3">
+                                    Filter
+                                </button>
+                                <div class="form p-3"
+                                    style="position: absolute;inset: 106px 12px auto auto;
+                                        margin: 0px;background:white;width:35%;z-index:999;
+                                        transform: translate(-99.025px, 0px);">
+
+                                    <form action="">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text" id="basic-addon1">Last Recharged</span>
+                                            <input type="text" class="form-control" placeholder="0 days ago"
+                                                aria-label="Username" aria-describedby="basic-addon1">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div> --}}
+
+
+                        </div>
+
                         <div class="table-responsive">
                             <table class="table table-bordered" id="serviceTable">
                                 <thead>
@@ -61,7 +86,8 @@
                                             </td>
                                             <td class="d-flex gap-2">
 
-                                                <a href="{{route('user_details', $user->uuid)}}" class="btn btn-info " title="View Details">
+                                                <a href="{{ route('user_details', $user->uuid) }}" class="btn btn-info "
+                                                    title="View Details">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                                         <path
@@ -70,7 +96,9 @@
                                                             d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
                                                     </svg>
                                                 </a>
-                                                <a href="{{route('user_terminate', $user->uuid)}}" class="btn btn-{{ $user->terminate == 1 ? 'danger' : 'success'}} " title="Terminate User">
+                                                <a href="{{ route('user_terminate', $user->uuid) }}"
+                                                    class="btn btn-{{ $user->terminate == 1 ? 'danger' : 'success' }} "
+                                                    title="Terminate User">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                         fill="currentColor" class="bi bi-power" viewBox="0 0 16 16">
                                                         <path d="M7.5 1v7h1V1z" />
@@ -143,6 +171,15 @@
                 lengthChange: true,
                 paging: false,
                 info: false,
+            });
+            $('.filter').click(function() {
+                let form = $('.form');
+                if (form.hasClass('d-none')) {
+                    form.removeClass('d-none');
+                } else {
+                    form.addClass('d-none');
+                }
+
             });
         });
     </script>

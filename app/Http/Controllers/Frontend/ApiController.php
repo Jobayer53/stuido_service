@@ -325,13 +325,14 @@ class ApiController extends Controller
 
         $brn = $request->brn;
         $dob = $request->dob;
-        $url = "https://unique-seba.com/api/autobirth2?api_key=7450ba623c2a0fd7293fa2730f2bc29f&brn=$brn&dob=$dob";
-        $apiKey = '7450ba623c2a0fd7293fa2730f2bc29f';
-        $url = "https://unique-seba.com/api/autobirth2";
+        $url = "http://104.243.44.205/~bahanhgk/birth.php";
+        // $url = "https://unique-seba.com/api/autobirth2?api_key=7450ba623c2a0fd7293fa2730f2bc29f&brn=$brn&dob=$dob";
+        // $apiKey = '7450ba623c2a0fd7293fa2730f2bc29f';
+        // $url = "https://unique-seba.com/api/autobirth2";
 
         try {
+
             $response = Http::get($url, [
-                'api_key' => $apiKey,
                 'brn'     => $brn,
                 'dob'     => $dob,
             ]);
@@ -339,14 +340,15 @@ class ApiController extends Controller
             $data = json_decode($response->body(), true);
 
             // API error check
-            if (isset($data['error'])) {
+            if (isset($data['Success']) && $data['Success'] === 'False') {
                 return response()->json([
                     'status' => 'error',
-                    'message' => $data['error']
+                    'message' => $data['Message']
                 ], 400);
-            }
 
-            // Success
+            }
+           if ($response->successful()) {
+                // Success
             $order = new Order();
             $order->slug = uniqid();
             $order->user_id = $user->id;
@@ -365,10 +367,18 @@ class ApiController extends Controller
                 'data'   => $data,
                 'slug'   => $order->slug
             ], 200);
+            }else{
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Server error'
+                ], 500);
+            }
+
+
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Server error: ' . $e->getMessage()
+                'message' => 'Server error: Please try again later.'
             ], 500);
         }
 
@@ -595,7 +605,7 @@ class ApiController extends Controller
             'autoSmrtNid' => $autoSmrtNid
         ]);
     }
-       public function get_smrtnid(Request $request)
+    public function get_smrtnid(Request $request)
     {
         if ($request->sign_copy == null) {
             return response()->json([
@@ -620,7 +630,7 @@ class ApiController extends Controller
         )->post('https://api-store.top/sigg.php');
 
         $data = json_decode($response->body());
-    //    return response()->json(['status' => 'success', 'data' => $data], 200);
+        //    return response()->json(['status' => 'success', 'data' => $data], 200);
         if ($response->successful()) {
             $order = new Order();
             $order->slug = uniqid();
@@ -641,9 +651,10 @@ class ApiController extends Controller
             return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
         }
     }
-    public function signToSmrtNid_download(Request $request){
+    public function signToSmrtNid_download(Request $request)
+    {
 
-         $user = auth()->user();
+        $user = auth()->user();
         $autoSmrtNid = Service::find(54);
         $data = $request->all();
         if ($request->slug) {

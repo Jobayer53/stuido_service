@@ -54,8 +54,18 @@
                 </div>
             </div>
         </div>
+         <div class="col-lg-2">
+            <div class="card p-3">
+               <div class="d-flex justify-content-around">
+                <a href="{{ route('admin_order_all') }}" class="text-dark">
+                    <h5 class=" mb-0 text-muted  ">All Orders</h5>
+                </a>
+                    {{-- <span class=" fw-semibold text-dark">{{ $canceled }}</span> --}}
+                </div>
+            </div>
+        </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="card p-2">
                 <form action="{{ route('order.slug') }}" class="float-end" method="POST">
                     @csrf

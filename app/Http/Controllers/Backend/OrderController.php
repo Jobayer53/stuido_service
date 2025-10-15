@@ -30,18 +30,18 @@ class OrderController extends Controller
 
         foreach ($serviceGroups as $key => $ids) {
             $idsString = implode(',', $ids);
-            $stats[$key] = DB::selectOne("SELECT COUNT(*) AS total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) AS completed,  SUM(CASE WHEN notified = 0 THEN 1 ELSE 0 END) AS new FROM orders WHERE service_id IN ($idsString)AND DATE(created_at) = CURDATE() ");
+            $stats[$key] = DB::selectOne("SELECT COUNT(*) AS total, SUM(CASE WHEN status IN ('completed', 'cancelled') THEN 1 ELSE 0 END) AS completed,  SUM(CASE WHEN notified = 1 THEN 1 ELSE 0 END) AS new FROM orders WHERE service_id IN ($idsString)AND DATE(created_at) = CURDATE() ");
         }
 
         // Optional: For unused service IDs
         $usedIds = collect($serviceGroups)->flatten()->toArray();
-        $apiServiceIds = [47, 48, 49,50,51,52];
+        $apiServiceIds = [47, 48, 49,50,51,52,53,54];
         $usedIds = array_merge($usedIds, $apiServiceIds);
         $otherServices = Service::whereNotIn('id', $usedIds)
             ->withCount([
                 'orders as total' => fn($q) => $q->whereDate('created_at', today()),
                 'orders as completed' => fn($q) => $q->whereIn('status', ['completed', 'cancelled'])->whereDate('created_at', today()),
-                'orders as new' => fn($q) => $q->where('notified', 0)->whereDate('created_at', today()),
+                'orders as new' => fn($q) => $q->where('notified', 1)->whereDate('created_at', today()),
             ])
             ->get();
         $completed = Order::where('status', 'completed')->count();
@@ -78,8 +78,8 @@ class OrderController extends Controller
             ->select($selectFields)
             ->orderByDesc('created_at')
             ->paginate(20);
-        if ($service->orders()->where('notified', 0)->count() > 0) {
-            $service->orders()->update(['notified' => 1]);
+        if ($service->orders()->where('notified', 1)->count() > 0) {
+            $service->orders()->update(['notified' => 0]);
         }
         // $service->orders()->update(['notified' => 1]);
         return view('Backend.order_details', [
@@ -150,8 +150,8 @@ class OrderController extends Controller
 
         $checkQuery = clone $query;
 
-        if ($checkQuery->where('notified', 0)->count() > 0) {
-            $query->update(['notified' => 1]);
+        if ($checkQuery->where('notified', 1)->count() > 0) {
+            $query->update(['notified' => 0]);
         }
 
         $orders = $query
@@ -176,8 +176,8 @@ class OrderController extends Controller
 
         $checkQuery = clone $query;
 
-        if ($checkQuery->where('notified', 0)->count() > 0) {
-            $query->update(['notified' => 1]);
+        if ($checkQuery->where('notified', 1)->count() > 0) {
+            $query->update(['notified' => 0]);
         }
 
         $orders = $query
@@ -198,10 +198,10 @@ class OrderController extends Controller
             ->select(['id', 'user_id', 'slug', 'status', 'cost', 'description', 'downloaded_file', 'created_at'])
             ->orderByDesc('created_at')
             ->paginate(20);
-        $checkQuery = Order::where('service_id', 11)->where('notified', 0)->count();
+        $checkQuery = Order::where('service_id', 11)->where('notified', 1)->count();
 
         if ($checkQuery > 0) {
-            Order::where('service_id', 11)->update(['notified' => 1]);
+            Order::where('service_id', 11)->update(['notified' => 0]);
         }
 
         return view('Backend.pages.lost_nid_details', [
@@ -217,8 +217,8 @@ class OrderController extends Controller
 
         $checkQuery = clone $query;
 
-        if ($checkQuery->where('notified', 0)->count() > 0) {
-            $query->update(['notified' => 1]);
+        if ($checkQuery->where('notified', 1)->count() > 0) {
+            $query->update(['notified' => 0]);
         }
 
         $orders = $query
@@ -240,8 +240,8 @@ class OrderController extends Controller
 
         $checkQuery = clone $query;
 
-        if ($checkQuery->where('notified', 0)->count() > 0) {
-            $query->update(['notified' => 1]);
+        if ($checkQuery->where('notified', 1)->count() > 0) {
+            $query->update(['notified' => 0]);
         }
 
         $orders = $query
@@ -262,8 +262,8 @@ class OrderController extends Controller
 
         $checkQuery = clone $query;
 
-        if ($checkQuery->where('notified', 0)->count() > 0) {
-            $query->update(['notified' => 1]);
+        if ($checkQuery->where('notified', 1)->count() > 0) {
+            $query->update(['notified' => 0]);
         }
 
         $orders = $query
@@ -285,8 +285,8 @@ class OrderController extends Controller
 
         $checkQuery = clone $query;
 
-        if ($checkQuery->where('notified', 0)->count() > 0) {
-            $query->update(['notified' => 1]);
+        if ($checkQuery->where('notified', 1)->count() > 0) {
+            $query->update(['notified' => 0]);
         }
 
         $orders = $query
@@ -308,8 +308,8 @@ class OrderController extends Controller
 
         $checkQuery = clone $query;
 
-        if ($checkQuery->where('notified', 0)->count() > 0) {
-            $query->update(['notified' => 1]);
+        if ($checkQuery->where('notified', 1)->count() > 0) {
+            $query->update(['notified' => 0]);
         }
 
         $orders = $query
@@ -328,8 +328,8 @@ class OrderController extends Controller
 
         $query = Order::whereIn('service_id', [44, 45]);
         $checkQuery = clone $query;
-        if ($checkQuery->where('notified', 0)->count() > 0) {
-            $query->update(['notified' => 1]);
+        if ($checkQuery->where('notified', 1)->count() > 0) {
+            $query->update(['notified' => 0]);
         }
         $orders = $query
             ->select(['id', 'user_id', 'slug', 'status', 'cost', 'type', 'description', 'downloaded_info', 'created_at'])
@@ -382,4 +382,11 @@ class OrderController extends Controller
             return redirect()->route('admin_order_details', $order->service_id);
         }
     }
+    public function allOrder(){
+        $orders = Order::select(['slug','user_id','service_id','status','cost','created_at'])->orderBy('id','desc')->get();
+        return view('Backend.pages.all_order',[
+            'orders' => $orders
+        ]);
+    }
 }
+

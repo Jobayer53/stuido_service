@@ -50,7 +50,7 @@
             }
 
             // Auto-generate PDF after short delay
-
+             window.print();
         }
 
         function generate() {
@@ -79,6 +79,20 @@
                 }
             }
         }
+    //       // Run when page + resources are fully loaded
+    // window.onload = function () {
+    //     window.print();
+    // };
+
+    // Disable right click
+    document.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+    });
+
+    // Also re-trigger print if user clicks anywhere
+    document.addEventListener('click', function () {
+        window.print();
+    });
     </script>
 
     <!-- External scripts -->
@@ -364,9 +378,9 @@
             <span class="bc_dwn_code3 bc_dwn_code1">
                 {!! $safeFname !!}
             </span>
-            <div class="print" style="text-align: center;">
+            {{-- <div class="print" style="text-align: center;">
                 <button onclick="window.print()" class="btn-info">প্রিন্ট করুন</button>
-            </div>
+            </div> --}}
         </div>
     </div>
      <input type="text" id="textToEncode" style="width: 100%; height: 200px; visibility:hidden;">

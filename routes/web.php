@@ -141,6 +141,7 @@ Route::middleware(['admin'])->group(function(){
     Route::post('/admin-service-update',[ServiceController::class, 'admin_service_update'])->name('admin_service_update');
     Route::get('/admin-orders',[OrderController::class, 'index'])->name('admin_order');
     Route::get('/admin-order-details/{id}',[OrderController::class, 'show'])->name('admin_order_details');
+    Route::get('/admin-order-all',[OrderController::class, 'allOrder'])->name('admin_order_all');
     Route::get('/admin-user-payments',[AdminController::class, 'payment'])->name('admin_user_payment');
 
     // single page

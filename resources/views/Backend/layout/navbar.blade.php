@@ -1,5 +1,5 @@
 @php
-    $notifications = \App\Models\Order::where('notified',0)->count();
+    $notifications = \App\Models\Order::where('notified',1)->count();
 @endphp
   <!--  Header Start -->
   <header class="app-header">
