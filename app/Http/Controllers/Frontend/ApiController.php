@@ -71,6 +71,7 @@ class ApiController extends Controller
         $order->nid_number = $data->nationalId;
         $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
         $order->status = 'completed';
+        $order->notified = 0;
         $order->save();
         $user->amount = $user->amount - $order->cost;
         $user->save();
@@ -237,6 +238,7 @@ class ApiController extends Controller
             $order->nid_number = $data->nid;
             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
+            $order->notified = 0;
             $order->save();
             $user->amount = $user->amount - $order->cost;
             $user->save();
@@ -358,6 +360,7 @@ class ApiController extends Controller
             $order->type_number = $request->brn;
             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
+                $order->notified = 0;
             $order->save();
             $user->amount = $user->amount - $order->cost;
             $user->save();
@@ -513,6 +516,7 @@ class ApiController extends Controller
             $order->nid_number = $data->nid;
             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
+                $order->notified = 0;
             $order->save();
             $user->amount = $user->amount - $order->cost;
             $user->save();
@@ -552,6 +556,7 @@ class ApiController extends Controller
             $order->nid_number = $data['nid'];
             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
+                $order->notified = 0;
             $order->save();
             $user->amount = $user->amount - $autoNid->cost;
             $user->save();
@@ -642,6 +647,7 @@ class ApiController extends Controller
             $order->nid_number = $data->data->nid;
             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
+                $order->notified = 0;
             $order->save();
             $user->amount = $user->amount - $order->cost;
             $user->save();
@@ -682,6 +688,7 @@ class ApiController extends Controller
             $order->nid_number = $data['nid'];
             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
+                $order->notified = 0;
             $order->save();
             $user->amount = $user->amount - $autoSmrtNid->cost;
             $user->save();
