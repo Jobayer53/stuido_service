@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('cost');
             $table->boolean('paid')->default(false);
             $table->string('payment_id')->nullable();
-            $table->boolean('notified')->default(false);
+            $table->boolean('notified')->default(true);
             $table->string('name')->nullable();
             // $table->string('bc_number')->nullable();
             $table->string('dob')->nullable();
