@@ -338,18 +338,18 @@ class ApiController extends Controller
                 'dob'     => $dob,
                 'api_key' => $apiKey
             ]);
-       
+
 
             $data = json_decode($response->body(), true);
 
             // API error check
-            if (isset($data['Success']) && $data['Success'] === 'False') {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => $data['Message']
-                ], 400);
+            // if (isset($data['Success']) && $data['Success'] === 'False') {
+            //     return response()->json([
+            //         'status' => 'error',
+            //         'message' => $data['Message']
+            //     ], 400);
 
-            }
+            // }
            if ($response->successful()) {
                 // Success
             $order = new Order();
