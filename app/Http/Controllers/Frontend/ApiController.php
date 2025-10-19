@@ -341,7 +341,7 @@ class ApiController extends Controller
 
 
             $data = json_decode($response->body(), true);
-
+            return response()->json($data);
             // API error check
             // if (isset($data['Success']) && $data['Success'] === 'False') {
             //     return response()->json([
