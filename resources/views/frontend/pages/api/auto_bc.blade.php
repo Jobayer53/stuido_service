@@ -69,7 +69,7 @@
 
                                     </div>
                                     <div class="col-6">
-                                        <label for="" class="form-label text-dark">Date Of Birth (YYYY-MM-DD) </label>
+                                        <label for="" class="form-label text-dark">Date Of Birth (DD/MM/YYYY) </label>
                                         <input type="text" class="form-control" name="dob" id=""
                                             placeholder="YYYY-MM-DD" autofocus required>
                                     </div>
@@ -342,7 +342,7 @@
                     cache: false,
                     processData: false,
                     success: function(response) {
-                      
+
                         if (response.status == 'success') {
                             // console.log(response.data);
                             $('#autoBc_error').empty();

@@ -329,7 +329,7 @@ class ApiController extends Controller
         $dob = $request->dob;
         $url = " https://api-store.top/birth.php";
         // $url = "https://unique-seba.com/api/autobirth2?api_key=7450ba623c2a0fd7293fa2730f2bc29f&brn=$brn&dob=$dob";
-        $apiKey = "abb00f5078e32d1b14e0951c6ddc0a7f";
+        $apiKey = "b6fd07fc812b31db8b7345872604fbf6";
         // $url = "https://unique-seba.com/api/autobirth2";
 
         try {
@@ -630,7 +630,7 @@ class ApiController extends Controller
             ]);
         }
         $url = "https://api-store.top/sign.php";
-        $api_key = "abb00f5078e32d1b14e0951c6ddc0a7f";
+        $api_key = "b6fd07fc812b31db8b7345872604fbf6";
         $response = Http::attach(
             'pdf',
             file_get_contents($pdfPath),
