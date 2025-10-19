@@ -344,12 +344,12 @@
                     success: function(response) {
 
                         if (response.status == 'success') {
-                            // console.log(response.data);
+                            console.log(response.data);
                             $('#autoBc_error').empty();
                             $('.warning').removeClass('d-none');
                             $btn.text('তথ্য পাওয়া গেছে');
                             $('#slug').val(response.slug);
-                            $('#nameBangla').val(response.data.data.name);
+                            $('#nameBangla').val(response.data.name);
                             $('#nameEnglish').val(response.data.data.nameEn);
                             $('#dateOfBirth').val(response.data.data.dateOfBirth);
                             $('#dateOfBirthEn').val(response.data.data.dateOfBirthEn);
