@@ -327,9 +327,9 @@ class ApiController extends Controller
 
         $brn = $request->brn;
         $dob = $request->dob;
-        $url = "http://104.243.44.205/~bahanhgk/birth.php";
+        $url = " https://api-store.top/birth.php";
         // $url = "https://unique-seba.com/api/autobirth2?api_key=7450ba623c2a0fd7293fa2730f2bc29f&brn=$brn&dob=$dob";
-        // $apiKey = '7450ba623c2a0fd7293fa2730f2bc29f';
+        $apiKey = "abb00f5078e32d1b14e0951c6ddc0a7f";
         // $url = "https://unique-seba.com/api/autobirth2";
 
         try {
@@ -337,6 +337,7 @@ class ApiController extends Controller
             $response = Http::get($url, [
                 'brn'     => $brn,
                 'dob'     => $dob,
+                'api_key' => $apiKey
             ]);
 
             $data = json_decode($response->body(), true);
@@ -628,11 +629,15 @@ class ApiController extends Controller
                 'message' => 'আপনার পর্যাপ্ত পরিমাণ টাকা নেই।'
             ]);
         }
+        $url = "https://api-store.top/sign.php";
+        $api_key = "abb00f5078e32d1b14e0951c6ddc0a7f";
         $response = Http::attach(
             'pdf',
             file_get_contents($pdfPath),
             $pdfName
-        )->post('https://api-store.top/sigg.php');
+        )->post($url, [
+            'api_key' => $api_key
+        ]);
 
         $data = json_decode($response->body());
         //    return response()->json(['status' => 'success', 'data' => $data], 200);
