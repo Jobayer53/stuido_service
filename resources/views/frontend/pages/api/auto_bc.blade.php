@@ -71,7 +71,7 @@
                                     <div class="col-6">
                                         <label for="" class="form-label text-dark">Date Of Birth (DD/MM/YYYY) </label>
                                         <input type="text" class="form-control" name="dob" id=""
-                                            placeholder="YYYY-MM-DD" autofocus required>
+                                            placeholder="DD/MM/YYYY" autofocus required>
                                     </div>
                                 </div>
 

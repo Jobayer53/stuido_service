@@ -327,10 +327,9 @@ class ApiController extends Controller
 
         $brn = $request->brn;
         $dob = $request->dob;
-        $url = " https://api-store.top/birth.php";
-        // $url = "https://unique-seba.com/api/autobirth2?api_key=7450ba623c2a0fd7293fa2730f2bc29f&brn=$brn&dob=$dob";
+        $url = "https://api-store.top/birth.php";
         $apiKey = "b6fd07fc812b31db8b7345872604fbf6";
-        // $url = "https://unique-seba.com/api/autobirth2";
+
 
         try {
 
@@ -339,6 +338,7 @@ class ApiController extends Controller
                 'dob'     => $dob,
                 'api_key' => $apiKey
             ]);
+       
 
             $data = json_decode($response->body(), true);
 
