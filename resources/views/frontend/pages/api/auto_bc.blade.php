@@ -342,37 +342,37 @@
                     cache: false,
                     processData: false,
                     success: function(response) {
-
+                        console.log(response);
+                        console.log(response.data);
                         if (response.status == 'success') {
-                            console.log(response.data);
                             $('#autoBc_error').empty();
                             $('.warning').removeClass('d-none');
                             $btn.text('তথ্য পাওয়া গেছে');
                             $('#slug').val(response.slug);
                             $('#nameBangla').val(response.data.name);
-                            $('#nameEnglish').val(response.data.data.nameEn);
-                            $('#dateOfBirth').val(response.data.data.dateOfBirth);
-                            $('#dateOfBirthEn').val(response.data.data.dateOfBirthEn);
-                            $('#brn').val(response.data.data.brnNo);
-                            $('#dateOfToday').val(response.data.data.dateOfToday);
-                            $('#gender').val(response.data.data.genderBn);
-                            $('#genderEn').val(response.data.data.gender);
-                            $('#fatherName').val(response.data.data.fatherName);
-                            $('#fatherNameEn').val(response.data.data.fatherNameEn);
-                            $('#fathersNationality').val(response.data.data.fatherNationality);
-                            $('#fathersNationalityEn').val(response.data.data.fatherNationalityEn);
-                            $('#motherName').val(response.data.data.motherName);
-                            $('#motherNameEn').val(response.data.data.motherNameEn);
-                            $('#mothersNationality').val(response.data.data.motherNationality);
-                            $('#mothersNationalityEn').val(response.data.data.motherNationalityEn);
-                            $('#birthPlace').val(response.data.data.birthPlace);
-                            $('#birthPlaceEn').val(response.data.data.birthPlaceEn);
-                            $('#registerOffice').val(response.data.data.registerOffice);
-                            $('#registerOfficeEn').val(response.data.data.registerOfficeEn);
-                            $('#registerOfficeLocation').val(response.data.data
-                                .registerOfficeLocation);
-                            $('#registerOfficeLocationEn').val(response.data.data
-                                .registerOfficeLocationEn);
+                            $('#nameEnglish').val(response.data.nameEn);
+                            $('#dateOfBirth').val(response.data.dateOfBirth);
+                            $('#dateOfBirthEn').val(response.data.dateOfBirthEn);
+                            $('#brn').val(response.data.brnNo);
+                            $('#dateOfToday').val(response.data.dateOfToday);
+                            $('#gender').val(response.data.genderBn);
+                            $('#genderEn').val(response.data.gender);
+                            $('#fatherName').val(response.data.fatherName);
+                            $('#fatherNameEn').val(response.data.fatherNameEn);
+                            $('#fathersNationality').val(response.data.fatherNationality);
+                            $('#fathersNationalityEn').val(response.data.fatherNationalityEn);
+                            $('#motherName').val(response.data.motherName);
+                            $('#motherNameEn').val(response.data.motherNameEn);
+                            $('#mothersNationality').val(response.data.motherNationality);
+                            $('#mothersNationalityEn').val(response.data.motherNationalityEn);
+                            $('#birthPlace').val(response.data.birthPlace);
+                            $('#birthPlaceEn').val(response.data.birthPlaceEn);
+                            $('#registerOffice').val(response.data.registerOffice);
+                            $('#registerOfficeEn').val(response.data.registerOfficeEn);
+                            $('#registerOfficeLocation').val(response.data.registerOfficeLocation);
+
+                            $('#registerOfficeLocationEn').val(response.data.registerOfficeLocationEn);
+
                             // $('#address').val(response.data.address);
                             // $('#addressEn').val(response.data.addressEn);
 
@@ -381,8 +381,7 @@
 
 
                         } else {
-                            $('#autoBc_error').text(response.message);
-                            console.log(response.message);
+                            $('#autoBc_error').text(response.data.message);
                             $btn.prop('disabled', false);
                             $btn.text('তথ্য দেখুন');
                         }

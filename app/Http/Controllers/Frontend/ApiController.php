@@ -332,26 +332,40 @@ class ApiController extends Controller
 
 
         try {
-
+            // Send request to remote API
             $response = Http::get($url, [
-                'brn'     => $brn,
-                'dob'     => $dob,
-                'api_key' => $apiKey
+                'brn' => $brn,
+                'dob' => $dob,
+                'api_key' => $apiKey,
             ]);
 
-
+            // Decode response
             $data = json_decode($response->body(), true);
-            return response()->json($data);
-            // API error check
-            // if (isset($data['Success']) && $data['Success'] === 'False') {
-            //     return response()->json([
-            //         'status' => 'error',
-            //         'message' => $data['Message']
-            //     ], 400);
+            $remoteStatus = $response->status();
 
-            // }
-           if ($response->successful()) {
-                // Success
+            // --- Handle API or HTTP level failure ---
+            if (!$response->successful() || !isset($data['data'])) {
+                return response()->json([
+                    'status' => 'error',
+                    'remote_status' => $remoteStatus,
+                    'message' => $data['Message'] ?? 'Unknown error from  API',
+                    'raw_response' => $data,
+                ], 400);
+            }
+
+            // --- Handle application-level error from remote API ---
+            if (
+                (isset($data['data']['Success']) && $data['data']['Success'] === 'False') ||
+                (isset($data['data']['code']) && $data['data']['code'] != 200)
+            ) {
+                return response()->json([
+                    'status' => 'error',
+                    'remote_status' => $remoteStatus,
+                    'message' => $data['data']['Message'] ?? 'Invalid request or data format',
+                    'raw_response' => $data,
+                ], 400);
+            }
+
             $order = new Order();
             $order->slug = uniqid();
             $order->user_id = $user->id;
@@ -361,77 +375,23 @@ class ApiController extends Controller
             $order->type_number = $request->brn;
             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
-                $order->notified = 0;
+            $order->notified = 0;
             $order->save();
             $user->amount = $user->amount - $order->cost;
             $user->save();
-            // $data = json_decode($response->body());
+            // --- Everything OK ---
             return response()->json([
                 'status' => 'success',
-                'data'   => $data,
+                'remote_status' => $remoteStatus,
+                'data' => $data['data']['data'] ?? $data['data'],
                 'slug'   => $order->slug
-            ], 200);
-            }else{
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Server error'
-                ], 500);
-            }
-
-
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Server error: Please try again later.'
             ], 500);
         }
-
-
-
-        //                 $json ='{
-        //     "Owner": "unique-seba.com",
-        //     "nameBangla": "জহির  উদ্দিন",
-        //     "nameEnglish": "JOHIR UDDIN",
-        //     "dateOfBirth": "12/03/1967",
-        //     "dateOfBirthEn": "Twelve March One Thousand Nine Hundred Sixty-seven",
-        //     "dateOfToday": "25/08/2025",
-        //     "brn": "19671939467122202",
-        //     "gender": "পুরুষ",
-        //     "genderEn": "Male",
-        //     "fatherName": "করম আলী",
-        //     "fatherNameEn": "KOROM ALI",
-        //     "fathersNationality": "বাংলাদেশি",
-        //     "fathersNationalityEn": "Bangladeshi",
-        //     "motherName": "রাবেয়া খাতুন",
-        //     "motherNameEn": "RABEYA KHATUN",
-        //     "mothersNationality": "বাংলাদেশি",
-        //     "mothersNationalityEn": "Bangladeshi",
-        //     "birthPlace": "কুমিল্লা, বাংলাদেশ",
-        //     "birthPlaceEn": "Cumilla, Bangladesh",
-        //     "registerOffice": "কড়িকান্দি ইউনিয়ন পরিষদ",
-        //     "registerOfficeEn": "Karikandi Union Parishad",
-        //     "registerOfficeLocation": "তিতাস, কুমিল্লা",
-        //     "registerOfficeLocationEn": "Titas, Cumilla",
-        //     "address": "কড়িকান্দি, তিতাস, কুমিল্লা, চট্টগ্রাম বিভাগ, বাংলাদেশ",
-        //     "addressEn": "Karikandi, Titas, Cumilla, Chattogram Division, Bangladesh"
-        // }';
-        //         $data = json_decode($json);
-        //           $user = auth()->user();
-        //         $service = Service::find(49);
-        //   $order = new Order();
-        //             $order->slug = uniqid();
-        //             $order->user_id = $user->id;
-        //             $order->service_id = $service->id;
-        //             $order->cost = $service->cost;
-        //             $order->type = 'auto_birth_certificate';
-        //             $order->type_number = $request->brn;
-        //             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
-        //             $order->status = 'completed';
-        //             $order->save();
-        //             $user->amount = $user->amount - $order->cost;
-        //             $user->save();
-        //          return response()->json(['status' => 'success', 'data' => $data, 'slug'   => $order->slug], 200);
-
     }
     public function autoBc_download(Request $request)
     {
@@ -487,25 +447,6 @@ class ApiController extends Controller
         if (isset($data->error)) {
             return response()->json(['status' => 'error', 'message' => $data->error], 200);
         }
-
-        //         $json = '{
-        //     "Owner": "unique-seba.com",
-        //     "nid": "4222429823",
-        //     "pin": "20024222429823385",
-        //     "name_bn": "জোবায়ের হোসেন শিকদার",
-        //     "name_en": "ZOBAIR HOSSAIN SHIKDAR",
-        //     "dob": "09 Dec 2002",
-        //     "birth_place": "কুমিল্লা",
-        //     "father_name": "সফিকুল ইসলাম",
-        //     "mother_name": "শান্তি বেগম",
-        //     "blood_group": "N/A",
-        //     "fulladdress": "বাসা/হোল্ডিং: মৌটুপী, গ্রাম/রাস্তা: মৌটুপী, মৌটুপী, ডাকঘর: মজিদ পুর - 3517, তিতাস, তিতাস",
-        //     "photo": null,
-        //     "signature": "https://unique-seba.com/public/loadedImages/signatures/4222429823_1757260850.png"
-        // }';
-        // $data = json_decode($json);
-        //  return response()->json(['status' => 'success', 'data' => $data], 200);
-
         if ($response->successful()) {
             $order = new Order();
             $order->slug = uniqid();
@@ -517,7 +458,7 @@ class ApiController extends Controller
             $order->nid_number = $data->nid;
             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
-                $order->notified = 0;
+            $order->notified = 0;
             $order->save();
             $user->amount = $user->amount - $order->cost;
             $user->save();
@@ -557,7 +498,7 @@ class ApiController extends Controller
             $order->nid_number = $data['nid'];
             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
-                $order->notified = 0;
+            $order->notified = 0;
             $order->save();
             $user->amount = $user->amount - $autoNid->cost;
             $user->save();
@@ -621,6 +562,7 @@ class ApiController extends Controller
         }
         $pdfPath = $request->sign_copy->getPathname();
         $pdfName = $request->sign_copy->getClientOriginalName();
+
         $user = auth()->user();
         $service = Service::find(53);
         if ($user->amount < $service->cost) {
@@ -629,37 +571,45 @@ class ApiController extends Controller
                 'message' => 'আপনার পর্যাপ্ত পরিমাণ টাকা নেই।'
             ]);
         }
-        $url = "https://api-store.top/sign.php";
         $api_key = "b6fd07fc812b31db8b7345872604fbf6";
-        $response = Http::attach(
-            'pdf',
-            file_get_contents($pdfPath),
-            $pdfName
-        )->post($url, [
-            'api_key' => $api_key
-        ]);
+        $url = "https://api-store.top/sign.php?api_key={$api_key}";
+        try {
 
-        $data = json_decode($response->body());
-        //    return response()->json(['status' => 'success', 'data' => $data], 200);
-        if ($response->successful()) {
-            $order = new Order();
-            $order->slug = uniqid();
-            $order->user_id = $user->id;
-            $order->service_id = $service->id;
-            $order->cost = $service->cost;
-            $order->type = 'sign_to_smrtNid';
-            $order->type_number = $data->data->pin;
-            $order->nid_number = $data->data->nid;
-            $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
-            $order->status = 'completed';
-                $order->notified = 0;
-            $order->save();
-            $user->amount = $user->amount - $order->cost;
-            $user->save();
+            // Send POST request with multipart/form-data
+            $response = Http::attach(
+                'pdf',                         // field name required by API
+                file_get_contents($pdfPath),
+                $pdfName
+            )->post($url);
+            $status = $response->status();
+            $data = json_decode($response->body(), true);
+            return response()->json($data);
+            //    if ($response->successful()) {
+            //     $order = new Order();
+            //     $order->slug = uniqid();
+            //     $order->user_id = $user->id;
+            //     $order->service_id = $service->id;
+            //     $order->cost = $service->cost;
+            //     $order->type = 'sign_to_smrtNid';
+            //     $order->type_number = $data->data->pin;
+            //     $order->nid_number = $data->data->nid;
+            //     $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+            //     $order->status = 'completed';
+            //     $order->notified = 0;
+            //     $order->save();
+            //     $user->amount = $user->amount - $order->cost;
+            //     $user->save();
 
-            return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug, 'issue_date' => date('d M Y')], 200);
-        } else {
-            return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
+            //     return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug, 'issue_date' => date('d M Y')], 200);
+
+            // } else {
+            //   return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
+            // }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
     public function signToSmrtNid_download(Request $request)
@@ -693,7 +643,7 @@ class ApiController extends Controller
             $order->nid_number = $data['nid'];
             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
-                $order->notified = 0;
+            $order->notified = 0;
             $order->save();
             $user->amount = $user->amount - $autoSmrtNid->cost;
             $user->save();

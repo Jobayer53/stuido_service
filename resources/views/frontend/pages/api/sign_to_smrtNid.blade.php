@@ -267,8 +267,10 @@
                     cache: false,
                     processData: false,
                     success: function(response) {
+                        console.log(response);
+                        console.log(response.data);
                         if (response.status == 'success') {
-                           
+
                             $('#sign_copy_error').text('');
                             $('.warning').removeClass('d-none');
                             $btn.text('তথ্য পাওয়া গেছে');
