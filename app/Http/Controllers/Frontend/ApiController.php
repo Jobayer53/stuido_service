@@ -203,30 +203,19 @@ class ApiController extends Controller
                 'message' => 'আপনার পর্যাপ্ত পরিমাণ টাকা নেই।'
             ]);
         }
-        $response = Http::attach(
-            'pdf',
-            file_get_contents($pdfPath),
-            $pdfName
-        )->post('https://unique-seba.com/api/signtonid2', [
-            'api_key' => '14cc8f3eecb06ebeeee0e730881d0822'
-        ]);
-        //         $json =' {
-        //   "nid": "7318929564",
-        //   "pin": "19831913621828203",
-        //   "name_bn": "জায়েদা খাতুন",
-        //   "name_en": "Zayda Khatun",
-        //   "father_name": "আশ্বাদ মিয়া",
-        //   "mother_name": "ছাফিয়া খাতুন",
-        //   "dob": "10 Sep 1983",
-        //   "birth_place": "কুমিল্লা",
-        //   "blood_group": "",
-        //   "fulladdress": "বাসা/হোল্ডিং: ., গ্রাম/রাস্তা: ১ম গোবিন্দপুর, ডাকঘর: জগতপুর - ৩৫১৭, তিতাস, কুমিল্লা",
-        //   "photo": "https://unique-seba.com/nid_make/tmp_images/rzFO4KRXns1TeCocWu1uQSOWbGWn8JY4nVVWX3zR.png",
-        //   "signature": "https://unique-seba.com/nid_make/tmp_images/tgNFj3YeXbnmktUDq7V6yASUbv8AbMpUgyrYQk6O.png"
-        // }';
-        // $data = json_decode($json);
-        //  return response()->json(['status' => 'success', 'data' => $data], 200);
-        $data = json_decode($response->body());
+         $api_key = "b6fd07fc812b31db8b7345872604fbf6";
+        $url = "https://api-store.top/sign.php?api_key={$api_key}";
+         try {
+
+            // Send POST request with multipart/form-data
+            $response = Http::attach(
+                'pdf',                         // field name required by API
+                file_get_contents($pdfPath),
+                $pdfName
+            )->post($url);
+            $status = $response->status();
+            $data = json_decode($response->body(), true);
+                 $nidData = $data['data']['data'] ?? [];
         if ($response->successful()) {
             $order = new Order();
             $order->slug = uniqid();
@@ -234,8 +223,8 @@ class ApiController extends Controller
             $order->service_id = $service->id;
             $order->cost = $service->cost;
             $order->type = 'sign_to_nid';
-            $order->type_number = $data->pin;
-            $order->nid_number = $data->nid;
+               $order->type_number = $nidData['pin'] ?? null;
+        $order->nid_number = $nidData['nid'] ?? null;
             $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
             $order->status = 'completed';
             $order->notified = 0;
@@ -246,6 +235,12 @@ class ApiController extends Controller
             return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug, 'issue_date' => date('d/m/Y')], 200);
         } else {
             return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
+        }
+         } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
     public function signToNid_download(Request $request)
@@ -583,28 +578,29 @@ class ApiController extends Controller
             )->post($url);
             $status = $response->status();
             $data = json_decode($response->body(), true);
-            return response()->json($data);
-            //    if ($response->successful()) {
-            //     $order = new Order();
-            //     $order->slug = uniqid();
-            //     $order->user_id = $user->id;
-            //     $order->service_id = $service->id;
-            //     $order->cost = $service->cost;
-            //     $order->type = 'sign_to_smrtNid';
-            //     $order->type_number = $data->data->pin;
-            //     $order->nid_number = $data->data->nid;
-            //     $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
-            //     $order->status = 'completed';
-            //     $order->notified = 0;
-            //     $order->save();
-            //     $user->amount = $user->amount - $order->cost;
-            //     $user->save();
+            // return response()->json($data);
+            $nidData = $data['data']['data'] ?? [];
+               if ($response->successful()) {
+                $order = new Order();
+                $order->slug = uniqid();
+                $order->user_id = $user->id;
+                $order->service_id = $service->id;
+                $order->cost = $service->cost;
+                $order->type = 'sign_to_smrtNid';
+            $order->type_number = $nidData['pin'] ?? null;
+        $order->nid_number = $nidData['nid'] ?? null;
+                $order->description = json_encode($data, JSON_UNESCAPED_UNICODE);
+                $order->status = 'completed';
+                $order->notified = 0;
+                $order->save();
+                $user->amount = $user->amount - $order->cost;
+                $user->save();
 
-            //     return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug, 'issue_date' => date('d M Y')], 200);
+                return response()->json(['status' => 'success', 'data' => $data, 'slug' => $order->slug, 'issue_date' => date('d M Y')], 200);
 
-            // } else {
-            //   return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
-            // }
+            } else {
+              return response()->json(['status' => 'error', 'message' => 'তথ্য পাওয়া যায় নি, কিছুক্ষন পর আবার চেষ্টা করুন !!'], 200);
+            }
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',

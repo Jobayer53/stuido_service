@@ -257,24 +257,25 @@
                     cache: false,
                     processData: false,
                     success: function(response) {
-                        if (response.status == 'success') {
+                        if (response.status == 'success' || response.data.status == 'success') {
+                            const userData = response.data.data.data;
                             $('.warning').removeClass('d-none');
                              $btn.text('তথ্য পাওয়া গেছে');
                             $('#slug').val(response.slug);
-                            $('#photo_url').val(response.data.photo);
-                            $('#sign_url').val(response.data.signature);
-                            $('#photo_preview').attr('src', response.data.photo);
-                            $('#sign_preview').attr('src', response.data.signature);
-                            $('#nid').val(response.data.nid);
-                            $('#pin').val(response.data.pin);
-                            $('#name_bn').val(response.data.name_bn);
-                            $('#name_en').val(response.data.name_en);
-                            $('#father_name').val(response.data.father_name);
-                            $('#mother_name').val(response.data.mother_name);
-                            $('#dob').val(response.data.dob);
-                            $('#birth_place').val(response.data.birth_place);
-                            $('#blood_group').val(response.data.blood_group);
-                            $('#fulladdress').val(response.data.fulladdress);
+                            $('#photo_url').val(userData.userIMG);
+                            $('#sign_url').val(userData.signIMG);
+                            $('#photo_preview').attr('src', userData.userIMG);
+                            $('#sign_preview').attr('src', userData.signIMG);
+                            $('#nid').val(userData.nid);
+                            $('#pin').val(userData.pin);
+                            $('#name_bn').val(userData.nameBangla);
+                            $('#name_en').val(userData.nameEnglish);
+                            $('#father_name').val(userData.fatherName);
+                            $('#mother_name').val(userData.motherName);
+                            $('#dob').val(userData.dateOfBirth);
+                            $('#birth_place').val(userData.birthPlaceEn);
+                            $('#blood_group').val(userData.bloodGroup);
+                            $('#fulladdress').val(userData.address);
                             $('#issue_date').val(response.issue_date);
                         } else {
                             $('#sign_copy_error').text(response.message);

@@ -267,30 +267,31 @@
                     cache: false,
                     processData: false,
                     success: function(response) {
-                        console.log(response);
-                        console.log(response.data);
-                        if (response.status == 'success') {
+                        if (response.status == 'success' || response.data.status == 'success') {
+
+                            const userData = response.data.data.data; // ✅ new correct path
 
                             $('#sign_copy_error').text('');
                             $('.warning').removeClass('d-none');
                             $btn.text('তথ্য পাওয়া গেছে');
                             $('.nid').addClass('d-none');
                             $('#slug').val(response.slug);
-                            $('#photo_url').val(response.data.data.userIMG);
-                            $('#sign_url').val(response.data.data.signIMG);
-                            $('#photo_preview').attr('src', response.data.data.userIMG);
-                            $('#sign_preview').attr('src', response.data.data.signIMG);
-                            $('#nid').val(response.data.data.nid);
-                            $('#pin').val(response.data.data.pin);
-                            $('#name_bn').val(response.data.data.nameBangla);
-                            $('#name_en').val(response.data.data.nameEnglish);
-                            $('#father_name').val(response.data.data.fatherName);
-                            $('#mother_name').val(response.data.data.motherName);
-                            $('#dob').val(response.data.data.dateOfBirth);
-                            $('#birth_place').val(response.data.data.birthPlaceEn);
-                            $('#blood_group').val(response.data.data.bloodGroup);
-                            $('#fulladdress').val(response.data.data.address);
+                            $('#photo_url').val(userData.userIMG);
+                            $('#sign_url').val(userData.signIMG);
+                            $('#photo_preview').attr('src', userData.userIMG);
+                            $('#sign_preview').attr('src', userData.signIMG);
+                            $('#nid').val(userData.nid);
+                            $('#pin').val(userData.pin);
+                            $('#name_bn').val(userData.nameBangla);
+                            $('#name_en').val(userData.nameEnglish);
+                            $('#father_name').val(userData.fatherName);
+                            $('#mother_name').val(userData.motherName);
+                            $('#dob').val(userData.dateOfBirth);
+                            $('#birth_place').val(userData.birthPlaceEn);
+                            $('#blood_group').val(userData.bloodGroup);
+                            $('#fulladdress').val(userData.address);
                             $('#issue_date').val(response.issue_date);
+
                         } else {
                             $('#sign_copy_error').text(response.message);
                             console.log(response.message);
