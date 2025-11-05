@@ -257,6 +257,7 @@
                     cache: false,
                     processData: false,
                     success: function(response) {
+                        console.log(response.data.data.data);
                         if (response.status == 'success' || response.data.status == 'success') {
                             const userData = response.data.data.data;
                             $('.warning').removeClass('d-none');
@@ -273,7 +274,7 @@
                             $('#father_name').val(userData.fatherName);
                             $('#mother_name').val(userData.motherName);
                             $('#dob').val(userData.dateOfBirth);
-                            $('#birth_place').val(userData.birthPlaceEn);
+                            $('#birth_place').val(userData.birthPlace);
                             $('#blood_group').val(userData.bloodGroup);
                             $('#fulladdress').val(userData.address);
                             $('#issue_date').val(response.issue_date);
